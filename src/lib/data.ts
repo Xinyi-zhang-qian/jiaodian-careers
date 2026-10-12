@@ -18,6 +18,8 @@ const demoJobs: Job[] = [
     published_at: '2026-01-15', deadline: '2026-02-15',
     source_name: '明理人工智能研究院官网', source_type: '官网', source_url: 'https://example-institute.cn/careers/ai-governance',
     fetched_at: '2026-01-15', last_verified: '2026-01-15', status: '招聘中', is_demo: true,
+    recruit_type: '社招',
+    recruit_type: '社招',
   },
   {
     id: 2, title: '计算社会科学博士后', organization: '华东社会计算研究中心',
@@ -34,6 +36,7 @@ const demoJobs: Job[] = [
     published_at: '2026-01-15', deadline: '2026-03-01',
     source_name: '华东社会计算研究中心', source_type: '官网', source_url: 'https://example-scc.cn/postdoc',
     fetched_at: '2026-01-15', last_verified: '2026-01-15', status: '招聘中', is_demo: true,
+    recruit_type: '社招',
   },
   {
     id: 3, title: '数字经济政策研究员', organization: '长三角发展研究院',
@@ -50,6 +53,7 @@ const demoJobs: Job[] = [
     published_at: '2026-01-15', deadline: '2026-02-28',
     source_name: '长三角发展研究院', source_type: '官网', source_url: 'https://example-dev.cn/jobs/policy',
     fetched_at: '2026-01-15', last_verified: '2026-01-15', status: '招聘中', is_demo: true,
+    recruit_type: '社招',
   },
   {
     id: 4, title: '人机交互研究员（用户研究方向）', organization: '智行科技有限公司',
@@ -66,6 +70,7 @@ const demoJobs: Job[] = [
     published_at: '2026-01-15', deadline: '2026-03-15',
     source_name: '智行科技有限公司招聘官网', source_type: '官网', source_url: 'https://example-zhixing.com/careers/ux',
     fetched_at: '2026-01-15', last_verified: '2026-01-15', status: '招聘中', is_demo: true,
+    recruit_type: '社招',
   },
   {
     id: 5, title: '交互设计讲师', organization: '东方创意科技学院',
@@ -82,6 +87,7 @@ const demoJobs: Job[] = [
     published_at: '2026-01-15', deadline: '2026-04-01',
     source_name: '东方创意科技学院人事处', source_type: '官网', source_url: 'https://example-art-college.cn/hr',
     fetched_at: '2026-01-15', last_verified: '2026-01-15', status: '招聘中', is_demo: true,
+    recruit_type: '社招',
   },
   {
     id: 6, title: '脑机接口算法工程师', organization: '脑智科技有限公司',
@@ -98,6 +104,7 @@ const demoJobs: Job[] = [
     published_at: '2026-01-15', deadline: '2026-03-10',
     source_name: '脑智科技有限公司', source_type: '官网', source_url: 'https://example-brain.cn/jobs/bci',
     fetched_at: '2026-01-15', last_verified: '2026-01-15', status: '招聘中', is_demo: true,
+    recruit_type: '社招',
   },
   {
     id: 7, title: '数据合规研究员', organization: '中政数据治理研究院',
@@ -114,6 +121,7 @@ const demoJobs: Job[] = [
     published_at: '2026-01-15', deadline: '2026-02-20',
     source_name: '中政数据治理研究院', source_type: '官网', source_url: 'https://example-law-inst.cn/careers',
     fetched_at: '2026-01-15', last_verified: '2026-01-15', status: '招聘中', is_demo: true,
+    recruit_type: '社招',
   },
   {
     id: 8, title: '城市计算研究员', organization: '智慧城市空间信息实验室',
@@ -130,6 +138,7 @@ const demoJobs: Job[] = [
     published_at: '2026-01-15', deadline: '2026-03-20',
     source_name: '智慧城市空间信息实验室', source_type: '官网', source_url: 'https://example-spatial.cn/join',
     fetched_at: '2026-01-15', last_verified: '2026-01-15', status: '招聘中', is_demo: true,
+    recruit_type: '社招',
   },
   {
     id: 9, title: '科技哲学副教授', organization: '燕京文理学院',
@@ -146,6 +155,7 @@ const demoJobs: Job[] = [
     published_at: '2026-01-15', deadline: '2026-05-01',
     source_name: '燕京文理学院人事处', source_type: '官网', source_url: 'https://example-yjcollege.cn/hr',
     fetched_at: '2026-01-15', last_verified: '2026-01-15', status: '招聘中', is_demo: true,
+    recruit_type: '社招',
   },
   {
     id: 10, title: '社会政策研究员', organization: '首都公共政策研究院',
@@ -162,6 +172,7 @@ const demoJobs: Job[] = [
     published_at: '2026-01-15', deadline: '2026-02-25',
     source_name: '首都公共政策研究院', source_type: '官网', source_url: 'https://example-policy.cn/jobs',
     fetched_at: '2026-01-15', last_verified: '2026-01-15', status: '招聘中', is_demo: true,
+    recruit_type: '社招',
   },
   {
     id: 11, title: 'AI伦理审查专员', organization: '粤科人工智能研究院',
@@ -178,6 +189,7 @@ const demoJobs: Job[] = [
     published_at: '2026-01-15', deadline: '2026-03-05',
     source_name: '粤科人工智能研究院', source_type: '官网', source_url: 'https://example-yueke.cn/ethics-careers',
     fetched_at: '2026-01-15', last_verified: '2026-01-15', status: '招聘中', is_demo: true,
+    recruit_type: '社招',
   },
   {
     id: 12, title: '数字人文研究员', organization: '之江数字人文研究院',
@@ -194,6 +206,7 @@ const demoJobs: Job[] = [
     published_at: '2026-01-15', deadline: '2026-03-12',
     source_name: '之江数字人文研究院', source_type: '官网', source_url: 'https://example-zjdh.cn',
     fetched_at: '2026-01-15', last_verified: '2026-01-15', status: '招聘中', is_demo: true,
+    recruit_type: '社招',
   },
   {
     id: 13, title: '认知科学实验师', organization: '金陵认知科学研究院',
@@ -210,6 +223,7 @@ const demoJobs: Job[] = [
     published_at: '2026-01-15', deadline: '2026-03-08',
     source_name: '金陵认知科学研究院', source_type: '官网', source_url: 'https://example-jl-cog.cn/jobs',
     fetched_at: '2026-01-15', last_verified: '2026-01-15', status: '招聘中', is_demo: true,
+    recruit_type: '社招',
   },
   {
     id: 14, title: 'AI产品经理（教育方向）', organization: '慧学科技有限公司',
@@ -226,6 +240,7 @@ const demoJobs: Job[] = [
     published_at: '2025-12-01', deadline: '2026-01-15',
     source_name: '慧学科技有限公司', source_type: '官网', source_url: 'https://example-huixue.cn/pm',
     fetched_at: '2025-12-01', last_verified: '2026-01-16', status: '已截止', is_demo: true,
+    recruit_type: '社招',
   },
   {
     id: 15, title: '产业分析师（新能源方向）', organization: '远景产业研究院',
@@ -242,6 +257,7 @@ const demoJobs: Job[] = [
     published_at: '2026-01-15', deadline: null,
     source_name: '远景产业研究院', source_type: '其他', source_url: 'https://example-yuanjing.cn',
     fetched_at: '2026-01-15', last_verified: '2026-01-15', status: '状态待核实', is_demo: true,
+    recruit_type: '社招',
   },
 ];
 

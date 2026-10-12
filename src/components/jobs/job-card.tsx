@@ -73,6 +73,13 @@ export default function JobCard({ job }: { job: Job }) {
             <span className="text-brand-dark font-medium">{job.salary}</span>
           )}
           {!job.salary && <span className="text-text-secondary/60">薪资未公开</span>}
+          {job.recruit_type && (
+            <span className={`px-2 py-0.5 rounded text-xs font-medium ${
+              job.recruit_type === '校招' ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700'
+            }`}>
+              {job.recruit_type}
+            </span>
+          )}
         </div>
 
         <div className="flex items-center gap-3 text-xs text-text-secondary">

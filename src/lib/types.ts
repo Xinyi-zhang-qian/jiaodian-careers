@@ -26,6 +26,7 @@ export interface Job {
   last_verified: string;
   status: '招聘中' | '已截止' | '状态待核实';
   is_demo: boolean;
+  recruit_type?: '校招' | '社招';
 }
 
 export interface Discipline {
