@@ -1,7 +1,8 @@
 import { Job } from './types';
+import realJobs from '../data/real-jobs';
 
 // All demo data — stored in-memory, no database needed for v1
-const jobs: Job[] = [
+const demoJobs: Job[] = [
   {
     id: 1, title: 'AI治理研究员', organization: '明理人工智能研究院',
     province: '北京', city: '北京', location: '北京市海淀区',
@@ -244,6 +245,9 @@ const jobs: Job[] = [
   },
 ];
 
+// Merge real + demo jobs
+const allJobs: Job[] = [...realJobs, ...demoJobs];
+
 export function getJobs(filters: {
   region?: string;
   city?: string;
@@ -258,7 +262,7 @@ export function getJobs(filters: {
   limit?: number;
   sort?: 'newest' | 'verified' | 'deadline';
 } = {}) {
-  let result = [...jobs];
+  let result = [...allJobs];
 
   if (filters.region && filters.region !== '其他地区') {
     result = result.filter(j => j.province === filters.region);
@@ -314,13 +318,13 @@ export function getJobs(filters: {
 }
 
 export function getJob(id: number): Job | null {
-  return jobs.find(j => j.id === id) || null;
+  return allJobs.find(j => j.id === id) || null;
 }
 
 export function getJobCountByDiscipline(discipline: string): number {
-  return jobs.filter(j => j.platform_disciplines.includes(discipline)).length;
+  return allJobs.filter(j => j.platform_disciplines.includes(discipline)).length;
 }
 
 export function getDistinctCities(province: string): string[] {
-  return [...new Set(jobs.filter(j => j.province === province && j.city).map(j => j.city))].sort();
+  return [...new Set(allJobs.filter(j => j.province === province && j.city).map(j => j.city))].sort();
 }
