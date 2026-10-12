@@ -35,7 +35,6 @@ export interface Discipline {
   secondary: string;
   roles: string[];
   keywords: string[];
-  count?: number;
 }
 
 export type SourceType = '官网' | '政府' | '其他';

@@ -10,8 +10,9 @@ export function generateMetadata({ params }: { params: { id: string } }) {
   };
 }
 
-export default function JobDetailPage({ params }: { params: { id: string } }) {
-  const job = getJob(parseInt(params.id));
+export default async function JobDetailPage({ params }: { params: { id: string } }) {
+  const { id } = await params;
+  const job = getJob(parseInt(id));
   if (!job) notFound();
 
   return (
