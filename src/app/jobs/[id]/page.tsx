@@ -3,14 +3,15 @@ import Link from 'next/link';
 import { ExternalLink, MapPin, Building2, Calendar, GraduationCap, ArrowLeft } from 'lucide-react';
 import { getJob } from '@/lib/data';
 
-export function generateMetadata({ params }: { params: { id: string } }) {
-  const job = getJob(parseInt(params.id));
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const job = getJob(parseInt(id));
   return {
     title: job ? `${job.title} - ${job.organization} | 交点 Careers` : '岗位详情',
   };
 }
 
-export default async function JobDetailPage({ params }: { params: { id: string } }) {
+export default async function JobDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const job = getJob(parseInt(id));
   if (!job) notFound();

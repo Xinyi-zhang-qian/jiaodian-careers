@@ -1,13 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Filter, X } from 'lucide-react';
 import { getJobs, getDistinctCities } from '@/lib/data';
 import JobCard from '@/components/jobs/job-card';
 import { ORG_TYPES, JOB_TYPES, EDUCATION_LEVELS, JOB_STATUSES, DISCIPLINES } from '@/lib/utils';
 
-export default function JobsPage() {
+function JobsContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [showFilters, setShowFilters] = useState(false);
@@ -288,5 +288,13 @@ function FilterGroup({ label, children }: { label: string; children: React.React
       <label className="block text-sm font-medium text-text-secondary mb-1.5">{label}</label>
       {children}
     </div>
+  );
+}
+
+export default function JobsPage() {
+  return (
+    <Suspense fallback={<div className="py-16 text-center text-text-secondary">加载中...</div>}>
+      <JobsContent />
+    </Suspense>
   );
 }
