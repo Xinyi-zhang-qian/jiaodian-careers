@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 交点 Careers
 
-## Getting Started
+面向人文、社会科学与理工科交叉人才，发现重点城市（北京 / 上海 / 浙江 / 江苏等）的科研与产业机会。
 
-First, run the development server:
+一个基于 Next.js 16（App Router + Turbopack）的招聘岗位信息站，内置 **200 条**真实招聘数据，覆盖：
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- 高校、科研院所、事业单位、企业（含外企、央企国企）
+- 交叉方向：人工智能×人文社会科学、数据科学×社会科学、计算机×心理学／认知科学、医学／生命科学×计算机、法学／公共管理×技术、工程×材料／能源、哲学×社会科学 等
+- 科学技术哲学 / 科学技术史、AI4S、系统生物学×AI、AI 机器人、人文-AI 交叉等岗位
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 功能
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- 岗位列表（分页、筛选：地区 / 城市 / 单位类型 / 岗位类型 / 学历 / 交叉方向 / 状态 / 关键词）
+- 岗位详情页（专业要求、交叉方向、职责、来源链接）
+- 交叉方向页、收藏（本地 localStorage）
+- 每条岗位均标注来源类型与原始链接
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 本地运行
 
-## Learn More
+    npm install
+    npm run dev
 
-To learn more about Next.js, take a look at the following resources:
+打开 http://localhost:3000
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+生产构建：
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+    npm run build
+    npm run start
 
-## Deploy on Vercel
+## 部署（让别人能访问）
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+推荐使用 **Vercel**（Next.js 官方平台，免费）：
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. 把本项目推送到 GitHub 仓库
+2. 打开 vercel.com，用 GitHub 登录
+3. Add New → Project → 选择该仓库，框架自动识别为 Next.js
+4. 点 Deploy，完成后即可获得公开网址
+
+也可部署到 **Netlify** 或任意支持 Node.js 的平台（构建命令 npm run build，启动命令 npm run start）。
+
+## 数据说明
+
+- 数据在 src/data/real-jobs.ts，纯内存数据，无需数据库
+- 新增岗位只需按现有结构追加对象即可
+- 岗位信息来自招聘单位官网、人社部门公告等公开渠道，使用时请自行核对最新有效性
+
+## 目录结构
+
+    src/
+      app/          页面（首页 /jobs /jobs/[id] /directions /favorites）
+      components/   岗位卡片、布局
+      data/         岗位数据
+      lib/          类型、数据查询、工具函数
