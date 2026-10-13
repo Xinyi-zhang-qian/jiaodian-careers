@@ -42,7 +42,9 @@ export default function HomePage() {
   const disciplinesWithCount = disciplines.map((d) => ({
     ...d,
     count: getJobCountByDiscipline(d.name),
-  })).filter((d) => d.count > 0);
+  })).filter((d) => d.count > 0)
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 6);
 
   return (
     <div className="space-y-12">
@@ -142,7 +144,10 @@ export default function HomePage() {
       {/* Cross-Discipline Directions */}
       {disciplinesWithCount.length > 0 && (
         <section>
-          <h2 className="text-[28px] font-semibold mb-6 text-text-primary">交叉方向</h2>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-[28px] font-semibold text-text-primary">交叉方向</h2>
+            <Link href="/directions" className="text-sm text-brand hover:text-brand-dark transition-colors">全部方向 →</Link>
+          </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {disciplinesWithCount.map((d) => (
               <Link

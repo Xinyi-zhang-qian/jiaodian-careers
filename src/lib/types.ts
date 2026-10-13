@@ -5,7 +5,7 @@ export interface Job {
   province: string;
   city: string;
   location: string;
-  org_type: '高校' | '科研院所' | '企业' | '其他';
+  org_type: '高校' | '科研院所' | '企业' | '事业单位' | '其他';
   job_type: string;
   original_major_requirements: string;
   platform_disciplines: string[];
@@ -39,6 +39,6 @@ export interface Discipline {
 }
 
 export type SourceType = '官网' | '政府' | '其他';
-export type OrgType = '高校' | '科研院所' | '企业' | '其他';
+export type OrgType = '高校' | '科研院所' | '企业' | '事业单位' | '其他';
 export type JobStatus = '招聘中' | '已截止' | '状态待核实';
 export type Region = '北京' | '上海' | '广州' | '浙江' | '江苏' | '其他地区';

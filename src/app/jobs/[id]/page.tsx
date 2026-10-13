@@ -3,6 +3,9 @@ import Link from 'next/link';
 import { ExternalLink, MapPin, Building2, Calendar, GraduationCap, ArrowLeft } from 'lucide-react';
 import { getJob } from '@/lib/data';
 
+// 动态岗位详情在渲染时读取 params，允许阻塞式路由
+export const instant = false;
+
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const job = getJob(parseInt(id));

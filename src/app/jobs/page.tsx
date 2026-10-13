@@ -30,7 +30,7 @@ function JobsContent() {
 
   useEffect(() => {
     if (filters.region) {
-      getDistinctCities(filters.region).then(setCities);
+      setCities(getDistinctCities(filters.region));
     } else {
       setCities([]);
     }
@@ -62,6 +62,10 @@ function JobsContent() {
 
   const updateFilter = (key: string, value: string) => {
     setFilters((prev) => ({ ...prev, [key]: value, page: 1 }));
+  };
+
+  const setPage = (page: number) => {
+    setFilters((prev) => ({ ...prev, page }));
   };
 
   const clearFilters = () => {
@@ -249,7 +253,7 @@ function JobsContent() {
             <div className="flex items-center justify-center gap-2 mt-8">
               <button
                 disabled={filters.page === 1}
-                onClick={() => updateFilter('page', String(filters.page - 1))}
+                onClick={() => setPage(filters.page - 1)}
                 className="px-4 py-2 rounded-lg border border-border text-sm disabled:opacity-40 hover:border-brand hover:text-brand transition-colors"
               >
                 上一页
@@ -257,7 +261,7 @@ function JobsContent() {
               {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
                 <button
                   key={p}
-                  onClick={() => updateFilter('page', String(p))}
+                  onClick={() => setPage(p)}
                   className={`w-9 h-9 rounded-lg text-sm transition-colors ${
                     p === filters.page
                       ? 'bg-brand text-white'
@@ -269,7 +273,7 @@ function JobsContent() {
               ))}
               <button
                 disabled={filters.page === totalPages}
-                onClick={() => updateFilter('page', String(filters.page + 1))}
+                onClick={() => setPage(filters.page + 1)}
                 className="px-4 py-2 rounded-lg border border-border text-sm disabled:opacity-40 hover:border-brand hover:text-brand transition-colors"
               >
                 下一页
