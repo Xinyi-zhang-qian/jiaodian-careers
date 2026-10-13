@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: jiaodian-careers
+    runtime: static
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./out
+    autoDeployTrigger: commit
