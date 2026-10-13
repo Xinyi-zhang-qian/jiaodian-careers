@@ -14,8 +14,10 @@ export default function Header() {
               Careers
             </span>
           </Link>
-          <nav className="flex items-center gap-6 text-sm text-text-secondary">
+          <nav className="flex items-center gap-1 text-[10px] text-text-secondary sm:gap-6 sm:text-sm">
             <Link href="/jobs" className="hover:text-brand transition-colors">探索岗位</Link>
+            <Link href="/market" className="hover:text-brand transition-colors">市场观察</Link>
+            <Link href="/internships" className="hover:text-brand transition-colors">实习岗位</Link>
             <Link href="/directions" className="hover:text-brand transition-colors">交叉方向</Link>
             <Link href="/favorites" className="hover:text-brand transition-colors">收藏</Link>
           </nav>

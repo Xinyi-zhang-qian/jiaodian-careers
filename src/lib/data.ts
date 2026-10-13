@@ -78,6 +78,10 @@ export function getJob(id: number): Job | null {
   return allJobs.find(j => j.id === id) || null;
 }
 
+export function getJobIds(): number[] {
+  return allJobs.map((job) => job.id);
+}
+
 export function getJobCountByDiscipline(discipline: string): number {
   return allJobs.filter(j => j.platform_disciplines.includes(discipline)).length;
 }

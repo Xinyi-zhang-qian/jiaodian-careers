@@ -1,10 +1,11 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ExternalLink, MapPin, Building2, Calendar, GraduationCap, ArrowLeft } from 'lucide-react';
-import { getJob } from '@/lib/data';
+import { getJob, getJobIds } from '@/lib/data';
 
-// 动态岗位详情在渲染时读取 params，允许阻塞式路由
-export const instant = false;
+export function generateStaticParams() {
+  return getJobIds().map((id) => ({ id: String(id) }));
+}
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -136,7 +137,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
               <p>获取时间：{new Date(job.fetched_at).toLocaleDateString('zh-CN')}</p>
               <p>最后核验：{new Date(job.last_verified).toLocaleDateString('zh-CN')}</p>
               <a href={job.source_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 mt-2 text-brand hover:text-brand-dark transition-colors">
-                前往官方招聘页面 <ExternalLink className="w-4 h-4" />
+                前往来源页面 <ExternalLink className="w-4 h-4" />
               </a>
             </div>
           </section>
@@ -146,7 +147,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
         <div className="lg:col-span-1">
           <div className="sticky top-8 p-5 rounded-2xl border border-border bg-surface space-y-5">
             <a href={job.source_url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-brand text-white font-medium hover:bg-brand-dark transition-colors">
-              前往官方招聘页面 <ExternalLink className="w-4 h-4" />
+              前往来源页面 <ExternalLink className="w-4 h-4" />
             </a>
 
             <div className="space-y-3 text-sm">

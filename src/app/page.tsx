@@ -141,6 +141,17 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="flex flex-col gap-4 rounded-2xl border border-brand/20 bg-brand/5 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
+        <div>
+          <p className="text-sm font-medium text-brand">新增专题</p>
+          <h2 className="mt-1 text-xl font-semibold text-text-primary">AI4S、医疗 × AI、生物学 × AI 与具身智能实习</h2>
+          <p className="mt-2 text-sm text-text-secondary">查看研究院和科技企业的岗位线索，以及平台原始信息。</p>
+        </div>
+        <Link href="/internships" className="shrink-0 rounded-xl bg-brand px-4 py-2.5 text-center text-sm font-medium text-white transition-colors hover:bg-brand-dark">
+          浏览实习岗位 →
+        </Link>
+      </section>
+
       {/* Cross-Discipline Directions */}
       {disciplinesWithCount.length > 0 && (
         <section>
@@ -197,16 +208,16 @@ export default function HomePage() {
             <ol className="space-y-1.5 list-decimal list-inside">
               <li>招聘单位官方网站、官方招聘系统及正式招聘公告</li>
               <li>政府部门或公共就业服务机构发布的正式招聘信息</li>
-              <li>其他招聘平台或第三方信息（明确标注来源类型）</li>
+              <li>BOSS直聘、猎聘等公开招聘平台（标注第三方来源）</li>
             </ol>
           </div>
           <div>
             <p className="font-medium text-text-primary mb-2">核验规则</p>
             <ul className="space-y-1.5 list-disc list-inside">
-              <li>每条岗位标注来源类型与原始链接</li>
-              <li>区分"来源为单位官网"与"已核验"</li>
-              <li>无截止日期且无法确认有效性的岗位显示"状态待核实"</li>
-              <li>当前为演示数据，全站显著标注</li>
+              <li>岗位详情保留信息来源、核验日期和原始链接</li>
+              <li>平台岗位是检索快照，职位状态和薪资以平台原页面为准</li>
+              <li>无法确认有效性的岗位标记为"状态待核实"</li>
+              <li>招聘公告可能变更或截止，申请前请回到来源页面确认</li>
             </ul>
           </div>
         </div>
