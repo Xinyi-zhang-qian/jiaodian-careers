@@ -124,7 +124,7 @@ function JobsContent() {
                 className="w-full px-3 py-2 rounded-lg border border-border text-sm focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand bg-surface"
               >
                 <option value="">全部</option>
-                {['北京', '上海', '广州', '浙江', '江苏', '其他地区'].map((r) => (
+                {['北京', '上海', '广东', '浙江', '江苏', '其他地区'].map((r) => (
                   <option key={r} value={r}>{r}</option>
                 ))}
               </select>
