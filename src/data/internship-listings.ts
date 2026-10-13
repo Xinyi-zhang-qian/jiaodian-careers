@@ -3,6 +3,8 @@ export const internshipTracks = [
   { id: 'medical', title: '医疗 × AI', description: '医学影像、临床算法、医疗大模型与手术机器人等应用方向。' },
   { id: 'bio', title: '生物学 × AI', description: '生物信息学、蛋白质建模、AI 制药和生命科学大模型。' },
   { id: 'embodied', title: '具身智能', description: '机器人感知、操作、VLA、强化学习与真实环境中的算法验证。' },
+  { id: 'philosophy_ethics', title: '哲学 · 科技伦理', description: '科学技术哲学、AI 伦理、算法治理、数据合规与科技政策研究。' },
+  { id: 'simulation', title: '仿真算法', description: '物理仿真、数值模拟、机器人仿真、世界模型与 Sim2Real。' },
 ] as const;
 
 export type InternshipTrackId = (typeof internshipTracks)[number]['id'];
@@ -20,10 +22,11 @@ export interface InternshipListing {
   summary: string;
   sourceUrl: string;
   capturedAt: string;
+  sourceName?: string;
 }
 
-// BOSS直聘 public listing-page snapshots collected on 2026-10-13. Treat these
-// as leads: openings, pay, and requirements can change or close at any time.
+// Public recruitment-page snapshots collected on 2026-10-13. Treat these as
+// leads: openings, pay, and requirements can change or close at any time.
 export const internshipListings: InternshipListing[] = [
   {
     id: 'ai4s-wuhan-ai-institute', track: 'ai4s', title: 'AI4S 算法实习生',
@@ -115,5 +118,82 @@ export const internshipListings: InternshipListing[] = [
     pay: '300–350 元/天', education: '本科',
     summary: '面向轮式人形机器人的移动、交互和操作任务，参与 VLA / WAM 模型研发、训练与评测。',
     sourceUrl: 'https://m.zhipin.com/zhaopin/b4b730a4386f0129331y3di4/', capturedAt: '2026-10-13',
+  },
+  {
+    id: 'pku-embodied-research-assistant', track: 'embodied', title: '具身智能科研助理实习生',
+    organization: '北京大学信息工程学院钟方成项目组', organizationType: '高校课题组', location: '北京',
+    pay: '面议', education: '本科及以上', cohort: '截止 2026-10-16',
+    summary: '协助开展人工智能、具身智能科研项目的资料调研、实验、数据处理与项目推进；机器人或机器学习经历优先。',
+    sourceUrl: 'https://www.ece.pku.edu.cn/info/1008/3231.htm', capturedAt: '2026-10-13', sourceName: '北京大学官网',
+  },
+  {
+    id: 'shlab-science-data-governance', track: 'philosophy_ethics', title: '科学数据治理实习生',
+    organization: '上海人工智能实验室', organizationType: '研究机构', location: '上海',
+    pay: '面议', education: '本科或硕士在读', cohort: '每周至少 4 天，连续 6 个月以上',
+    summary: '开展前沿科学、人文、经济与产业线索调研，利用 AI 工具进行数据分类分级、标签定义、清洗和质量治理。',
+    sourceUrl: 'https://www.shlab.org.cn/joinus/detail/7686361384142162212?jobFunction=&jobType=&keyword=&location=&mode=campus&subject=', capturedAt: '2026-10-13', sourceName: '上海人工智能实验室官网',
+  },
+  {
+    id: 'ilinkgood-ai-governance', track: 'philosophy_ethics', title: '算法伦理与 AI 治理项目实习生',
+    organization: '上海共益数据科技发展基金会', organizationType: '公益基金会', location: '上海·浦东',
+    pay: '以招聘方确认为准', education: '大三及以上本科或研究生', cohort: '长期招募 · 至少 3 个月',
+    summary: '参与数据资产化、算法伦理和 AI 治理相关公益项目，适合哲学、法学、公共政策与数据治理背景。',
+    sourceUrl: 'https://www.chinadevelopmentbrief.org.cn/jobs/detail/66373.html', capturedAt: '2026-10-13', sourceName: '发展简报',
+  },
+  {
+    id: 'kuaishou-kling-data-compliance', track: 'philosophy_ethics', title: '数据合规实习生（可灵 AI 专项）',
+    organization: '快手', organizationType: '科技企业', location: '北京',
+    pay: '以招聘方确认为准', education: '法学相关专业在校生',
+    summary: '参与生成式 AI 产品的数据合规工作，接触隐私、数据治理与科技伦理议题；申请前需在招聘官网确认状态。',
+    sourceUrl: 'https://watchjobs.net/zh/explore/job/c261-5aee71be3e039618/%E6%95%B0%E6%8D%AE%E5%90%88%E8%A7%84%E5%AE%9E%E4%B9%A0%E7%94%9F-%E5%8F%AF%E7%81%B5AI%E4%B8%93%E9%A1%B9-%E5%BF%AB%E6%89%8B', capturedAt: '2026-10-13', sourceName: '招聘聚合页（需回官网核验）',
+  },
+  {
+    id: 'sensetime-ai-ethics-strategy', track: 'philosophy_ethics', title: '战略研究实习生（AI 伦理方向）',
+    organization: '商汤科技智研院', organizationType: '企业研究院', location: '北京',
+    pay: '以招聘方确认为准', education: '本科或研究生在读',
+    summary: '跟踪国内外人工智能伦理、政策法规及产业动态，开展资料研究、信息分析、可视化处理和英文翻译。',
+    sourceUrl: 'https://www.nowcoder.com/jobs/detail/187814', capturedAt: '2026-10-13', sourceName: '牛客招聘（需回官网核验）',
+  },
+  {
+    id: 'caict-ai-governance', track: 'philosophy_ethics', title: '人工智能治理研究实习生',
+    organization: '中国信息通信研究院', organizationType: '科研院所', location: '北京',
+    pay: '以招聘方确认为准', education: '硕士在读或应届毕业生',
+    summary: '研究前沿 AI 技术治理措施与国内外科技伦理政策法规，参与科技伦理治理标准和研究报告撰写，接受哲学、法律及人工智能背景。',
+    sourceUrl: 'https://www.chaojijianli.com/xiaozhao/caict-2026-intern-beijing-10590-0df862/', capturedAt: '2026-10-13', sourceName: '招聘聚合页（需回官网核验）',
+  },
+  {
+    id: 'xinzhu-plasma-simulation', track: 'simulation', title: '等离子体物理数值模拟实习生',
+    organization: '北京新烛时代科技有限公司', organizationType: 'AI4S 企业', location: '北京',
+    pay: '以招聘方确认为准', education: '本科高年级、硕士或博士在读',
+    summary: '参与聚变等离子体模拟与智能研发平台建设，开展仿真程序部署、算例复现、装置适配和参数扫描。',
+    sourceUrl: 'https://career.nankai.edu.cn/correcruit/content/id/118019.html', capturedAt: '2026-10-13', sourceName: '南开大学就业信息网',
+  },
+  {
+    id: 'lightwheel-embodied-simulation-beijing', track: 'simulation', title: '具身智能仿真开发实习生',
+    organization: '光轮智能', organizationType: '具身智能企业', location: '北京·海淀·学院路',
+    pay: '300–400 元/天', education: '本科',
+    summary: '参与具身智能仿真系统、仿真环境、仿真引擎和工具链的开发与优化。',
+    sourceUrl: 'https://www.zhipin.com/zhaopin/e84791c11a695f5003xy3tS6Ew~~/', capturedAt: '2026-10-13', sourceName: 'BOSS 直聘',
+  },
+  {
+    id: 'xiaomi-robot-simulation', track: 'simulation', title: '机器人仿真工程师实习生',
+    organization: '小米', organizationType: '科技企业', location: '北京·通州',
+    pay: '300–350 元/天', education: '硕士',
+    summary: '负责双足人形机器人机械结构、动力学、传感器与控制系统建模，并开发维护机器人仿真平台。',
+    sourceUrl: 'https://m.zhipin.com/zhaopin/e84791c11a695f5003xy3tS6Ew~~/', capturedAt: '2026-10-13', sourceName: 'BOSS 直聘',
+  },
+  {
+    id: 'agibot-embodied-simulation', track: 'simulation', title: '具身智能仿真实习生',
+    organization: '智元机器人', organizationType: '机器人企业', location: '上海·浦东·康桥',
+    pay: '300–500 元/天', education: '硕士',
+    summary: '研发具身智能仿真引擎、传感器和运控模型，构建仿真合成数据、评测场景与自动化场景生成工具。',
+    sourceUrl: 'https://m.zhipin.com/zhaopin/a0b48f456169510203Zz39m1Fg~~/', capturedAt: '2026-10-13', sourceName: 'BOSS 直聘',
+  },
+  {
+    id: 'lightwheel-simulation-engine-shanghai', track: 'simulation', title: '具身智能仿真引擎实习生',
+    organization: '光轮智能', organizationType: '具身智能企业', location: '上海·嘉定·安亭',
+    pay: '300–600 元/天', education: '本科',
+    summary: '参与融合物理求解、机器人控制与 AI 算法的高保真具身智能仿真引擎开发。',
+    sourceUrl: 'https://m.zhipin.com/zhaopin/a0b48f456169510203Zz39m1Fg~~/', capturedAt: '2026-10-13', sourceName: 'BOSS 直聘',
   },
 ];

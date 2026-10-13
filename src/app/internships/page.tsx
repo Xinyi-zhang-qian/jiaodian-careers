@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
-import { Bot, Building2, Dna, ExternalLink, FlaskConical, HeartPulse, MapPin } from 'lucide-react';
+import { Atom, Bot, BookOpen, Building2, Dna, ExternalLink, FlaskConical, HeartPulse, MapPin } from 'lucide-react';
 import { internshipListings, internshipTracks } from '@/data/internship-listings';
 
 export const metadata: Metadata = {
   title: '交叉领域实习岗位 | 交点 Careers',
-  description: '汇总 AI4S、医疗与生物学 AI、具身智能方向的研究院和企业实习岗位线索。',
+  description: '汇总 AI4S、医疗与生物学 AI、具身智能、科技伦理与仿真算法方向的研究院和企业实习岗位线索。',
 };
 
 const trackIcons = {
@@ -12,20 +12,22 @@ const trackIcons = {
   medical: HeartPulse,
   bio: Dna,
   embodied: Bot,
+  philosophy_ethics: BookOpen,
+  simulation: Atom,
 };
 
 export default function InternshipsPage() {
   return (
     <div className="space-y-10">
       <section>
-        <p className="text-sm font-medium text-brand">研究院 · 科技企业 · 医疗与生物医药</p>
+        <p className="text-sm font-medium text-brand">研究院 · 高校课题组 · 科技企业 · 公益机构</p>
         <h1 className="mt-2 text-3xl font-semibold tracking-tight text-text-primary sm:text-4xl">交叉领域实习岗位</h1>
         <p className="mt-4 max-w-3xl text-base leading-7 text-text-secondary">
-          聚焦 AI 与具体学科、科研或真实世界任务结合的实习机会。这里既有算法研究，也有科学智能产品和机器人研发岗位，适合不同专业背景寻找交叉切入点。
+          聚焦 AI 与具体学科、科研或真实世界任务结合的实习机会。这里包含算法研究、科学智能产品、机器人研发、科技伦理与治理岗位，适合不同专业背景寻找交叉切入点。
         </p>
       </section>
 
-      <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {internshipTracks.map((track) => {
           const Icon = trackIcons[track.id];
           const count = internshipListings.filter((listing) => listing.track === track.id).length;
@@ -45,7 +47,7 @@ export default function InternshipsPage() {
       <section className="rounded-2xl border border-brand/20 bg-brand/5 px-5 py-4 text-sm leading-6 text-text-secondary">
         <p className="font-medium text-text-primary">招聘状态提示</p>
         <p className="mt-1">
-          以下是 BOSS 直聘公开职位列表中的招聘线索，检索日期为 2026-10-13。职位可能已关闭或调整，部分页面需登录；投递前请点开来源核对岗位状态、薪酬、地点和要求。页面摘要仅用于发现机会，不构成招聘承诺。
+          以下线索来自招聘单位官网、高校就业平台与公开招聘平台，检索日期为 2026-10-13。职位可能关闭或调整，部分页面需登录；投递前请点开来源核对岗位状态、薪酬、地点和要求。页面摘要仅用于发现机会，不构成招聘承诺。
         </p>
       </section>
 
@@ -62,7 +64,7 @@ export default function InternshipsPage() {
                 <article key={listing.id} className="rounded-2xl border border-border bg-surface p-5 transition-shadow hover:shadow-md sm:p-6">
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <span className="rounded-lg bg-secondary/10 px-2.5 py-1 text-xs font-medium text-secondary">{listing.organizationType}</span>
-                    <span className="text-xs text-text-secondary">BOSS 直聘 · 状态待核实</span>
+                    <span className="text-xs text-text-secondary">{listing.sourceName ?? 'BOSS 直聘'} · 状态需回源核实</span>
                   </div>
                   <h3 className="mt-4 text-lg font-semibold text-text-primary">{listing.title}</h3>
                   <p className="mt-1 flex items-center gap-1.5 text-sm text-text-secondary">
@@ -76,7 +78,7 @@ export default function InternshipsPage() {
                   </div>
                   <p className="mt-4 text-sm leading-6 text-text-secondary">{listing.summary}</p>
                   <a href={listing.sourceUrl} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-brand hover:text-brand-dark">
-                    查看 BOSS 直聘原列表 <ExternalLink className="h-4 w-4" />
+                    查看来源页面 <ExternalLink className="h-4 w-4" />
                   </a>
                 </article>
               ))}
@@ -86,7 +88,7 @@ export default function InternshipsPage() {
       })}
 
       <p className="rounded-xl bg-muted px-4 py-3 text-xs leading-5 text-text-secondary">
-        薪酬为平台页面显示的日薪区间，实际待遇、实习时长、到岗要求及招聘进度均以招聘单位和平台原页面为准。岗位链接进入平台检索列表，可能需要登录或再次搜索岗位名称。
+        薪酬按来源页面展示；“面议”或未公开的待遇需向招聘方确认。实际待遇、实习时长、到岗要求及招聘进度均以招聘单位和来源页面为准。
       </p>
     </div>
   );

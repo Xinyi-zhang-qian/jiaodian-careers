@@ -144,7 +144,7 @@ export default function HomePage() {
       <section className="flex flex-col gap-4 rounded-2xl border border-brand/20 bg-brand/5 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
         <div>
           <p className="text-sm font-medium text-brand">新增专题</p>
-          <h2 className="mt-1 text-xl font-semibold text-text-primary">AI4S、医疗 × AI、生物学 × AI 与具身智能实习</h2>
+          <h2 className="mt-1 text-xl font-semibold text-text-primary">AI4S、具身智能、科技伦理与仿真算法实习</h2>
           <p className="mt-2 text-sm text-text-secondary">查看研究院和科技企业的岗位线索，以及平台原始信息。</p>
         </div>
         <Link href="/internships" className="shrink-0 rounded-xl bg-brand px-4 py-2.5 text-center text-sm font-medium text-white transition-colors hover:bg-brand-dark">
