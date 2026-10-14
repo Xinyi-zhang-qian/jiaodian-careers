@@ -13,7 +13,8 @@ export interface PlatformListing {
 
 // Public job-page snapshots collected on 2026-10-13. These are leads, not
 // guarantees that the employer is still accepting applications.
-export const platformListings: PlatformListing[] = [
+// QUARANTINED: 历史平台快照未保存逐字段原文证据，不供前台读取。
+const unverifiedPlatformListings: PlatformListing[] = [
   {
     platform: 'BOSS直聘',
     title: 'AI 产品经理（Agent 研发平台）',
@@ -63,6 +64,8 @@ export const platformListings: PlatformListing[] = [
     capturedAt: '2026-10-13',
   },
 ];
+
+void unverifiedPlatformListings;
 
 export const platformChannels = [
   {

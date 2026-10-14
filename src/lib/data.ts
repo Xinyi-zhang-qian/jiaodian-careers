@@ -1,8 +1,8 @@
 import { Job } from './types';
-import realJobs from '../data/real-jobs';
+import verifiedJobs from '../data/verified-jobs';
 
 // Only real jobs, no demo data
-const allJobs: Job[] = [...realJobs];
+const allJobs: Job[] = [...verifiedJobs];
 
 
 export function getJobs(filters: {

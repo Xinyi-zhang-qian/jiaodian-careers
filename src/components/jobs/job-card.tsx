@@ -17,6 +17,9 @@ export default function JobCard({ job }: { job: Job }) {
             {listingKind !== '具体岗位' && (
               <span className="rounded-md bg-accent/10 px-2 py-0.5 text-xs font-medium text-accent">{listingKind}</span>
             )}
+            {job.verification_level === '逐字段核验' && (
+              <span className="rounded-md bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">逐字段核验</span>
+            )}
             <Link href={`/jobs/${job.id}`} className="text-lg font-medium text-text-primary hover:text-brand transition-colors">
               {job.title}
             </Link>
@@ -51,7 +54,7 @@ export default function JobCard({ job }: { job: Job }) {
       {/* Professional Requirements */}
       <div className="mt-4 p-3 rounded-xl bg-brand/5 border border-brand/20">
         <p className="text-sm text-text-primary">
-          <span className="font-medium text-brand-dark">专业要求：</span>
+          <span className="font-medium text-brand-dark">原公告资格条件：</span>
           {job.original_major_requirements}
         </p>
         <div className="mt-2 flex flex-wrap gap-1.5">

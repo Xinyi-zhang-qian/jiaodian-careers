@@ -145,7 +145,7 @@ export default function HomePage() {
         <div>
           <p className="text-sm font-medium text-brand">新增方向分析</p>
           <h2 className="mt-1 text-xl font-semibold text-text-primary">机器人与 AI：仿真、VLA、大模型等岗位怎么选</h2>
-          <p className="mt-2 text-sm text-text-secondary">比较七类岗位的工作对象、能力要求和作品集证据，并查看实习、博士后与企业岗位。</p>
+          <p className="mt-2 text-sm text-text-secondary">比较各类机器人与 AI 岗位的工作对象、能力要求和作品集证据；具体岗位只在完成原文核验后展示。</p>
         </div>
         <Link href="/analysis" className="shrink-0 rounded-xl bg-brand px-4 py-2.5 text-center text-sm font-medium text-white transition-colors hover:bg-brand-dark">
           查看方向分析 →
@@ -214,9 +214,9 @@ export default function HomePage() {
           <div>
             <p className="font-medium text-text-primary mb-2">核验规则</p>
             <ul className="space-y-1.5 list-disc list-inside">
-              <li>岗位详情保留信息来源、核验日期和原始链接</li>
-              <li>平台岗位是检索快照，职位状态和薪资以平台原页面为准</li>
-              <li>无法确认有效性的岗位标记为"状态待核实"</li>
+              <li>岗位详情保留来源页标题、原文证据、核验日期和原始链接</li>
+              <li>未逐字段核验的岗位不进入主岗位列表</li>
+              <li>平台标签与招聘单位原文分开标注</li>
               <li>招聘公告可能变更或截止，申请前请回到来源页面确认</li>
             </ul>
           </div>

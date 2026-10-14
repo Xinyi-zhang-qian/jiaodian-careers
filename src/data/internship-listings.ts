@@ -28,7 +28,8 @@ export interface InternshipListing {
 
 // Public recruitment-page snapshots collected through 2026-10-14. Treat these as
 // leads: openings, pay, and requirements can change or close at any time.
-export const internshipListings: InternshipListing[] = [
+// QUARANTINED: 以下历史线索尚未保存逐字段原文证据，暂不对外展示。
+const unverifiedInternshipCandidates: InternshipListing[] = [
   {
     id: 'ai4s-wuhan-ai-institute', track: 'ai4s', title: 'AI4S 算法实习生',
     organization: '武汉人工智能研究院', organizationType: '研究院', location: '北京',
@@ -303,3 +304,9 @@ export const internshipListings: InternshipListing[] = [
     sourceUrl: 'https://www.shixiseng.com/intern/inn_zebv11dvnsmy', capturedAt: '2026-10-14', sourceName: '实习僧',
   },
 ];
+
+// 实习页只能导出通过原文核验的记录。完成首批复核前保持为空。
+export const internshipListings: InternshipListing[] = [];
+
+// 防止候选数据被 tree-shaking 以外的工具误判为可发布数据。
+void unverifiedInternshipCandidates;

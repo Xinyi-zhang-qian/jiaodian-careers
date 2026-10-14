@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, BarChart3, ExternalLink, TrendingUp } from 'lucide-react';
-import { marketReport, platformChannels, platformListings } from '@/data/platform-sources';
+import { marketReport, platformChannels } from '@/data/platform-sources';
 import roboticsMarketData from '@/data/generated/robotics-market.json';
 import { analyzeRoboticsMarket, type RoboticsMarketDataset } from '@/lib/robotics-market';
 
@@ -70,7 +70,7 @@ export default function MarketPage() {
           <div>
             <h2 className="text-2xl font-semibold text-text-primary">全国机器人正式岗位样本分析</h2>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-text-secondary">
-              由采集脚本汇总 BOSS 直聘、猎聘、企业官网与研究机构公开职位，比较 VLA、仿真、规划控制、感知、数据评测及系统硬件方向。本专题只统计正式岗位，不含实习。
+              由采集脚本汇总 BOSS 直聘、猎聘和单位官网的公开职位线索，比较 VLA、仿真、规划控制、感知、数据评测及系统硬件方向。未逐字段核验的记录仅展示线索与平台分析标签；本专题不含实习。
             </p>
           </div>
           <p className="shrink-0 text-xs text-text-secondary">数据生成于 {roboticsDataset.generatedAt}</p>
@@ -79,46 +79,11 @@ export default function MarketPage() {
           <div className="rounded-xl border border-white/70 bg-white/80 p-4"><p className="text-2xl font-semibold text-text-primary">{roboticsSummary.total}</p><p className="mt-1 text-sm text-text-secondary">去重正式岗位样本</p></div>
           <div className="rounded-xl border border-white/70 bg-white/80 p-4"><p className="text-2xl font-semibold text-[#db2777]">{vlaDemand?.count ?? 0} 条 · {vlaDemand?.share ?? 0}%</p><p className="mt-1 text-sm text-text-secondary">VLA / 具身大模型</p></div>
           <div className="rounded-xl border border-white/70 bg-white/80 p-4"><p className="text-2xl font-semibold text-[#0f766e]">{simulationDemand?.count ?? 0} 条 · {simulationDemand?.share ?? 0}%</p><p className="mt-1 text-sm text-text-secondary">仿真与合成数据</p></div>
-          <div className="rounded-xl border border-white/70 bg-white/80 p-4"><p className="text-2xl font-semibold text-brand-dark">{roboticsSummary.salaryDisclosureRate}%</p><p className="mt-1 text-sm text-text-secondary">薪资公开率</p></div>
+          <div className="rounded-xl border border-white/70 bg-white/80 p-4"><p className="text-2xl font-semibold text-brand-dark">{roboticsSummary.salaryDisclosureRate}%</p><p className="mt-1 text-sm text-text-secondary">已核验薪资公开率</p></div>
         </div>
         <Link href="/market/robotics" className="mt-6 inline-flex items-center gap-1.5 rounded-lg bg-brand px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-brand-dark">
           查看完整分析与岗位明细 <ArrowRight className="h-4 w-4" />
         </Link>
-      </section>
-
-      <section>
-        <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <h2 className="text-2xl font-semibold text-text-primary">招聘平台岗位线索</h2>
-            <p className="mt-1 text-sm text-text-secondary">以下是平台公开页面检索到的岗位快照，薪资与要求按原页面展示。</p>
-          </div>
-          <span className="text-xs text-text-secondary">快照日期：2026-10-13</span>
-        </div>
-
-        <div className="grid gap-4 lg:grid-cols-2">
-          {platformListings.map((listing) => (
-            <article key={`${listing.platform}-${listing.title}-${listing.organization}`} className="rounded-2xl border border-border bg-surface p-5 transition-shadow hover:shadow-md sm:p-6">
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <span className="rounded-lg bg-secondary/10 px-2.5 py-1 text-xs font-medium text-secondary">{listing.platform}</span>
-                <span className="text-xs text-text-secondary">平台页面线索 · 状态需回源核实</span>
-              </div>
-              <h3 className="mt-4 text-lg font-semibold text-text-primary">{listing.title}</h3>
-              <p className="mt-1 text-sm text-text-secondary">{listing.organization} · {listing.location}</p>
-              <div className="mt-4 flex flex-wrap gap-2 text-xs">
-                <span className="rounded-md bg-muted px-2.5 py-1.5 text-text-primary">{listing.salary}</span>
-                <span className="rounded-md bg-muted px-2.5 py-1.5 text-text-primary">{listing.requirements}</span>
-              </div>
-              <p className="mt-4 text-sm font-medium text-brand-dark">{listing.connection}</p>
-              <p className="mt-2 text-sm leading-6 text-text-secondary">{listing.summary}</p>
-              <a href={listing.sourceUrl} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-brand hover:text-brand-dark">
-                前往平台原页面 <ExternalLink className="h-4 w-4" />
-              </a>
-            </article>
-          ))}
-        </div>
-        <p className="mt-4 rounded-xl bg-muted px-4 py-3 text-xs leading-5 text-text-secondary">
-          招聘平台会随时下架或修改职位；部分页面可能要求登录。本站只保留公开信息摘要，不代替平台或招聘单位发布公告，也不保证职位仍在招聘。
-        </p>
       </section>
 
       <section>

@@ -1,6 +1,6 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import realJobs from '../src/data/real-jobs';
+import verifiedJobs from '../src/data/verified-jobs';
 import {
   classifyRoboticsDirection,
   normalizeSalary,
@@ -255,7 +255,7 @@ function inferRecruitmentType(title: string, recruitType?: string): RoboticsRecr
 }
 
 function toSeeds(): Seed[] {
-  const fullTimeSeeds: Seed[] = realJobs
+  const fullTimeSeeds: Seed[] = verifiedJobs
     .filter((job) => (job.platform_disciplines.includes('机器人×仿真算法') || taggedJobIds.has(job.id))
       && !/实习/.test(job.title))
     .map((job) => ({
@@ -277,7 +277,16 @@ function toSeeds(): Seed[] {
       capturedAt: job.fetched_at,
     }));
 
-  return [...fullTimeSeeds, ...extraPublicJobs, ...expandedPlatformJobs];
+  const unverifiedLeads: Seed[] = [...extraPublicJobs, ...expandedPlatformJobs].map((seed) => ({
+    ...seed,
+    salary: '未公开（未逐字段核验）',
+    education: '未逐字段核验',
+    experience: '未逐字段核验',
+    requirements: '该条仅保留公开检索页中的岗位线索；完整要求尚未逐字段对照原文，本站不展示人工补写内容。',
+    summary: '岗位方向由标题和平台分析标签归类，不代表招聘单位原文。',
+  }));
+
+  return [...fullTimeSeeds, ...unverifiedLeads];
 }
 
 async function verifySource(url: string): Promise<SourceCheck> {
@@ -346,10 +355,11 @@ async function main() {
 
   const dataset: RoboticsMarketDataset = {
     generatedAt: today,
-    scope: '全国机器人方向正式岗位公开样本（社招、校招与博士后），不包含任何实习岗位。来源覆盖企业官网、官方招聘系统、高校研究机构、BOSS直聘和猎聘公开页面。',
+    scope: '全国机器人方向公开正式岗位线索（社招、校招与博士后），不包含实习。未完成逐字段原文核验的记录只保留岗位名称、单位、城市、来源和平台分析标签，不展示补写的专业、职责、学历、经验或薪资。',
     methodology: [
       '只读取无需登录即可访问的公开页面，不绕过验证码、登录或访问限制。',
       '已排除标题或招聘类型为“实习”的记录；应届生可投的正式校招岗位保留。',
+      '未保存可对照原文证据的岗位不再展示人工归纳的专业、职责、学历、经验或薪资；技术词只作为平台分析标签。',
       '按“单位 + 岗位名称 + 城市”去重；同一岗位涉及多个方向时，按标题和主要交付物归入一个主方向。',
       '薪资只统计来源中明确公开的区间；月薪与日薪分开标准化，面议和未公开不参与薪资中位数。',
       'BOSS直聘与猎聘的结果会随个性化推荐、登录状态和下架变动，公开页也未稳定提供可复核的全国总数，因此页面只展示已采集去重样本数，不写成全国总岗位数或市场份额。',

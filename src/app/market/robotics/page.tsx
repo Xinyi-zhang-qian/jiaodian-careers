@@ -32,7 +32,7 @@ export default function RoboticsMarketPage() {
         </div>
         <h1 className="mt-3 text-3xl font-semibold tracking-tight text-text-primary sm:text-4xl">机器人岗位需求分析</h1>
         <p className="mt-4 max-w-4xl text-base leading-7 text-text-secondary">
-          汇总 BOSS 直聘、猎聘、企业官网、官方招聘系统和高校研究机构的公开正式职位，统一提取岗位名称、城市、薪资、学历、经验与技能要求，再比较 VLA、仿真、规划控制、感知、数据评测和机器人系统等方向。所有实习岗位均已排除。
+          汇总 BOSS 直聘、猎聘和单位官网的公开正式职位线索，比较 VLA、仿真、规划控制、感知、数据评测和机器人系统等方向。未完成逐字段原文核验的记录只展示线索和分析标签，不再展示人工补写的岗位要求。所有实习岗位均已排除。
         </p>
         <p className="mt-3 flex items-center gap-1.5 text-xs text-text-secondary">
           <CalendarDays className="h-3.5 w-3.5" /> 数据生成于 {dataset.generatedAt}；职位状态和待遇请以来源页为准
@@ -66,7 +66,7 @@ export default function RoboticsMarketPage() {
         </div>
         <div className="rounded-2xl border border-border bg-surface p-5">
           <div className="flex items-center justify-between"><p className="text-3xl font-semibold text-text-primary">{analysis.salaryDisclosureRate}%</p><WalletCards className="h-5 w-5 text-brand" /></div>
-          <p className="mt-2 text-sm text-text-secondary">薪资公开率</p>
+          <p className="mt-2 text-sm text-text-secondary">已核验薪资公开率</p>
         </div>
       </section>
 
@@ -109,7 +109,7 @@ export default function RoboticsMarketPage() {
               {topDirection.name}以 {topDirection.count} 条位居第一。仿真样本 {simulation?.count ?? 0} 条，VLA 样本 {vla?.count ?? 0} 条；在这批不含实习的样本中，VLA 岗位多于纯仿真岗位，但这是样本观察，不是全国市场份额。
             </p>
             <p className="mt-3 text-xs leading-5 text-text-secondary/80">
-              仿真岗位的薪资公开率更高，而 VLA 岗位较多来自官网、校招和研究型团队，薪资未公开比例更高，不能直接用已公开薪资比较两个方向的整体待遇。
+              本轮清理已将未保存原文证据的薪资、学历、经验和职责全部撤下，因此暂不做薪资或任职门槛的比较。
             </p>
           </div>
           <div className="rounded-2xl border border-border bg-surface p-6">
@@ -194,7 +194,7 @@ export default function RoboticsMarketPage() {
         <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p className="text-sm font-medium text-brand-dark">可追溯样本</p>
-            <h2 className="mt-1 text-2xl font-semibold text-text-primary">岗位名称、薪资与要求</h2>
+            <h2 className="mt-1 text-2xl font-semibold text-text-primary">岗位线索、核验说明与分析标签</h2>
           </div>
           <div className="flex flex-wrap gap-4 text-sm font-medium">
             <a href="/data/robotics-market.csv" download className="inline-flex items-center gap-1.5 text-brand hover:text-brand-dark"><Download className="h-4 w-4" /> 下载 CSV</a>

@@ -4,8 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "npm run audit:jobs",
     "build": "next build",
     "start": "next start",
+    "audit:jobs": "tsx scripts/audit-verified-jobs.ts",
+    "audit:jobs:offline": "tsx scripts/audit-verified-jobs.ts --offline",
     "collect:robotics": "tsx scripts/collect-robotics-market.ts",
     "collect:robotics:offline": "tsx scripts/collect-robotics-market.ts --offline"
   },

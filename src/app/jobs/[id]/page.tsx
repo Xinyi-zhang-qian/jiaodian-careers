@@ -62,11 +62,17 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
             </section>
           )}
 
+          {job.verification_level === '逐字段核验' && (
+            <section className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm leading-6 text-emerald-900">
+              本条已按来源全文逐字段核验。标注为“原公告”的内容来自源页；平台标签仅用于检索和归类，不代表招聘单位原文。
+            </section>
+          )}
+
           <section className="p-5 rounded-2xl border border-brand/20 bg-brand/5">
-            <h2 className="text-lg font-semibold text-brand-dark mb-3">专业与学历要求</h2>
+            <h2 className="text-lg font-semibold text-brand-dark mb-3">原公告资格条件</h2>
             <div className="space-y-3 text-sm">
               <div>
-                <p className="font-medium text-text-primary">原公告专业要求</p>
+                <p className="font-medium text-text-primary">原公告原文</p>
                 <p className="mt-1 text-text-secondary leading-relaxed">{job.original_major_requirements}</p>
               </div>
               <div>
@@ -82,8 +88,20 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
             </div>
           </section>
 
+          {job.source_evidence && job.source_evidence.length > 0 && (
+            <section>
+              <h2 className="text-lg font-semibold text-text-primary mb-3">原页核验锚点</h2>
+              <p className="mb-3 text-xs leading-5 text-text-secondary">以下是校验脚本必须能在来源页找到的原文片段；任一片段缺失，构建将失败。</p>
+              <ul className="space-y-2 text-sm leading-6 text-text-secondary">
+                {job.source_evidence.map((evidence) => (
+                  <li key={evidence} className="rounded-xl border border-border bg-muted px-4 py-3">“{evidence}”</li>
+                ))}
+              </ul>
+            </section>
+          )}
+
           <section>
-            <h2 className="text-lg font-semibold text-text-primary mb-3">平台归纳交叉方向</h2>
+            <h2 className="text-lg font-semibold text-text-primary mb-3">平台分析标签（非公告原文）</h2>
             <div className="flex flex-wrap gap-2">
               {job.platform_disciplines.map((d) => (
                 <span key={d} className="px-3 py-1.5 rounded-lg text-sm bg-brand/10 text-brand-dark font-medium">{d}</span>
@@ -93,13 +111,13 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
 
           {job.responsibilities && (
             <section>
-              <h2 className="text-lg font-semibold text-text-primary mb-3">岗位职责</h2>
+              <h2 className="text-lg font-semibold text-text-primary mb-3">原公告岗位职责（按原文列项）</h2>
               <p className="text-sm text-text-secondary leading-relaxed whitespace-pre-wrap">{job.responsibilities}</p>
             </section>
           )}
 
           <section>
-            <h2 className="text-lg font-semibold text-text-primary mb-3">必备能力</h2>
+            <h2 className="text-lg font-semibold text-text-primary mb-3">平台提取标签（非公告原文）</h2>
             <div className="flex flex-wrap gap-2">
               {job.required_skills.map((s) => (
                 <span key={s} className="px-3 py-1.5 rounded-lg text-sm bg-secondary/10 text-secondary font-medium">{s}</span>
@@ -120,7 +138,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
 
           {job.description && (
             <section>
-              <h2 className="text-lg font-semibold text-text-primary mb-3">岗位描述</h2>
+              <h2 className="text-lg font-semibold text-text-primary mb-3">本站说明（非公告原文）</h2>
               <p className="text-sm text-text-secondary leading-relaxed whitespace-pre-wrap">{job.description}</p>
             </section>
           )}
@@ -147,6 +165,8 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
               <p>来源：{job.source_name}（{job.source_type}）</p>
               <p>获取时间：{new Date(job.fetched_at).toLocaleDateString('zh-CN')}</p>
               <p>最后核验：{new Date(job.last_verified).toLocaleDateString('zh-CN')}</p>
+              {job.source_title && <p>来源页标题：{job.source_title}</p>}
+              {job.verification_level && <p>核验级别：{job.verification_level}</p>}
               <a href={job.source_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 mt-2 text-brand hover:text-brand-dark transition-colors">
                 前往来源页面 <ExternalLink className="w-4 h-4" />
               </a>

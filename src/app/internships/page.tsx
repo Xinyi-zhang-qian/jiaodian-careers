@@ -28,6 +28,13 @@ export default function InternshipsPage() {
         </p>
       </section>
 
+      <section className="rounded-2xl border border-amber-200 bg-amber-50 px-5 py-5 text-sm leading-6 text-amber-900">
+        <p className="font-medium text-amber-950">实习岗位正在逐条回源复核</p>
+        <p className="mt-1">
+          原有线索因未保存足够的逐字段证据已全部下架。后续只会展示能从原页核对岗位名称、单位、条件、地点与申请方式的记录；本站分析标签将与原公告内容分开标注。
+        </p>
+      </section>
+
       <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {internshipTracks.map((track) => {
           const Icon = trackIcons[track.id];
@@ -45,15 +52,9 @@ export default function InternshipsPage() {
         })}
       </section>
 
-      <section className="rounded-2xl border border-brand/20 bg-brand/5 px-5 py-4 text-sm leading-6 text-text-secondary">
-        <p className="font-medium text-text-primary">招聘状态提示</p>
-        <p className="mt-1">
-          以下线索来自招聘单位官网、高校就业平台与公开招聘平台，最近更新于 2026-10-14。职位可能关闭或调整，部分页面需登录；投递前请点开来源核对岗位状态、薪酬、地点和要求。页面摘要仅用于发现机会，不构成招聘承诺。
-        </p>
-      </section>
-
       {internshipTracks.map((track) => {
         const listings = internshipListings.filter((listing) => listing.track === track.id);
+        if (listings.length === 0) return null;
         return (
           <section key={track.id} id={track.id} className="scroll-mt-6">
             <div className="mb-5">
@@ -88,9 +89,6 @@ export default function InternshipsPage() {
         );
       })}
 
-      <p className="rounded-xl bg-muted px-4 py-3 text-xs leading-5 text-text-secondary">
-        薪酬按来源页面展示；“面议”或未公开的待遇需向招聘方确认。实际待遇、实习时长、到岗要求及招聘进度均以招聘单位和来源页面为准。
-      </p>
     </div>
   );
 }

@@ -76,7 +76,7 @@ export default function RoboticsJobTable({ jobs }: RoboticsJobTableProps) {
               <th className="px-4 py-3 font-medium">主要方向</th>
               <th className="px-4 py-3 font-medium">薪资</th>
               <th className="px-4 py-3 font-medium">学历 / 经验</th>
-              <th className="px-4 py-3 font-medium">岗位需求摘要</th>
+              <th className="px-4 py-3 font-medium">核验说明 / 平台标签</th>
               <th className="px-4 py-3 font-medium">来源</th>
             </tr>
           </thead>
@@ -99,7 +99,7 @@ export default function RoboticsJobTable({ jobs }: RoboticsJobTableProps) {
                 </td>
                 <td className="max-w-[330px] px-4 py-4 leading-6 text-text-secondary">
                   <p>{job.requirements}</p>
-                  <p className="mt-2 text-xs text-brand-dark">{job.skills.slice(0, 4).join(' · ')}</p>
+                  <p className="mt-2 text-xs text-brand-dark">平台分析标签：{job.skills.slice(0, 4).join(' · ')}</p>
                 </td>
                 <td className="max-w-[150px] px-4 py-4">
                   <a href={job.sourceUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 font-medium text-brand hover:text-brand-dark">
