@@ -103,3 +103,81 @@ export const marketReport = {
     { value: '+19.3%', label: '人工智能工程师职位数', detail: '2026 上半年同比' },
   ],
 };
+
+export const roboticsDemandAnalysis = {
+  title: '机器人方向岗位需求样本',
+  capturedAt: '2026-10-14',
+  sampleSize: 32,
+  scope: 'BOSS直聘与猎聘公开页面；北京、上海、深圳、杭州等主要城市',
+  conclusion: '在这组定向样本中，仿真与合成数据岗位有 9 条，VLA / 具身大模型有 5 条；仿真类样本数约为 VLA 类的 1.8 倍。',
+  methodology: [
+    '以招聘网站公开可见的具身智能、机器人算法与工程职位为定向样本。',
+    '按“公司 + 职位名 + 城市”去重，排除纯销售、非机器人通用软件和重复转载。',
+    '每条职位只归入一个主要方向；混合职位按职责中最核心的交付物归类。',
+  ],
+  platforms: [
+    { name: 'BOSS直聘', count: 14 },
+    { name: '猎聘', count: 18 },
+  ],
+  directions: [
+    {
+      id: 'simulation',
+      name: '仿真与合成数据',
+      count: 9,
+      share: 28.1,
+      examples: '物理引擎、Isaac Sim / MuJoCo、Sim2Real、合成数据',
+    },
+    {
+      id: 'planning-control',
+      name: '规划控制与运动',
+      count: 7,
+      share: 21.9,
+      examples: '全身控制、轨迹规划、运动控制、强化学习',
+    },
+    {
+      id: 'system-hardware',
+      name: '本体、系统与硬件',
+      count: 6,
+      share: 18.8,
+      examples: '机器人系统、基础软件、结构与驱动、嵌入式',
+    },
+    {
+      id: 'vla',
+      name: 'VLA / 具身大模型',
+      count: 5,
+      share: 15.6,
+      examples: '视觉-语言-动作建模、模仿学习、多模态决策',
+    },
+    {
+      id: 'perception',
+      name: '感知 / SLAM',
+      count: 3,
+      share: 9.4,
+      examples: '3D 视觉、点云、定位建图、空间感知',
+    },
+    {
+      id: 'data-evaluation',
+      name: '数据、评测与部署',
+      count: 2,
+      share: 6.3,
+      examples: '真机数据、算法评测、模型部署与性能优化',
+    },
+  ],
+  sources: [
+    {
+      name: 'BOSS直聘·仿真实习生检索页',
+      url: 'https://www.zhipin.com/zhaopin/e84791c11a695f5003xy3tS6Ew~~/',
+      note: '用于补充仿真、物理引擎与机器人学习样本',
+    },
+    {
+      name: '猎聘·灵西机器人公司职位页',
+      url: 'https://m.liepin.com/company/10206387/',
+      note: '同一公司中对照 VLA、规划控制、系统与硬件职位',
+    },
+    {
+      name: '猎聘·机器人仿真职位及相关推荐',
+      url: 'https://www.liepin.com/job/1971802319.shtml',
+      note: '用于仿真、系统软件与具身算法横向对照',
+    },
+  ],
+};

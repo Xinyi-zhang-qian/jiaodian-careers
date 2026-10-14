@@ -1,10 +1,19 @@
 import type { Metadata } from 'next';
-import { ExternalLink, TrendingUp } from 'lucide-react';
-import { marketReport, platformChannels, platformListings } from '@/data/platform-sources';
+import { BarChart3, ExternalLink, Info, TrendingUp } from 'lucide-react';
+import { marketReport, platformChannels, platformListings, roboticsDemandAnalysis } from '@/data/platform-sources';
 
 export const metadata: Metadata = {
   title: '招聘市场观察 | 交点 Careers',
-  description: '汇总招聘平台公开岗位线索与人工智能人才需求趋势，附原始来源链接。',
+  description: '汇总招聘平台公开岗位线索、机器人方向需求样本与人工智能人才趋势，附原始来源链接。',
+};
+
+const directionColors: Record<string, string> = {
+  simulation: '#0f766e',
+  'planning-control': '#2563eb',
+  'system-hardware': '#7c3aed',
+  vla: '#db2777',
+  perception: '#d97706',
+  'data-evaluation': '#64748b',
 };
 
 export default function MarketPage() {
@@ -13,7 +22,7 @@ export default function MarketPage() {
       <section>
         <div className="flex items-center gap-2 text-sm font-medium text-brand">
           <TrendingUp className="h-4 w-4" />
-          <span>平台公开信息 · 更新于 2026 年 10 月 13 日</span>
+          <span>平台公开信息 · 更新于 2026 年 10 月 14 日</span>
         </div>
         <h1 className="mt-3 text-3xl font-semibold tracking-tight text-text-primary sm:text-4xl">招聘市场观察</h1>
         <p className="mt-4 max-w-3xl text-base leading-7 text-text-secondary">
@@ -50,6 +59,137 @@ export default function MarketPage() {
         <p className="mt-3 text-xs leading-5 text-text-secondary/70">
           数据口径为智联招聘平台 2026 年上半年发布的职位与企业数据同比变化，不代表全行业的唯一统计口径。上面的行业机会解读是基于报告与岗位样例的归纳。
         </p>
+      </section>
+
+      <section className="overflow-hidden rounded-2xl border border-border bg-surface">
+        <div className="border-b border-border bg-gradient-to-br from-teal-50 via-surface to-blue-50 p-6 sm:p-8">
+          <div className="flex items-center gap-2 text-sm font-medium text-brand-dark">
+            <BarChart3 className="h-4 w-4" />
+            <span>方向需求可视化</span>
+          </div>
+          <div className="mt-3 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <h2 className="text-2xl font-semibold text-text-primary">{roboticsDemandAnalysis.title}</h2>
+              <p className="mt-2 max-w-3xl text-sm leading-6 text-text-secondary">
+                把同一赛道的职位按主要工作对象重新分组，用来判断仿真、VLA、规划控制等方向在当前公开样本中的相对数量。
+              </p>
+            </div>
+            <p className="shrink-0 text-xs text-text-secondary">样本日期：{roboticsDemandAnalysis.capturedAt}</p>
+          </div>
+
+          <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            <div className="rounded-xl border border-white/70 bg-white/80 p-4">
+              <p className="text-2xl font-semibold text-text-primary">{roboticsDemandAnalysis.sampleSize}</p>
+              <p className="mt-1 text-sm text-text-secondary">去重岗位快照</p>
+            </div>
+            <div className="rounded-xl border border-white/70 bg-white/80 p-4">
+              <p className="text-2xl font-semibold text-[#0f766e]">9 条 · 28.1%</p>
+              <p className="mt-1 text-sm text-text-secondary">仿真与合成数据</p>
+            </div>
+            <div className="rounded-xl border border-white/70 bg-white/80 p-4">
+              <p className="text-2xl font-semibold text-[#db2777]">5 条 · 15.6%</p>
+              <p className="mt-1 text-sm text-text-secondary">VLA / 具身大模型</p>
+            </div>
+            <div className="rounded-xl border border-white/70 bg-white/80 p-4">
+              <p className="text-2xl font-semibold text-brand-dark">1.8×</p>
+              <p className="mt-1 text-sm text-text-secondary">仿真样本数 / VLA 样本数</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid gap-8 p-6 sm:p-8 xl:grid-cols-[minmax(0,1.45fr)_minmax(280px,0.55fr)]">
+          <div>
+            <div className="flex items-end justify-between gap-4">
+              <div>
+                <h3 className="font-semibold text-text-primary">岗位方向样本占比</h3>
+                <p className="mt-1 text-xs text-text-secondary">条形长度为该方向占 32 条样本的比例</p>
+              </div>
+              <span className="text-xs text-text-secondary">单位：岗位快照</span>
+            </div>
+
+            <div className="mt-6 space-y-5">
+              {roboticsDemandAnalysis.directions.map((direction) => (
+                <div key={direction.id}>
+                  <div className="mb-2 flex items-baseline justify-between gap-4 text-sm">
+                    <span className="font-medium text-text-primary">{direction.name}</span>
+                    <span className="shrink-0 tabular-nums text-text-secondary">{direction.count} 条 · {direction.share}%</span>
+                  </div>
+                  <div className="h-3 overflow-hidden rounded-full bg-muted" aria-hidden="true">
+                    <div
+                      className="h-full rounded-full"
+                      style={{ width: `${direction.share}%`, backgroundColor: directionColors[direction.id] }}
+                    />
+                  </div>
+                  <p className="mt-1.5 text-xs leading-5 text-text-secondary">{direction.examples}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-7">
+              <p className="mb-2 text-xs font-medium text-text-secondary">全部样本的结构</p>
+              <div className="flex h-5 overflow-hidden rounded-full bg-muted" aria-label="机器人岗位方向样本结构">
+                {roboticsDemandAnalysis.directions.map((direction) => (
+                  <div
+                    key={direction.id}
+                    title={`${direction.name}：${direction.share}%`}
+                    style={{ width: `${(direction.count / roboticsDemandAnalysis.sampleSize) * 100}%`, backgroundColor: directionColors[direction.id] }}
+                  />
+                ))}
+              </div>
+              <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2">
+                {roboticsDemandAnalysis.directions.map((direction) => (
+                  <span key={direction.id} className="inline-flex items-center gap-1.5 text-xs text-text-secondary">
+                    <span className="h-2.5 w-2.5 rounded-sm" style={{ backgroundColor: directionColors[direction.id] }} />
+                    {direction.name}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <aside className="space-y-5">
+            <div className="rounded-xl border border-brand/20 bg-brand/5 p-5">
+              <p className="text-sm font-semibold text-brand-dark">这次样本说明了什么？</p>
+              <p className="mt-2 text-sm leading-6 text-text-secondary">{roboticsDemandAnalysis.conclusion}</p>
+              <p className="mt-3 text-xs leading-5 text-text-secondary/80">
+                一个可能的原因是：VLA 模型需要仿真环境、合成数据、评测和系统工程共同支撑，因此产业团队会拆出更多仿真与工程职位。这是对样本的解释，不是因果结论。
+              </p>
+            </div>
+
+            <div className="rounded-xl border border-border p-5">
+              <h3 className="text-sm font-semibold text-text-primary">样本与口径</h3>
+              <p className="mt-2 text-xs leading-5 text-text-secondary">{roboticsDemandAnalysis.scope}</p>
+              <div className="mt-3 flex gap-2">
+                {roboticsDemandAnalysis.platforms.map((platform) => (
+                  <span key={platform.name} className="rounded-md bg-muted px-2.5 py-1.5 text-xs text-text-primary">
+                    {platform.name} {platform.count} 条
+                  </span>
+                ))}
+              </div>
+              <ul className="mt-4 space-y-2 text-xs leading-5 text-text-secondary">
+                {roboticsDemandAnalysis.methodology.map((item) => <li key={item}>• {item}</li>)}
+              </ul>
+            </div>
+          </aside>
+        </div>
+
+        <div className="border-t border-border bg-muted/50 px-6 py-5 sm:px-8">
+          <div className="flex items-start gap-2">
+            <Info className="mt-0.5 h-4 w-4 shrink-0 text-text-secondary" />
+            <div>
+              <p className="text-xs leading-5 text-text-secondary">
+                这是定向抽取的岗位快照，不是平台全量数据，因此应读作“样本占比”，不应视为全市场份额。招聘页面会随时更新或下架。
+              </p>
+              <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2">
+                {roboticsDemandAnalysis.sources.map((source) => (
+                  <a key={source.url} href={source.url} target="_blank" rel="noopener noreferrer" title={source.note} className="inline-flex items-center gap-1 text-xs font-medium text-brand hover:text-brand-dark">
+                    {source.name} <ExternalLink className="h-3.5 w-3.5" />
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section>

@@ -13,11 +13,12 @@ export const DISCIPLINES = [
   { id: 'geo-data', name: '地理／环境×数据技术', primary: '地理／环境', secondary: '数据技术', roles: ['城市计算', '空间分析', '环境政策'], keywords: ['GIS', '空间', '城市'] },
   { id: 'eng-materials', name: '工程×材料／能源', primary: '工程', secondary: '材料／能源', roles: ['新能源', '先进材料', '智能制造'], keywords: ['材料', '能源', '电池'] },
   { id: 'phil-social', name: '哲学×社会科学', primary: '哲学', secondary: '社会科学', roles: ['科学技术哲学', '马克思主义理论', '思政教育', '人文通识'], keywords: ['哲学', '伦理', '马克思主义', '人文'] },
+  { id: 'humanities-publishing', name: '人文社科×学术出版', primary: '人文社科', secondary: '学术出版', roles: ['学术编辑', '图书策划编辑', '期刊编辑', '知识传播'], keywords: ['学术编辑', '选题策划', '审稿', '出版'] },
   { id: 'robotics-sim', name: '机器人×仿真算法', primary: '机器人', secondary: '仿真算法', roles: ['具身智能', '世界模型', 'Sim2Real', '仿真引擎'], keywords: ['VLA', '强化学习', '物理仿真', '数字孪生'] },
 ];
 
 export const ORG_TYPES = ['高校', '科研院所', '企业', '事业单位', '其他'] as const;
-export const JOB_TYPES = ['科研', '教学', '工程', '产品', '政策研究', '产业研究', '管理'] as const;
+export const JOB_TYPES = ['科研', '教学', '教学科研', '工程', '产品', '政策研究', '产业研究', '编辑出版', '管理'] as const;
 export const EDUCATION_LEVELS = ['本科', '硕士', '博士'] as const;
 export const JOB_STATUSES = ['招聘中', '已截止', '状态待核实'] as const;
 
