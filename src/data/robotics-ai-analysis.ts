@@ -26,7 +26,7 @@ export type RoboticsOpportunity = {
 
 export const roboticsAiAnalysis = {
   updatedAt: '2026-10-14',
-  sampleNote: '基于当前仍可访问的单位官网岗位样本归纳，适合用来理解岗位分工，不代表全行业职位数量。',
+  sampleNote: '基于当前仍可访问的单位官网、官方招聘系统及少量招聘平台岗位归纳，适合用来理解岗位分工，不代表全行业职位数量。',
   directions: [
     {
       id: 'vla',
@@ -122,6 +122,27 @@ export const roboticsAiAnalysis = {
       sourceUrl: 'https://imprintx.cn/careers', sourceName: '知行具身官网', internalUrl: '/internships#embodied',
     },
     {
+      id: 'meituan-embodied-model-intern', category: '实习', title: '具身智能大模型算法实习生',
+      organization: '美团', location: '北京', direction: 'VLA / 世界模型 / 强化学习',
+      requirements: '硕士或博士在读；具体到岗时间以招聘页面为准',
+      summary: '研究 VLA、世界模型、多模态对齐、真机模仿学习与强化学习，覆盖移动操作、灵巧操作和全身控制。',
+      sourceUrl: 'https://agechild.com/job/b9a701d46a900e480297cd7d4fa60eff', sourceName: '招聘聚合页（需回源核验）', internalUrl: '/internships#embodied',
+    },
+    {
+      id: 'galaxea-embodied-intern', category: '实习', title: '具身智能算法工程师（27 届实习）',
+      organization: '星海图', location: '深圳', direction: 'VLA / 多模态数据 / 真机验证',
+      requirements: '2027 届在校生；具体专业和到岗要求以官方页面为准',
+      summary: '参与 VLA 多模态数据处理与模型训练，并在机械臂、灵巧手的仿真和真机环境中验证策略。',
+      sourceUrl: 'https://galaxea.zhiye.com/intern/detail?jobAdId=c1627c69-8a5b-4867-878d-ce5caf3e170e', sourceName: '星海图招聘官网', internalUrl: '/internships#embodied',
+    },
+    {
+      id: 'agibot-simulation-test-intern', category: '实习', title: '软件仿真测试实习生',
+      organization: '智元机器人', location: '深圳', direction: '仿真测试 / 运动控制 / SLAM',
+      requirements: '本科及以上应届生；具体到岗要求以官方页面为准',
+      summary: '使用仿真工具和机器人整机测试运动控制、人机交互大模型、PNC 与 SLAM，建设自动化测试和数据分析能力。',
+      sourceUrl: 'https://agirobot.jobs.feishu.cn/internrecruitment/m/position/7664443935624775979/detail', sourceName: '智元机器人招聘官网', internalUrl: '/internships#simulation',
+    },
+    {
       id: 'suat-embodied-postdoc', category: '博士后', title: '具身智能装备技术博士后',
       organization: '深圳理工大学具身智造研究院（筹）', location: '深圳', direction: '具身智能 / 自动化实验室 / AI4Science',
       requirements: '近三年获博士学位、原则上不超过 35 周岁；理工科相关背景',
@@ -162,6 +183,48 @@ export const roboticsAiAnalysis = {
       requirements: '校园招聘；具体学历要求以官方岗位页为准',
       summary: '研究多模态统一具身大模型、强化学习与 SLAM，强调复杂真实环境中的鲁棒性和泛化。',
       sourceUrl: 'https://iflytek.zhiye.com/campus/detail?jobAdId=348e3ed3-a7cf-426d-bda4-59a83d815a2c', sourceName: '科大讯飞招聘官网', internalUrl: '/jobs/586',
+    },
+    {
+      id: 'dahua-vla', category: '企业岗位', title: '具身智能 VLA 算法工程师（J24357）',
+      organization: '大华股份', location: '杭州', direction: 'VLA / 后训练 / 数据闭环',
+      requirements: '硕士及以上；计算机、自动化、人工智能或应用数学等相关专业',
+      summary: '建设数据采集、标注和清洗闭环，开发多模态机器人控制算法，并完成 SFT、强化学习后训练和真机验证。',
+      sourceUrl: 'https://dahua.zhiye.com/social/detail?jobAdId=19b2fd95-244f-45e5-9885-a575354c6c05', sourceName: '大华股份招聘官网', internalUrl: '/jobs/597',
+    },
+    {
+      id: 'galaxea-embodied-campus', category: '企业岗位', title: '具身智能算法工程师（2027 届校招）',
+      organization: '星海图', location: '北京', direction: 'WAM / VLA / 大规模训练',
+      requirements: '硕士及以上；2027 届博士优先，特别优秀的硕士亦可',
+      summary: '参与 WAM 与 VLA 架构、视觉语言动作联合预训练、多模态数据集建设及真机实时推理优化。',
+      sourceUrl: 'https://galaxea.zhiye.com/campus/detail?jobAdId=cbd1e6d0-f11f-46b6-97c3-02cacaad6d2a', sourceName: '星海图招聘官网', internalUrl: '/jobs/598',
+    },
+    {
+      id: 'iflytek-embodied-data', category: '企业岗位', title: 'AI 研究算法工程师（具身智能数据方向）',
+      organization: '科大讯飞', location: '合肥', direction: 'VLA 数据 / 自动标注 / 仿真合成',
+      requirements: '硕士及以上；计算机、人工智能、软件工程等相关专业',
+      summary: '建设具身智能预训练数据集和质量评估体系，研发轨迹、3D 位姿与语言指令自动标注，并生成仿真配对数据。',
+      sourceUrl: 'https://iflytek.zhiye.com/campus/detail?jobAdId=5ca91c1e-5050-4db3-958e-23feef04c74d', sourceName: '科大讯飞招聘官网', internalUrl: '/jobs/600',
+    },
+    {
+      id: 'unitree-vision-model', category: '企业岗位', title: '视觉大模型算法工程师（校招）',
+      organization: '宇树科技', location: '杭州', direction: '视觉大模型 / 3D 视觉 / 端侧部署',
+      requirements: '硕士及以上应届生；计算机视觉、人工智能或计算机等相关专业',
+      summary: '开发和轻量化机器人视觉大模型，建设图文数据集，优化三维视觉能力，并完成端侧部署与真机调试。',
+      sourceUrl: 'https://unitree.zhiye.com/campus/detail?jobAdId=37e315eb-3314-4b35-9680-3876c5d19221', sourceName: '宇树科技招聘官网', internalUrl: '/jobs/601',
+    },
+    {
+      id: 'world51-embodied-hardware', category: '企业岗位', title: '具身智能硬件工程师',
+      organization: '51WORLD', location: '上海', direction: '机器人本体 / 传感器 / Sim2Real',
+      requirements: '本科及以上；计算机、自动化、机器人或电子工程等相关专业',
+      summary: '负责机器人本体选型和多传感器集成，开发连接仿真与真实硬件的 Bridge SDK，支持真实场景部署。',
+      sourceUrl: 'https://51world.zhiye.com/social/jobs', sourceName: '51WORLD 招聘官网', internalUrl: '/jobs/603',
+    },
+    {
+      id: 'xpeng-dexterous-manipulation', category: '企业岗位', title: '具身智能灵巧操作算法工程师 / 专家',
+      organization: '小鹏汽车', location: '深圳 / 北京 / 上海', direction: '灵巧操作 / 力控 / 仿真',
+      requirements: '本科及以上；具备灵巧手或机器人操作研发经验',
+      summary: '面向人形机器人灵巧手开发遥操作、力控和强化学习算法，并搭建运动学、动力学、传感器和物理交互仿真环境。',
+      sourceUrl: 'https://xiaopeng.jobs.feishu.cn/index/position/7540231825995712831/detail', sourceName: '小鹏集团招聘官网', internalUrl: '/jobs/604',
     },
     {
       id: 'imprintx-physics-engine', category: '企业岗位', title: '物理引擎开发工程师（机器人触觉仿真）',

@@ -1,16 +1,17 @@
 import type { Metadata } from 'next';
-import { Atom, Bot, BookOpen, Building2, Dna, ExternalLink, FlaskConical, HeartPulse, MapPin } from 'lucide-react';
+import { Atom, Bot, BookOpen, Building2, Dna, ExternalLink, FlaskConical, HeartPulse, MapPin, Newspaper } from 'lucide-react';
 import { internshipListings, internshipTracks } from '@/data/internship-listings';
 
 export const metadata: Metadata = {
   title: '交叉领域实习岗位 | 交点 Careers',
-  description: '汇总 AI4S、医疗与生物学 AI、具身智能、科技伦理与仿真算法方向的研究院和企业实习岗位线索。',
+  description: '汇总 AI4S、医疗与生物学 AI、人文科技内容与数据、具身智能、科技伦理与仿真算法方向的实习线索。',
 };
 
 const trackIcons = {
   ai4s: FlaskConical,
   medical: HeartPulse,
   bio: Dna,
+  humanities_tech: Newspaper,
   embodied: Bot,
   philosophy_ethics: BookOpen,
   simulation: Atom,
@@ -23,7 +24,7 @@ export default function InternshipsPage() {
         <p className="text-sm font-medium text-brand">研究院 · 高校课题组 · 科技企业 · 公益机构</p>
         <h1 className="mt-2 text-3xl font-semibold tracking-tight text-text-primary sm:text-4xl">交叉领域实习岗位</h1>
         <p className="mt-4 max-w-3xl text-base leading-7 text-text-secondary">
-          聚焦 AI 与具体学科、科研或真实世界任务结合的实习机会。这里包含算法研究、科学智能产品、机器人研发、科技伦理与治理岗位，适合不同专业背景寻找交叉切入点。
+          聚焦 AI 与具体学科、科研或真实世界任务结合的实习机会。这里包含数据分析、科技文案、学术编辑、算法研究、机器人研发和科技伦理与治理岗位，适合不同专业背景寻找交叉切入点。
         </p>
       </section>
 
