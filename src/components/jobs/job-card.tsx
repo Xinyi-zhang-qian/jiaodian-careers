@@ -18,25 +18,25 @@ export default function JobCard({ job }: { job: Job }) {
               <span className="rounded-md bg-accent/10 px-2 py-0.5 text-xs font-medium text-accent">{listingKind}</span>
             )}
             {job.verification_level && (
-              <span className="rounded-md bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">{job.verification_level}</span>
+              <span className={`rounded-md px-2 py-0.5 text-xs font-medium ${job.verification_level === '待核实' ? 'bg-yellow-100 text-yellow-800' : 'bg-emerald-50 text-emerald-700'}`}>{job.verification_level}</span>
             )}
             <Link href={`/jobs/${job.id}`} className="text-lg font-medium text-text-primary hover:text-brand transition-colors">
               {job.title}
             </Link>
           </div>
           <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-text-secondary">
-            {job.verification_level !== '来源核验' && <span className="flex items-center gap-1">
+            <span className="flex items-center gap-1">
               <Building2 className="w-3.5 h-3.5" />
               {job.organization}
-            </span>}
+            </span>
             <span className="flex items-center gap-1">
               <MapPin className="w-3.5 h-3.5" />
-              {job.city || job.province || '地点见来源'}
+              {job.city || job.province || '地区待核实'}
             </span>
-            <span className="flex items-center gap-1">
+            {job.verification_level === '逐字段核验' && <span className="flex items-center gap-1">
               <Building className="w-3.5 h-3.5" />
               {job.org_type}
-            </span>
+            </span>}
           </div>
         </div>
 
@@ -82,7 +82,7 @@ export default function JobCard({ job }: { job: Job }) {
           {job.salary && (
             <span className="text-brand-dark font-medium">{job.salary}</span>
           )}
-          {!job.salary && <span className="text-text-secondary/60">薪资未公开</span>}
+          {!job.salary && <span className="text-text-secondary/60">{job.verification_level === '逐字段核验' ? '薪资未公开' : '薪资待核实'}</span>}
           {job.recruit_type && (
             <span className={`px-2 py-0.5 rounded text-xs font-medium ${
               job.recruit_type === '校招' ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700'

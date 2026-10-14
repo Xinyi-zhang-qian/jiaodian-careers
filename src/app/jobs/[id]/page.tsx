@@ -38,14 +38,14 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
             )}
             <h1 className="text-2xl lg:text-[32px] font-semibold text-text-primary">{job.title}</h1>
             <div className="mt-3 flex flex-wrap items-center gap-4 text-sm text-text-secondary">
-              {(job.location || job.province || job.city) && <span className="flex items-center gap-1.5">
+              <span className="flex items-center gap-1.5">
                 <Building2 className="w-4 h-4" />
                 {job.organization}
-              </span>}
-              <span className="flex items-center gap-1.5">
+              </span>
+              {(job.location || job.province || job.city) && <span className="flex items-center gap-1.5">
                 <MapPin className="w-4 h-4" />
                 {job.location || `${job.province} ${job.city}`}
-              </span>
+              </span>}
               <span className={`px-2.5 py-1 rounded-lg text-xs font-medium ${
                 job.status === '招聘中' ? 'bg-brand/10 text-brand-dark' :
                 job.status === '已截止' ? 'bg-text-secondary/10 text-text-secondary' :
@@ -89,6 +89,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
           </section>}
 
           {job.verification_level === '来源核验' && <section className="rounded-2xl border border-yellow-200 bg-yellow-50 p-4 text-sm leading-6 text-yellow-900">已核对来源页面中的岗位名称与单位；薪资、学历、专业、职责和招聘状态不在本站转述，请以原页面为准。</section>}
+          {job.verification_level === '待核实' && <section className="rounded-2xl border border-yellow-200 bg-yellow-50 p-4 text-sm leading-6 text-yellow-900">历史招聘线索，尚未核对来源页面。岗位名称、单位及链接也可能有误；本页不展示未经核实的条件信息，请打开来源自行确认。</section>}
 
           {job.source_evidence && job.source_evidence.length > 0 && (
             <section>
@@ -165,8 +166,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
             <h2 className="text-sm font-medium text-text-secondary mb-2">信息来源与核验</h2>
             <div className="text-sm text-text-secondary space-y-1">
               <p>来源：{job.source_name}（{job.source_type}）</p>
-              <p>获取时间：{new Date(job.fetched_at).toLocaleDateString('zh-CN')}</p>
-              <p>最后核验：{new Date(job.last_verified).toLocaleDateString('zh-CN')}</p>
+              {job.verification_level !== '待核实' && <><p>获取时间：{new Date(job.fetched_at).toLocaleDateString('zh-CN')}</p><p>最后核验：{new Date(job.last_verified).toLocaleDateString('zh-CN')}</p></>}
               {job.source_title && <p>来源页标题：{job.source_title}</p>}
               {job.verification_level && <p>核验：{job.verification_level}</p>}
               <a href={job.source_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 mt-2 text-brand hover:text-brand-dark transition-colors">
@@ -186,13 +186,13 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
             <div className="space-y-3 text-sm">
               {job.education && <InfoRow icon={<GraduationCap className="w-4 h-4" />} label="学历" value={job.education} />}
               {(job.city || job.province) && <InfoRow icon={<MapPin className="w-4 h-4" />} label="地点" value={job.city || job.province} />}
-              {job.verification_level !== '来源核验' && <InfoRow icon={<Building2 className="w-4 h-4" />} label="类型" value={job.org_type} />}
+              {job.verification_level === '逐字段核验' && <InfoRow icon={<Building2 className="w-4 h-4" />} label="类型" value={job.org_type} />}
               {job.published_at && <InfoRow icon={<Calendar className="w-4 h-4" />} label="发布" value={new Date(job.published_at).toLocaleDateString('zh-CN')} />}
               {job.deadline && <InfoRow icon={<Calendar className="w-4 h-4" />} label="截止" value={new Date(job.deadline).toLocaleDateString('zh-CN')} />}
               {job.salary && <InfoRow label="薪资" value={job.salary} highlight />}
             </div>
 
-            <div className="pt-4 border-t border-border">
+            {job.verification_level === '逐字段核验' && <div className="pt-4 border-t border-border">
               <h3 className="text-sm font-medium text-text-primary mb-2">为什么与你的背景相关</h3>
               <div className="text-xs text-text-secondary leading-relaxed space-y-1">
                 {job.original_major_requirements.includes('哲学') && <p>• 公告明确要求哲学或相关人文社科背景</p>}
@@ -204,7 +204,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
                 )}
                 <p className="text-text-secondary/60 mt-2">注：相关性仅基于公告内容与已选学科，不构成录用资格保证</p>
               </div>
-            </div>
+            </div>}
 
             {job.is_demo && (
               <div className="pt-3 border-t border-border text-xs text-demo font-medium text-center">※ 本条为演示数据</div>

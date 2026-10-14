@@ -27,8 +27,11 @@ async function main() {
     if (ids.has(job.id)) errors.push(`ID ${job.id}: duplicate id`);
     ids.add(job.id);
     if (!job.verification_level) errors.push(`ID ${job.id}: missing verification_level`);
-    if (!job.source_title?.trim()) errors.push(`ID ${job.id}: missing source_title`);
-    if (!job.source_evidence?.length) errors.push(`ID ${job.id}: missing source_evidence`);
+    if (job.verification_level !== '待核实' && !job.source_title?.trim()) errors.push(`ID ${job.id}: missing source_title`);
+    if (job.verification_level !== '待核实' && !job.source_evidence?.length) errors.push(`ID ${job.id}: missing source_evidence`);
+    if (job.verification_level === '待核实' && (job.source_evidence?.length || job.original_major_requirements || job.education || job.experience || job.salary || job.responsibilities || job.deadline)) {
+      errors.push(`ID ${job.id}: unverified listing contains unverified condition fields`);
+    }
     if (job.verification_level === '逐字段核验' && !job.source_url.startsWith('https://')) errors.push(`ID ${job.id}: source_url must use HTTPS`);
     if (job.is_demo) errors.push(`ID ${job.id}: verified dataset cannot contain demo data`);
 

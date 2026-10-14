@@ -235,6 +235,10 @@ function JobsContent() {
             </select>
           </div>
 
+          <div className="mb-4 rounded-xl border border-yellow-200 bg-yellow-50 px-4 py-3 text-sm leading-6 text-yellow-900">
+            列表包含历史岗位线索：标注“待核实”的记录仅用于补充检索，岗位名称、单位、来源和招聘状态均可能有误；不展示其未核实条件，请以来源页面为准。
+          </div>
+
           {jobs.length === 0 ? (
             <div className="py-16 text-center text-text-secondary">
               <p className="text-lg">没有找到匹配的岗位</p>
