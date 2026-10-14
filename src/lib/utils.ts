@@ -20,3 +20,19 @@ export const ORG_TYPES = ['高校', '科研院所', '企业', '事业单位', '�
 export const JOB_TYPES = ['科研', '教学', '工程', '产品', '政策研究', '产业研究', '管理'] as const;
 export const EDUCATION_LEVELS = ['本科', '硕士', '博士'] as const;
 export const JOB_STATUSES = ['招聘中', '已截止', '状态待核实'] as const;
+
+export type ListingKind = '具体岗位' | '招聘项目' | '招聘公告';
+
+export function getListingKind(title: string): ListingKind {
+  if (/校招|校园招聘|管理培训生|人才计划|顶尖人才计划/.test(title)) {
+    return '招聘项目';
+  }
+
+  if (
+    /公开招聘|统一公开招聘|集中公开招聘|年度招聘|招聘工作人员|招聘专业技术|招聘专技|事业单位自主招聘|高层次专业技术人才招聘|^20\d{2}招聘/.test(title)
+  ) {
+    return '招聘公告';
+  }
+
+  return '具体岗位';
+}

@@ -25,7 +25,7 @@ export interface InternshipListing {
   sourceName?: string;
 }
 
-// Public recruitment-page snapshots collected on 2026-10-13. Treat these as
+// Public recruitment-page snapshots collected through 2026-10-14. Treat these as
 // leads: openings, pay, and requirements can change or close at any time.
 export const internshipListings: InternshipListing[] = [
   {
@@ -118,6 +118,20 @@ export const internshipListings: InternshipListing[] = [
     pay: '300–350 元/天', education: '本科',
     summary: '面向轮式人形机器人的移动、交互和操作任务，参与 VLA / WAM 模型研发、训练与评测。',
     sourceUrl: 'https://m.zhipin.com/zhaopin/b4b730a4386f0129331y3di4/', capturedAt: '2026-10-13',
+  },
+  {
+    id: 'tsinghua-air-embodied-research', track: 'embodied', title: '具身智能科研实习生',
+    organization: '清华大学智能产业研究院（AIR）', organizationType: '高校研究院', location: '北京·海淀',
+    pay: '以招聘方确认为准', education: '本硕博在读', cohort: '每周不少于 4 天，连续不少于 6 个月',
+    summary: '开展具身智能模型架构及建模机制研究，岗位明确提到 Diffusion、Flow Matching、强化学习以及灵巧操作 VLA / WAM。',
+    sourceUrl: 'https://air.tsinghua.edu.cn/info/1030/2541.htm', capturedAt: '2026-10-14', sourceName: '清华大学 AIR 官网',
+  },
+  {
+    id: 'imprintx-dexterous-retargeting', track: 'embodied', title: '机器人操作算法实习生（人手—灵巧手重定向）',
+    organization: '知行具身 ImprintX', organizationType: '具身智能企业', location: '北京·海淀',
+    pay: '面议', education: '硕士或博士在读', cohort: '每周 4 天，至少 3 个月',
+    summary: '参与人手到灵巧手重定向与触觉增强模仿学习，把人类操作数据转化为真实机器人可复现、可学习的灵巧行为。',
+    sourceUrl: 'https://imprintx.cn/careers', capturedAt: '2026-10-14', sourceName: '知行具身官网',
   },
   {
     id: 'pku-embodied-research-assistant', track: 'embodied', title: '具身智能科研助理实习生',

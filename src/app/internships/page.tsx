@@ -47,7 +47,7 @@ export default function InternshipsPage() {
       <section className="rounded-2xl border border-brand/20 bg-brand/5 px-5 py-4 text-sm leading-6 text-text-secondary">
         <p className="font-medium text-text-primary">招聘状态提示</p>
         <p className="mt-1">
-          以下线索来自招聘单位官网、高校就业平台与公开招聘平台，检索日期为 2026-10-13。职位可能关闭或调整，部分页面需登录；投递前请点开来源核对岗位状态、薪酬、地点和要求。页面摘要仅用于发现机会，不构成招聘承诺。
+          以下线索来自招聘单位官网、高校就业平台与公开招聘平台，最近更新于 2026-10-14。职位可能关闭或调整，部分页面需登录；投递前请点开来源核对岗位状态、薪酬、地点和要求。页面摘要仅用于发现机会，不构成招聘承诺。
         </p>
       </section>
 

@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ExternalLink, MapPin, Building2, Calendar, GraduationCap, ArrowLeft } from 'lucide-react';
 import { getJob, getJobIds } from '@/lib/data';
+import { getListingKind } from '@/lib/utils';
 
 export function generateStaticParams() {
   return getJobIds().map((id) => ({ id: String(id) }));
@@ -19,6 +20,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
   const { id } = await params;
   const job = getJob(parseInt(id));
   if (!job) notFound();
+  const listingKind = getListingKind(job.title);
 
   return (
     <div>
@@ -31,6 +33,9 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
         {/* Left: Main Content */}
         <div className="lg:col-span-2 space-y-6">
           <div>
+            {listingKind !== '具体岗位' && (
+              <div className="mb-3 inline-flex rounded-md bg-accent/10 px-2.5 py-1 text-xs font-medium text-accent">{listingKind}</div>
+            )}
             <h1 className="text-2xl lg:text-[32px] font-semibold text-text-primary">{job.title}</h1>
             <div className="mt-3 flex flex-wrap items-center gap-4 text-sm text-text-secondary">
               <span className="flex items-center gap-1.5">
@@ -50,6 +55,12 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
               </span>
             </div>
           </div>
+
+          {listingKind !== '具体岗位' && (
+            <section className="rounded-2xl border border-accent/20 bg-accent/5 p-4 text-sm leading-6 text-text-secondary">
+              本条是{listingKind}级线索，不代表一个单独职位。具体岗位名称、名额和申请条件请以来源页的职位表或投递系统为准。
+            </section>
+          )}
 
           <section className="p-5 rounded-2xl border border-brand/20 bg-brand/5">
             <h2 className="text-lg font-semibold text-brand-dark mb-3">专业与学历要求</h2>

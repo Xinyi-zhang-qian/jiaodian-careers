@@ -4,7 +4,7 @@ export default function Header() {
   return (
     <header className="border-b border-border bg-surface">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex flex-col gap-3 py-3 sm:h-16 sm:flex-row sm:items-center sm:justify-between sm:py-0">
           <Link href="/" className="flex items-center gap-2 group">
             <span className="relative text-xl font-semibold text-text-primary tracking-tight transition-colors group-hover:text-brand">
               <span className="relative z-10">交点</span>
@@ -14,8 +14,9 @@ export default function Header() {
               Careers
             </span>
           </Link>
-          <nav className="flex items-center gap-1 text-[10px] text-text-secondary sm:gap-6 sm:text-sm">
+          <nav className="flex items-center justify-between gap-2 overflow-x-auto whitespace-nowrap text-[11px] text-text-secondary sm:justify-start sm:gap-6 sm:text-sm">
             <Link href="/jobs" className="hover:text-brand transition-colors">探索岗位</Link>
+            <Link href="/analysis" className="hover:text-brand transition-colors">方向分析</Link>
             <Link href="/market" className="hover:text-brand transition-colors">市场观察</Link>
             <Link href="/internships" className="hover:text-brand transition-colors">实习岗位</Link>
             <Link href="/directions" className="hover:text-brand transition-colors">交叉方向</Link>

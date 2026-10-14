@@ -2,18 +2,25 @@ import Link from 'next/link';
 import { ExternalLink, Heart, MapPin, Building2, Calendar, Building } from 'lucide-react';
 import { Job } from '@/lib/types';
 import { useFavorites } from '@/lib/use-favorites';
+import { getListingKind } from '@/lib/utils';
 
 export default function JobCard({ job }: { job: Job }) {
   const { isFavorited, toggleFavorite } = useFavorites();
   const favorited = isFavorited(job.id);
+  const listingKind = getListingKind(job.title);
 
   return (
     <article className="p-5 rounded-2xl border border-border bg-surface hover:shadow-lg hover:border-brand/30 transition-all group">
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1 min-w-0">
-          <Link href={`/jobs/${job.id}`} className="text-lg font-medium text-text-primary hover:text-brand transition-colors">
-            {job.title}
-          </Link>
+          <div className="flex flex-wrap items-center gap-2">
+            {listingKind !== '具体岗位' && (
+              <span className="rounded-md bg-accent/10 px-2 py-0.5 text-xs font-medium text-accent">{listingKind}</span>
+            )}
+            <Link href={`/jobs/${job.id}`} className="text-lg font-medium text-text-primary hover:text-brand transition-colors">
+              {job.title}
+            </Link>
+          </div>
           <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-text-secondary">
             <span className="flex items-center gap-1">
               <Building2 className="w-3.5 h-3.5" />
