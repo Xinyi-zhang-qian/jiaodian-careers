@@ -215,7 +215,7 @@ export default function HomePage() {
             <p className="font-medium text-text-primary mb-2">核验规则</p>
             <ul className="space-y-1.5 list-disc list-inside">
               <li>岗位详情保留来源页标题、原文证据、核验日期和原始链接</li>
-              <li>未逐字段核验的岗位不进入主岗位列表</li>
+              <li>来源核验仅确认标题与单位；完整条件以原公告为准</li>
               <li>平台标签与招聘单位原文分开标注</li>
               <li>招聘公告可能变更或截止，申请前请回到来源页面确认</li>
             </ul>

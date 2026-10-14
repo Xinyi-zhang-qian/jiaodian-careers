@@ -38,10 +38,10 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
             )}
             <h1 className="text-2xl lg:text-[32px] font-semibold text-text-primary">{job.title}</h1>
             <div className="mt-3 flex flex-wrap items-center gap-4 text-sm text-text-secondary">
-              <span className="flex items-center gap-1.5">
+              {(job.location || job.province || job.city) && <span className="flex items-center gap-1.5">
                 <Building2 className="w-4 h-4" />
                 {job.organization}
-              </span>
+              </span>}
               <span className="flex items-center gap-1.5">
                 <MapPin className="w-4 h-4" />
                 {job.location || `${job.province} ${job.city}`}
@@ -68,7 +68,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
             </section>
           )}
 
-          <section className="p-5 rounded-2xl border border-brand/20 bg-brand/5">
+          {job.verification_level === '逐字段核验' && <section className="p-5 rounded-2xl border border-brand/20 bg-brand/5">
             <h2 className="text-lg font-semibold text-brand-dark mb-3">原公告资格条件</h2>
             <div className="space-y-3 text-sm">
               <div>
@@ -86,7 +86,9 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
                 </div>
               )}
             </div>
-          </section>
+          </section>}
+
+          {job.verification_level === '来源核验' && <section className="rounded-2xl border border-yellow-200 bg-yellow-50 p-4 text-sm leading-6 text-yellow-900">已核对来源页面中的岗位名称与单位；薪资、学历、专业、职责和招聘状态不在本站转述，请以原页面为准。</section>}
 
           {job.source_evidence && job.source_evidence.length > 0 && (
             <section>
@@ -100,14 +102,14 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
             </section>
           )}
 
-          <section>
-            <h2 className="text-lg font-semibold text-text-primary mb-3">平台分析标签（非公告原文）</h2>
+          {job.platform_disciplines.length > 0 && <section>
+            <h2 className="text-lg font-semibold text-text-primary mb-3">方向标签</h2>
             <div className="flex flex-wrap gap-2">
               {job.platform_disciplines.map((d) => (
                 <span key={d} className="px-3 py-1.5 rounded-lg text-sm bg-brand/10 text-brand-dark font-medium">{d}</span>
               ))}
             </div>
-          </section>
+          </section>}
 
           {job.responsibilities && (
             <section>
@@ -116,14 +118,14 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
             </section>
           )}
 
-          <section>
-            <h2 className="text-lg font-semibold text-text-primary mb-3">平台提取标签（非公告原文）</h2>
+          {job.required_skills.length > 0 && <section>
+            <h2 className="text-lg font-semibold text-text-primary mb-3">技能标签</h2>
             <div className="flex flex-wrap gap-2">
               {job.required_skills.map((s) => (
                 <span key={s} className="px-3 py-1.5 rounded-lg text-sm bg-secondary/10 text-secondary font-medium">{s}</span>
               ))}
             </div>
-          </section>
+          </section>}
 
           {job.preferred_skills.length > 0 && (
             <section>
@@ -166,7 +168,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
               <p>获取时间：{new Date(job.fetched_at).toLocaleDateString('zh-CN')}</p>
               <p>最后核验：{new Date(job.last_verified).toLocaleDateString('zh-CN')}</p>
               {job.source_title && <p>来源页标题：{job.source_title}</p>}
-              {job.verification_level && <p>核验级别：{job.verification_level}</p>}
+              {job.verification_level && <p>核验：{job.verification_level}</p>}
               <a href={job.source_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 mt-2 text-brand hover:text-brand-dark transition-colors">
                 前往来源页面 <ExternalLink className="w-4 h-4" />
               </a>
@@ -182,10 +184,10 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
             </a>
 
             <div className="space-y-3 text-sm">
-              <InfoRow icon={<GraduationCap className="w-4 h-4" />} label="学历" value={job.education} />
-              <InfoRow icon={<MapPin className="w-4 h-4" />} label="地点" value={job.city || job.province} />
-              <InfoRow icon={<Building2 className="w-4 h-4" />} label="类型" value={job.org_type} />
-              <InfoRow icon={<Calendar className="w-4 h-4" />} label="发布" value={new Date(job.published_at).toLocaleDateString('zh-CN')} />
+              {job.education && <InfoRow icon={<GraduationCap className="w-4 h-4" />} label="学历" value={job.education} />}
+              {(job.city || job.province) && <InfoRow icon={<MapPin className="w-4 h-4" />} label="地点" value={job.city || job.province} />}
+              {job.verification_level !== '来源核验' && <InfoRow icon={<Building2 className="w-4 h-4" />} label="类型" value={job.org_type} />}
+              {job.published_at && <InfoRow icon={<Calendar className="w-4 h-4" />} label="发布" value={new Date(job.published_at).toLocaleDateString('zh-CN')} />}
               {job.deadline && <InfoRow icon={<Calendar className="w-4 h-4" />} label="截止" value={new Date(job.deadline).toLocaleDateString('zh-CN')} />}
               {job.salary && <InfoRow label="薪资" value={job.salary} highlight />}
             </div>

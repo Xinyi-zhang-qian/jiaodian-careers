@@ -17,21 +17,21 @@ export default function JobCard({ job }: { job: Job }) {
             {listingKind !== '具体岗位' && (
               <span className="rounded-md bg-accent/10 px-2 py-0.5 text-xs font-medium text-accent">{listingKind}</span>
             )}
-            {job.verification_level === '逐字段核验' && (
-              <span className="rounded-md bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">逐字段核验</span>
+            {job.verification_level && (
+              <span className="rounded-md bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">{job.verification_level}</span>
             )}
             <Link href={`/jobs/${job.id}`} className="text-lg font-medium text-text-primary hover:text-brand transition-colors">
               {job.title}
             </Link>
           </div>
           <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-text-secondary">
-            <span className="flex items-center gap-1">
+            {job.verification_level !== '来源核验' && <span className="flex items-center gap-1">
               <Building2 className="w-3.5 h-3.5" />
               {job.organization}
-            </span>
+            </span>}
             <span className="flex items-center gap-1">
               <MapPin className="w-3.5 h-3.5" />
-              {job.city || job.province}
+              {job.city || job.province || '地点见来源'}
             </span>
             <span className="flex items-center gap-1">
               <Building className="w-3.5 h-3.5" />
@@ -52,9 +52,9 @@ export default function JobCard({ job }: { job: Job }) {
       </div>
 
       {/* Professional Requirements */}
-      <div className="mt-4 p-3 rounded-xl bg-brand/5 border border-brand/20">
+      {!!(job.original_major_requirements || job.platform_disciplines.length || job.required_skills.length) && <div className="mt-4 p-3 rounded-xl bg-brand/5 border border-brand/20">
         <p className="text-sm text-text-primary">
-          <span className="font-medium text-brand-dark">原公告资格条件：</span>
+          {job.original_major_requirements && <span className="font-medium text-brand-dark">原公告资格条件：</span>}
           {job.original_major_requirements}
         </p>
         <div className="mt-2 flex flex-wrap gap-1.5">
@@ -69,14 +69,14 @@ export default function JobCard({ job }: { job: Job }) {
             </span>
           ))}
         </div>
-      </div>
+      </div>}
 
       {/* Footer info */}
       <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-sm">
         <div className="flex flex-wrap gap-4 text-text-secondary">
           <span className="flex items-center gap-1">
             <Calendar className="w-3.5 h-3.5" />
-            {job.education}
+            {job.education || '条件见来源'}
             {job.experience && job.experience !== '不限' && ` · ${job.experience}`}
           </span>
           {job.salary && (
@@ -93,7 +93,7 @@ export default function JobCard({ job }: { job: Job }) {
         </div>
 
         <div className="flex items-center gap-3 text-xs text-text-secondary">
-          <span>发布 {new Date(job.published_at).toLocaleDateString('zh-CN')}</span>
+          {job.published_at && <span>发布 {new Date(job.published_at).toLocaleDateString('zh-CN')}</span>}
           {job.deadline && (
             <span className="text-accent">截止 {new Date(job.deadline).toLocaleDateString('zh-CN')}</span>
           )}

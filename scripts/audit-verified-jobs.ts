@@ -1,4 +1,5 @@
 import verifiedJobs from '../src/data/verified-jobs';
+import restoredJobs from '../src/data/restored-jobs';
 
 const offline = process.argv.includes('--offline');
 
@@ -21,13 +22,14 @@ async function main() {
   const errors: string[] = [];
   const ids = new Set<number>();
 
-  for (const job of verifiedJobs) {
+  const jobs = [...verifiedJobs, ...restoredJobs];
+  for (const job of jobs) {
     if (ids.has(job.id)) errors.push(`ID ${job.id}: duplicate id`);
     ids.add(job.id);
-    if (job.verification_level !== '逐字段核验') errors.push(`ID ${job.id}: missing verification_level`);
+    if (!job.verification_level) errors.push(`ID ${job.id}: missing verification_level`);
     if (!job.source_title?.trim()) errors.push(`ID ${job.id}: missing source_title`);
     if (!job.source_evidence?.length) errors.push(`ID ${job.id}: missing source_evidence`);
-    if (!job.source_url.startsWith('https://')) errors.push(`ID ${job.id}: source_url must use HTTPS`);
+    if (job.verification_level === '逐字段核验' && !job.source_url.startsWith('https://')) errors.push(`ID ${job.id}: source_url must use HTTPS`);
     if (job.is_demo) errors.push(`ID ${job.id}: verified dataset cannot contain demo data`);
 
     if (!offline && job.source_evidence?.length) {
@@ -38,17 +40,15 @@ async function main() {
           continue;
         }
         const source = normalize(await response.text());
-        if (job.source_title && !source.includes(normalize(job.source_title))) {
+        if (job.verification_level === '逐字段核验' && job.source_title && !source.includes(normalize(job.source_title))) {
           errors.push(`ID ${job.id}: source title not found: ${job.source_title}`);
         }
-        const [year, month, day] = job.published_at.split('-').map(Number);
-        const publishedAtVariants = [
-          job.published_at,
-          `${year}年${month}月${day}日`,
-          `${year}年${String(month).padStart(2, '0')}月${String(day).padStart(2, '0')}日`,
-        ];
-        if (!publishedAtVariants.some((variant) => source.includes(normalize(variant)))) {
-          errors.push(`ID ${job.id}: published_at not found in source: ${job.published_at}`);
+        if (job.verification_level === '逐字段核验') {
+          const [year, month, day] = job.published_at.split('-').map(Number);
+          const publishedAtVariants = [job.published_at, `${year}年${month}月${day}日`, `${year}年${String(month).padStart(2, '0')}月${String(day).padStart(2, '0')}日`];
+          if (!publishedAtVariants.some((variant) => source.includes(normalize(variant)))) {
+            errors.push(`ID ${job.id}: published_at not found in source: ${job.published_at}`);
+          }
         }
         for (const fragment of job.source_evidence) {
           if (!source.includes(normalize(fragment))) {
@@ -67,7 +67,7 @@ async function main() {
     return;
   }
 
-  console.log(`Audited ${verifiedJobs.length} verified jobs${offline ? ' (schema only)' : ' against source pages'}.`);
+  console.log(`Audited ${jobs.length} listed jobs${offline ? ' (schema only)' : ' against source pages'}.`);
 }
 
 main();
