@@ -13,7 +13,7 @@
 - 交叉方向浏览与本地收藏
 - 机器人与 AI 岗位方向分析：比较 VLA、仿真、感知、控制、数据评测等七类方向
 - AI4S、医疗 × AI、生物学 × AI、人文科技内容与数据、具身智能、科技伦理与仿真算法实习专题（附来源和核验提示）
-- 市场观察：BOSS直聘、猎聘等平台的职位快照，机器人仿真、VLA、规划控制等方向的样本占比可视化，以及多个平台的实时检索入口
+- 市场观察：招聘平台职位快照、人才趋势和独立的全国机器人岗位需求专题；机器人专题由脚本生成方向占比、城市分布、薪资公开率、技能频次及可筛选岗位明细
 - 人文社科岗位：科学技术哲学、科学技术史、哲学教学科研与学术编辑等方向
 - 静态网站导出，可部署到静态托管服务
 
@@ -38,6 +38,14 @@ npm run dev
 
 打开 http://localhost:3000。
 
+更新机器人市场样本时运行：
+
+```bash
+npm run collect:robotics
+```
+
+脚本会读取已核验的机器人岗位、补充公开来源样本，检查来源页面可访问性，按单位、岗位名称和城市去重，并生成页面数据以及位于 `public/data/` 的可下载 JSON、CSV。若只需用本地来源重建数据而不访问网页，可运行 `npm run collect:robotics:offline`。
+
 ## 构建静态站点
 
 ```bash
@@ -50,6 +58,9 @@ npm run build
 
 - 岗位数据：`src/data/real-jobs.ts`
 - 招聘平台快照和市场趋势：`src/data/platform-sources.ts`
+- 机器人市场采集脚本：`scripts/collect-robotics-market.ts`
+- 机器人市场生成数据：`src/data/generated/robotics-market.json`
+- 机器人市场分析与分类逻辑：`src/lib/robotics-market.ts`
 - 交叉领域实习线索：`src/data/internship-listings.ts`
 - 机器人与 AI 分析数据：`src/data/robotics-ai-analysis.ts`
 - 页面：`src/app/`

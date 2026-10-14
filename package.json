@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "collect:robotics": "tsx scripts/collect-robotics-market.ts",
+    "collect:robotics:offline": "tsx scripts/collect-robotics-market.ts --offline"
   },
   "dependencies": {
     "lucide-react": "^1.55.0",
