@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowLeft, BarChart3, Building2, CalendarDays, Download, ExternalLink, MapPin, WalletCards } from 'lucide-react';
+import { AlertTriangle, ArrowLeft, BarChart3, Building2, CalendarDays, Download, ExternalLink, MapPin, WalletCards } from 'lucide-react';
 import RoboticsJobTable from '@/components/market/robotics-job-table';
 import marketData from '@/data/generated/robotics-market.json';
 import { analyzeRoboticsMarket, type RoboticsMarketDataset } from '@/lib/robotics-market';
 
 export const metadata: Metadata = {
-  title: '全国机器人岗位需求分析 | 交点 Careers',
-  description: '基于企业官网、官方招聘系统和招聘平台公开岗位，分析机器人仿真、VLA、规划控制、感知、数据与系统岗位需求。',
+  title: '全国机器人正式岗位样本分析 | 交点 Careers',
+  description: '基于 BOSS 直聘、猎聘与官方招聘页公开的正式岗位样本，不含实习，分析机器人仿真、VLA、规划控制、感知、数据与系统岗位需求。',
 };
 
 const dataset = marketData as RoboticsMarketDataset;
@@ -28,21 +28,33 @@ export default function RoboticsMarketPage() {
         </Link>
         <div className="mt-5 flex items-center gap-2 text-sm font-medium text-brand-dark">
           <BarChart3 className="h-4 w-4" />
-          <span>机器人岗位需求专题 · 全国公开样本</span>
+          <span>机器人岗位需求专题 · 正式岗位 · 不含实习</span>
         </div>
         <h1 className="mt-3 text-3xl font-semibold tracking-tight text-text-primary sm:text-4xl">机器人岗位需求分析</h1>
         <p className="mt-4 max-w-4xl text-base leading-7 text-text-secondary">
-          汇总企业官网、官方招聘系统、高校研究机构和招聘平台的公开职位，统一提取岗位名称、城市、薪资、学历、经验与技能要求，再比较 VLA、仿真、规划控制、感知、数据评测和机器人系统等具体方向。
+          汇总 BOSS 直聘、猎聘、企业官网、官方招聘系统和高校研究机构的公开正式职位，统一提取岗位名称、城市、薪资、学历、经验与技能要求，再比较 VLA、仿真、规划控制、感知、数据评测和机器人系统等方向。所有实习岗位均已排除。
         </p>
         <p className="mt-3 flex items-center gap-1.5 text-xs text-text-secondary">
           <CalendarDays className="h-3.5 w-3.5" /> 数据生成于 {dataset.generatedAt}；职位状态和待遇请以来源页为准
         </p>
       </section>
 
+      <section className="rounded-2xl border border-amber-200 bg-amber-50 p-5 sm:p-6">
+        <div className="flex gap-3">
+          <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-amber-700" />
+          <div>
+            <h2 className="font-semibold text-amber-950">这不是“全国只有 {analysis.total} 个岗位”</h2>
+            <p className="mt-2 text-sm leading-6 text-amber-900/80">
+              {analysis.total} 是脚本当前能回溯到公开来源的去重正式岗位样本数。招聘平台的结果会因登录、地区、个性化推荐与岗位下架而变化，公开页未稳定提供可复核的全国总数，因此不伪造“全量”数字。
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <div className="rounded-2xl border border-border bg-surface p-5">
           <p className="text-3xl font-semibold text-text-primary">{analysis.total}</p>
-          <p className="mt-2 text-sm text-text-secondary">去重岗位样本</p>
+          <p className="mt-2 text-sm text-text-secondary">去重正式岗位样本</p>
         </div>
         <div className="rounded-2xl border border-border bg-surface p-5">
           <div className="flex items-center justify-between"><p className="text-3xl font-semibold text-text-primary">{analysis.organizationCount}</p><Building2 className="h-5 w-5 text-brand" /></div>
@@ -94,7 +106,7 @@ export default function RoboticsMarketPage() {
           <div className="rounded-2xl border border-brand/20 bg-brand/5 p-6">
             <p className="text-sm font-semibold text-brand-dark">当前样本结论</p>
             <p className="mt-3 text-sm leading-6 text-text-secondary">
-              {topDirection.name}以 {topDirection.count} 条位居第一。仿真样本 {simulation?.count ?? 0} 条，VLA 样本 {vla?.count ?? 0} 条；两者数量接近，不能据此认定其中一个方向在全国市场具有绝对优势。
+              {topDirection.name}以 {topDirection.count} 条位居第一。仿真样本 {simulation?.count ?? 0} 条，VLA 样本 {vla?.count ?? 0} 条；在这批不含实习的样本中，VLA 岗位多于纯仿真岗位，但这是样本观察，不是全国市场份额。
             </p>
             <p className="mt-3 text-xs leading-5 text-text-secondary/80">
               仿真岗位的薪资公开率更高，而 VLA 岗位较多来自官网、校招和研究型团队，薪资未公开比例更高，不能直接用已公开薪资比较两个方向的整体待遇。
@@ -123,6 +135,29 @@ export default function RoboticsMarketPage() {
             </div>
           </div>
         </aside>
+      </section>
+
+      <section className="rounded-2xl border border-border bg-surface p-6 sm:p-8">
+        <p className="text-sm font-medium text-brand-dark">招聘平台复查</p>
+        <h2 className="mt-1 text-2xl font-semibold text-text-primary">BOSS 直聘与猎聘已收录样本</h2>
+        <p className="mt-2 max-w-4xl text-sm leading-6 text-text-secondary">
+          下列数字是本数据集从平台公开页已收录的去重正式岗位，用于衡量当前样本覆盖，不是平台的全国在招总数。
+        </p>
+        <div className="mt-5 grid gap-4 md:grid-cols-2">
+          {dataset.platformSearches.map((search) => (
+            <a key={search.platform} href={search.sourceUrl} target="_blank" rel="noopener noreferrer" className="rounded-xl border border-border bg-muted p-5 transition-colors hover:border-brand/40">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="text-sm font-medium text-text-secondary">{search.platform}</p>
+                  <p className="mt-1 text-3xl font-semibold text-text-primary">{search.includedJobs} <span className="text-sm font-normal text-text-secondary">条已收录</span></p>
+                </div>
+                <ExternalLink className="h-4 w-4 text-brand" />
+              </div>
+              <p className="mt-3 text-sm text-text-primary">检索：{search.query}</p>
+              <p className="mt-2 text-xs leading-5 text-text-secondary">{search.note}</p>
+            </a>
+          ))}
+        </div>
       </section>
 
       <section className="grid gap-6 lg:grid-cols-2">

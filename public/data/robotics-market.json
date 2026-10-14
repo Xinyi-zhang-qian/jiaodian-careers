@@ -1,46 +1,61 @@
 {
   "generatedAt": "2026-10-14",
-  "scope": "全国公开招聘岗位定向样本，来源覆盖企业官网、官方招聘系统、高校与研究机构页面及公开招聘平台。",
+  "scope": "全国机器人方向正式岗位公开样本（社招、校招与博士后），不包含任何实习岗位。来源覆盖企业官网、官方招聘系统、高校研究机构、BOSS直聘和猎聘公开页面。",
   "methodology": [
     "只读取无需登录即可访问的公开页面，不绕过验证码、登录或访问限制。",
+    "已排除标题或招聘类型为“实习”的记录；应届生可投的正式校招岗位保留。",
     "按“单位 + 岗位名称 + 城市”去重；同一岗位涉及多个方向时，按标题和主要交付物归入一个主方向。",
     "薪资只统计来源中明确公开的区间；月薪与日薪分开标准化，面议和未公开不参与薪资中位数。",
-    "这是定向样本而非招聘平台全量数据，适合比较样本结构，不等同于全国市场份额。"
+    "BOSS直聘与猎聘的结果会随个性化推荐、登录状态和下架变动，公开页也未稳定提供可复核的全国总数，因此页面只展示已采集去重样本数，不写成全国总岗位数或市场份额。"
+  ],
+  "platformSearches": [
+    {
+      "platform": "BOSS直聘",
+      "query": "机器人算法 / VLA / 大模型 / 控制 / SLAM / 仿真",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
+      "includedJobs": 57,
+      "note": "来自多个全国及城市公开检索页的可见正式岗位；不代表平台全量。"
+    },
+    {
+      "platform": "猎聘",
+      "query": "机器人 / SLAM / 仿真 / 运动控制 / 具身智能",
+      "sourceUrl": "https://m.liepin.com/jobsjqrslamsfgcs/",
+      "includedJobs": 8,
+      "note": "根据公开职位详情页收录；类目页的 33780 份是薪资样本数，不是当前在招岗位数。"
+    }
   ],
   "jobs": [
     {
-      "id": "internship-pku-embodied-research-assistant",
-      "title": "具身智能科研助理实习生",
-      "organization": "北京大学信息工程学院钟方成项目组",
-      "city": "北京",
-      "location": "北京",
-      "recruitmentType": "实习",
-      "salary": "面议",
-      "education": "本科及以上",
-      "experience": "截止 2026-10-16",
-      "requirements": "本科及以上；截止 2026-10-16",
+      "id": "platform-huirui-campus",
+      "title": "机器人算法工程师",
+      "organization": "重庆慧睿",
+      "city": "重庆",
+      "location": "重庆",
+      "recruitmentType": "校招",
+      "salary": "6–9K",
+      "education": "本科",
+      "experience": "应届生",
+      "requirements": "参与机器人算法研发、调试与测试。",
       "skills": [
-        "协助开展人工智能",
-        "具身智能科研项目的资料调研",
-        "实验",
-        "数据处理与项目推进",
-        "机器人或机器学习经历优先。"
+        "机器人算法",
+        "Python",
+        "测试"
       ],
-      "summary": "协助开展人工智能、具身智能科研项目的资料调研、实验、数据处理与项目推进；机器人或机器学习经历优先。",
-      "sourceName": "北京大学官网",
-      "sourceType": "高校/研究机构",
-      "sourceUrl": "https://www.ece.pku.edu.cn/info/1008/3231.htm",
-      "capturedAt": "2026-10-13",
+      "summary": "参与机器人算法研发、调试与测试。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
+      "capturedAt": "2026-10-14",
       "direction": "data-evaluation",
       "normalizedSalary": {
-        "kind": "undisclosed",
-        "min": null,
-        "max": null,
-        "unit": null,
+        "kind": "monthly",
+        "min": 6,
+        "max": 9,
+        "unit": "K/月",
         "months": null
       },
       "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
+      "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
     {
@@ -77,43 +92,7 @@
         "months": null
       },
       "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
-      "httpStatus": 200
-    },
-    {
-      "id": "internship-galaxea-embodied-2027-intern",
-      "title": "具身智能算法工程师（27 届实习）",
-      "organization": "星海图",
-      "city": "深圳",
-      "location": "深圳",
-      "recruitmentType": "实习",
-      "salary": "以招聘方确认为准",
-      "education": "2027 届在校生",
-      "experience": "在校生",
-      "requirements": "2027 届在校生",
-      "skills": [
-        "参与 VLA 多模态数据处理",
-        "清洗与标注",
-        "协助模型微调",
-        "训练日志分析",
-        "并在机械臂",
-        "灵巧手的仿真和真机环境中验证策略。"
-      ],
-      "summary": "参与 VLA 多模态数据处理、清洗与标注，协助模型微调、训练日志分析，并在机械臂、灵巧手的仿真和真机环境中验证策略。",
-      "sourceName": "星海图招聘官网",
-      "sourceType": "企业官网",
-      "sourceUrl": "https://galaxea.zhiye.com/intern/detail?jobAdId=c1627c69-8a5b-4867-878d-ce5caf3e170e",
-      "capturedAt": "2026-10-14",
-      "direction": "data-evaluation",
-      "normalizedSalary": {
-        "kind": "undisclosed",
-        "min": null,
-        "max": null,
-        "unit": null,
-        "months": null
-      },
-      "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
+      "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
     {
@@ -147,7 +126,106 @@
         "months": null
       },
       "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-wattman-3d",
+      "title": "机器人算法工程师（3D 感知）",
+      "organization": "瓦特曼",
+      "city": "北京",
+      "location": "北京",
+      "recruitmentType": "社招",
+      "salary": "16–30K",
+      "education": "硕士",
+      "experience": "1–3年",
+      "requirements": "负责点云处理、3D 目标感知与机器人场景理解。",
+      "skills": [
+        "3D感知",
+        "点云",
+        "目标检测"
+      ],
+      "summary": "负责点云处理、3D 目标感知与机器人场景理解。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
+      "capturedAt": "2026-10-14",
+      "direction": "perception",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 16,
+        "max": 30,
+        "unit": "K/月",
+        "months": null
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-peitian-3dvision",
+      "title": "机器人 3D 视觉算法工程师",
+      "organization": "北京配天",
+      "city": "北京",
+      "location": "北京",
+      "recruitmentType": "社招",
+      "salary": "25–50K",
+      "education": "硕士",
+      "experience": "1–3年",
+      "requirements": "研发机器人三维视觉、点云处理与姿态估计算法。",
+      "skills": [
+        "3D视觉",
+        "点云",
+        "姿态估计"
+      ],
+      "summary": "研发机器人三维视觉、点云处理与姿态估计算法。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/31d3f534ce06d3441nN63tm7FA~~/",
+      "capturedAt": "2026-10-14",
+      "direction": "perception",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 25,
+        "max": 50,
+        "unit": "K/月",
+        "months": null
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-xiaoheshineng-algorithm",
+      "title": "机器人算法工程师",
+      "organization": "小核智能",
+      "city": "常州",
+      "location": "常州",
+      "recruitmentType": "社招",
+      "salary": "15–20K",
+      "education": "本科",
+      "experience": "3–5年",
+      "requirements": "负责机器人感知、定位与导航算法。",
+      "skills": [
+        "SLAM",
+        "导航",
+        "感知"
+      ],
+      "summary": "负责机器人感知、定位与导航算法。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
+      "capturedAt": "2026-10-14",
+      "direction": "perception",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 15,
+        "max": 20,
+        "unit": "K/月",
+        "months": null
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
     {
@@ -184,7 +262,7 @@
         "months": null
       },
       "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
+      "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
     {
@@ -218,7 +296,304 @@
         "months": 16
       },
       "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-jimu-slam",
+      "title": "SLAM 算法工程师",
+      "organization": "极目智控",
+      "city": "杭州",
+      "location": "杭州",
+      "recruitmentType": "社招",
+      "salary": "25–45K",
+      "education": "本科",
+      "experience": "3–5年",
+      "requirements": "开发移动机器人定位、建图与多传感器融合算法。",
+      "skills": [
+        "SLAM",
+        "定位建图",
+        "多传感器融合"
+      ],
+      "summary": "开发移动机器人定位、建图与多传感器融合算法。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://m.zhipin.com/zhaopin/c43db07a1b5bf70303Zz29y4/",
+      "capturedAt": "2026-10-14",
+      "direction": "perception",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 25,
+        "max": 45,
+        "unit": "K/月",
+        "months": null
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-huaxi-slam",
+      "title": "高级 SLAM 算法工程师",
+      "organization": "骅羲智能",
+      "city": "杭州",
+      "location": "杭州",
+      "recruitmentType": "社招",
+      "salary": "30–50K·15薪",
+      "education": "本科",
+      "experience": "5–10年",
+      "requirements": "负责复杂场景激光或视觉 SLAM 算法与工程化。",
+      "skills": [
+        "SLAM",
+        "激光雷达",
+        "视觉定位"
+      ],
+      "summary": "负责复杂场景激光或视觉 SLAM 算法与工程化。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://m.zhipin.com/zhaopin/c43db07a1b5bf70303Zz29y4/",
+      "capturedAt": "2026-10-14",
+      "direction": "perception",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 30,
+        "max": 50,
+        "unit": "K/月",
+        "months": 15
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-haosheng-slam",
+      "title": "SLAM 算法工程师",
+      "organization": "豪盛科技",
+      "city": "杭州",
+      "location": "杭州",
+      "recruitmentType": "社招",
+      "salary": "25–40K·13薪",
+      "education": "本科",
+      "experience": "3–5年",
+      "requirements": "开发机器人 SLAM、回环检测与定位优化算法。",
+      "skills": [
+        "SLAM",
+        "回环检测",
+        "定位优化"
+      ],
+      "summary": "开发机器人 SLAM、回环检测与定位优化算法。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://m.zhipin.com/zhaopin/c43db07a1b5bf70303Zz29y4/",
+      "capturedAt": "2026-10-14",
+      "direction": "perception",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 25,
+        "max": 40,
+        "unit": "K/月",
+        "months": 13
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-columbus-slam",
+      "title": "SLAM 算法工程师",
+      "organization": "哥仑布科技",
+      "city": "杭州",
+      "location": "杭州",
+      "recruitmentType": "社招",
+      "salary": "23–35K",
+      "education": "本科",
+      "experience": "3–5年",
+      "requirements": "开发移动机器人激光 SLAM 和导航算法。",
+      "skills": [
+        "激光SLAM",
+        "导航",
+        "移动机器人"
+      ],
+      "summary": "开发移动机器人激光 SLAM 和导航算法。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://m.zhipin.com/zhaopin/c43db07a1b5bf70303Zz29y4/",
+      "capturedAt": "2026-10-14",
+      "direction": "perception",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 23,
+        "max": 35,
+        "unit": "K/月",
+        "months": null
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-mairui-slam",
+      "title": "SLAM 算法工程师",
+      "organization": "迈睿智能",
+      "city": "杭州",
+      "location": "杭州",
+      "recruitmentType": "社招",
+      "salary": "20–40K",
+      "education": "本科",
+      "experience": "3–5年",
+      "requirements": "研发机器人定位、建图、导航和避障算法。",
+      "skills": [
+        "SLAM",
+        "导航",
+        "避障"
+      ],
+      "summary": "研发机器人定位、建图、导航和避障算法。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://m.zhipin.com/zhaopin/c43db07a1b5bf70303Zz29y4/",
+      "capturedAt": "2026-10-14",
+      "direction": "perception",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 20,
+        "max": 40,
+        "unit": "K/月",
+        "months": null
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-lanxin-slam",
+      "title": "SLAM 算法工程师",
+      "organization": "蓝芯科技",
+      "city": "杭州",
+      "location": "杭州",
+      "recruitmentType": "社招",
+      "salary": "18–35K·13薪",
+      "education": "本科",
+      "experience": "3–5年",
+      "requirements": "研发移动机器人的视觉定位、建图与导航。",
+      "skills": [
+        "视觉SLAM",
+        "定位建图",
+        "导航"
+      ],
+      "summary": "研发移动机器人的视觉定位、建图与导航。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://m.zhipin.com/zhaopin/c43db07a1b5bf70303Zz29y4/",
+      "capturedAt": "2026-10-14",
+      "direction": "perception",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 18,
+        "max": 35,
+        "unit": "K/月",
+        "months": 13
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-thundersoft-slam",
+      "title": "SLAM 算法专家",
+      "organization": "中科创达",
+      "city": "杭州",
+      "location": "杭州",
+      "recruitmentType": "社招",
+      "salary": "40–60K",
+      "education": "本科",
+      "experience": "5–10年",
+      "requirements": "负责机器人 SLAM 算法方案、技术难点攻关和工程化。",
+      "skills": [
+        "SLAM",
+        "多传感器融合",
+        "算法工程化"
+      ],
+      "summary": "负责机器人 SLAM 算法方案、技术难点攻关和工程化。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://m.zhipin.com/zhaopin/c43db07a1b5bf70303Zz29y4/",
+      "capturedAt": "2026-10-14",
+      "direction": "perception",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 40,
+        "max": 60,
+        "unit": "K/月",
+        "months": null
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-lumi-slam",
+      "title": "SLAM 算法工程师",
+      "organization": "露米科技",
+      "city": "杭州",
+      "location": "杭州",
+      "recruitmentType": "社招",
+      "salary": "30–50K·13薪",
+      "education": "本科",
+      "experience": "3–5年",
+      "requirements": "研发家庭机器人定位、建图和环境感知算法。",
+      "skills": [
+        "SLAM",
+        "环境感知",
+        "家庭机器人"
+      ],
+      "summary": "研发家庭机器人定位、建图和环境感知算法。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://m.zhipin.com/zhaopin/c43db07a1b5bf70303Zz29y4/",
+      "capturedAt": "2026-10-14",
+      "direction": "perception",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 30,
+        "max": 50,
+        "unit": "K/月",
+        "months": 13
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-bangtai-algorithm",
+      "title": "机器人算法工程师",
+      "organization": "安徽邦泰",
+      "city": "合肥",
+      "location": "合肥",
+      "recruitmentType": "社招",
+      "salary": "25–35K",
+      "education": "本科",
+      "experience": "1–3年",
+      "requirements": "开发机器人导航、感知和控制算法。",
+      "skills": [
+        "SLAM",
+        "导航",
+        "控制"
+      ],
+      "summary": "开发机器人导航、感知和控制算法。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
+      "capturedAt": "2026-10-14",
+      "direction": "perception",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 25,
+        "max": 35,
+        "unit": "K/月",
+        "months": null
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
     {
@@ -250,6 +625,72 @@
         "max": 25,
         "unit": "K/月",
         "months": 13
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-mayi-algorithm",
+      "title": "机器人算法工程师",
+      "organization": "蚂蚁机器人",
+      "city": "青岛",
+      "location": "青岛",
+      "recruitmentType": "社招",
+      "salary": "18–25K",
+      "education": "本科",
+      "experience": "3–5年",
+      "requirements": "负责移动机器人感知、定位和导航算法。",
+      "skills": [
+        "SLAM",
+        "感知",
+        "导航"
+      ],
+      "summary": "负责移动机器人感知、定位和导航算法。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
+      "capturedAt": "2026-10-14",
+      "direction": "perception",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 18,
+        "max": 25,
+        "unit": "K/月",
+        "months": null
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-liepin-kuling-perception",
+      "title": "3D 感知与控制算法工程师",
+      "organization": "库状智能",
+      "city": "上海",
+      "location": "上海",
+      "recruitmentType": "社招",
+      "salary": "20–35K",
+      "education": "本科",
+      "experience": "3–5年",
+      "requirements": "开发机器人三维感知、点云处理和操作控制算法。",
+      "skills": [
+        "3D感知",
+        "点云",
+        "操作控制"
+      ],
+      "summary": "开发机器人三维感知、点云处理和操作控制算法。",
+      "sourceName": "猎聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.liepin.com/job/1976177361.shtml",
+      "capturedAt": "2026-10-14",
+      "direction": "perception",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 20,
+        "max": 35,
+        "unit": "K/月",
+        "months": null
       },
       "verifiedAt": "2026-10-14",
       "sourceStatus": "可访问",
@@ -286,7 +727,7 @@
         "months": 13
       },
       "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
+      "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
     {
@@ -322,7 +763,172 @@
         "months": null
       },
       "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-standardrobots-slam",
+      "title": "SLAM 算法工程师",
+      "organization": "斯坦德机器人",
+      "city": "深圳",
+      "location": "深圳",
+      "recruitmentType": "社招",
+      "salary": "20–35K·15薪",
+      "education": "本科",
+      "experience": "3–5年",
+      "requirements": "负责 AMR 激光 SLAM、定位与导航算法。",
+      "skills": [
+        "激光SLAM",
+        "AMR",
+        "导航"
+      ],
+      "summary": "负责 AMR 激光 SLAM、定位与导航算法。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/197659aa2c7730131X1y0tq0Fg~~/",
+      "capturedAt": "2026-10-14",
+      "direction": "perception",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 20,
+        "max": 35,
+        "unit": "K/月",
+        "months": 15
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-sutpc-slam",
+      "title": "SLAM 算法工程师",
+      "organization": "深城交",
+      "city": "深圳",
+      "location": "深圳",
+      "recruitmentType": "社招",
+      "salary": "30–50K·15薪",
+      "education": "硕士",
+      "experience": "3–5年",
+      "requirements": "研发室外机器人多传感器定位建图算法。",
+      "skills": [
+        "SLAM",
+        "多传感器融合",
+        "室外定位"
+      ],
+      "summary": "研发室外机器人多传感器定位建图算法。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/197659aa2c7730131X1y0tq0Fg~~/",
+      "capturedAt": "2026-10-14",
+      "direction": "perception",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 30,
+        "max": 50,
+        "unit": "K/月",
+        "months": 15
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-xuanji-slam",
+      "title": "SLAM 算法工程师",
+      "organization": "旋几工业机器人",
+      "city": "深圳",
+      "location": "深圳",
+      "recruitmentType": "社招",
+      "salary": "30–50K·15薪",
+      "education": "硕士",
+      "experience": "3–5年",
+      "requirements": "开发工业移动机器人的定位、建图与路径规划。",
+      "skills": [
+        "SLAM",
+        "工业机器人",
+        "路径规划"
+      ],
+      "summary": "开发工业移动机器人的定位、建图与路径规划。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/197659aa2c7730131X1y0tq0Fg~~/",
+      "capturedAt": "2026-10-14",
+      "direction": "perception",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 30,
+        "max": 50,
+        "unit": "K/月",
+        "months": 15
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-liepin-slam-director",
+      "title": "SLAM 算法总监",
+      "organization": "猎聘平台公开雇主",
+      "city": "西安",
+      "location": "西安",
+      "recruitmentType": "社招",
+      "salary": "40–70K·16薪",
+      "education": "硕士",
+      "experience": "5–10年",
+      "requirements": "负责 SLAM 算法团队、技术路线与机器人定位建图交付。",
+      "skills": [
+        "SLAM",
+        "技术管理",
+        "定位建图"
+      ],
+      "summary": "负责 SLAM 算法团队、技术路线与机器人定位建图交付。",
+      "sourceName": "猎聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.liepin.com/job/1980018579.shtml",
+      "capturedAt": "2026-10-14",
+      "direction": "perception",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 40,
+        "max": 70,
+        "unit": "K/月",
+        "months": 16
+      },
+      "verifiedAt": "2026-10-14",
       "sourceStatus": "可访问",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-baifeng-algorithm",
+      "title": "机器人算法工程师",
+      "organization": "河北百丰",
+      "city": "保定",
+      "location": "保定",
+      "recruitmentType": "社招",
+      "salary": "8–13K",
+      "education": "本科",
+      "experience": "1–3年",
+      "requirements": "负责机器人导航与运动控制算法调试。",
+      "skills": [
+        "导航",
+        "运动控制",
+        "ROS"
+      ],
+      "summary": "负责机器人导航与运动控制算法调试。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
+      "capturedAt": "2026-10-14",
+      "direction": "planning-control",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 8,
+        "max": 13,
+        "unit": "K/月",
+        "months": null
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
     {
@@ -364,141 +970,334 @@
       "httpStatus": 200
     },
     {
-      "id": "job-210",
-      "title": "具身智能算法实习/机器人控制算法实习",
-      "organization": "银河通用",
-      "city": "北京",
-      "location": "北京市",
-      "recruitmentType": "实习",
-      "salary": "面议",
-      "education": "硕士",
-      "experience": "在读",
-      "requirements": "人工智能、机器人学、计算机科学、控制工程等相关专业",
-      "skills": [
-        "具身智能",
-        "VLA大模型",
-        "机器人控制",
-        "足式强化学习",
-        "有具身VLA大模型经验者优先",
-        "有足式强化学习经验者优先"
-      ],
-      "summary": "银河通用2026届实习（可转正），地点北京、深圳，岗位含具身VLA大模型实习、具身智能算法实习、机器人控制算法实习、足式强化学习算法实习、仿真开发实习。",
-      "sourceName": "银河通用",
-      "sourceType": "企业官网",
-      "sourceUrl": "https://owm6ymi5v9b.jobs.feishu.cn/584984/",
-      "capturedAt": "2026-10-12",
-      "direction": "planning-control",
-      "normalizedSalary": {
-        "kind": "undisclosed",
-        "min": null,
-        "max": null,
-        "unit": null,
-        "months": null
-      },
-      "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
-      "httpStatus": 200
-    },
-    {
-      "id": "internship-jd-exploration-embodied",
-      "title": "京东探索研究院·具身操作算法实习生",
-      "organization": "京东探索研究院",
+      "id": "platform-lingxin-grasp",
+      "title": "机器人算法工程师（抓取规划）",
+      "organization": "灵心巧手",
       "city": "北京",
       "location": "北京",
-      "recruitmentType": "实习",
-      "salary": "400–500 元/天",
+      "recruitmentType": "社招",
+      "salary": "20–40K·13薪",
       "education": "本科",
-      "experience": "在校生",
-      "requirements": "本科",
+      "experience": "3–5年",
+      "requirements": "开发 RGB-D 感知、姿态估计与机器人抓取规划算法。",
       "skills": [
-        "开展视觉-语言-动作（VLA）模型算法研发",
-        "涉及模型架构",
-        "数据处理与训练方法。"
+        "RGB-D",
+        "抓取规划",
+        "姿态估计"
       ],
-      "summary": "开展视觉-语言-动作（VLA）模型算法研发，涉及模型架构、数据处理与训练方法。",
+      "summary": "开发 RGB-D 感知、姿态估计与机器人抓取规划算法。",
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
-      "sourceUrl": "https://www.zhipin.com/zhaopin/44fccc733a250ee20Hdy2t-0/",
-      "capturedAt": "2026-10-13",
-      "direction": "planning-control",
-      "normalizedSalary": {
-        "kind": "daily",
-        "min": 400,
-        "max": 500,
-        "unit": "元/天",
-        "months": null
-      },
-      "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
-      "httpStatus": 200
-    },
-    {
-      "id": "internship-imprintx-dexterous-retargeting",
-      "title": "机器人操作算法实习生（人手—灵巧手重定向）",
-      "organization": "知行具身 ImprintX",
-      "city": "北京",
-      "location": "北京·海淀",
-      "recruitmentType": "实习",
-      "salary": "面议",
-      "education": "硕士或博士在读",
-      "experience": "每周 4 天，至少 3 个月",
-      "requirements": "硕士或博士在读；每周 4 天，至少 3 个月",
-      "skills": [
-        "参与人手到灵巧手重定向与触觉增强模仿学习",
-        "把人类操作数据转化为真实机器人可复现",
-        "可学习的灵巧行为。"
-      ],
-      "summary": "参与人手到灵巧手重定向与触觉增强模仿学习，把人类操作数据转化为真实机器人可复现、可学习的灵巧行为。",
-      "sourceName": "知行具身官网",
-      "sourceType": "企业官网",
-      "sourceUrl": "https://imprintx.cn/careers",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
       "capturedAt": "2026-10-14",
       "direction": "planning-control",
       "normalizedSalary": {
-        "kind": "undisclosed",
-        "min": null,
-        "max": null,
-        "unit": null,
-        "months": null
+        "kind": "monthly",
+        "min": 20,
+        "max": 40,
+        "unit": "K/月",
+        "months": 13
       },
       "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
+      "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
     {
-      "id": "internship-lingyu-embodied-algorithm",
-      "title": "具身智能算法实习生（A13040）",
-      "organization": "北京灵御智能科技",
+      "id": "platform-geekplus-control",
+      "title": "机器人控制与规划算法工程师",
+      "organization": "极智嘉",
       "city": "北京",
       "location": "北京",
-      "recruitmentType": "实习",
-      "salary": "以招聘方确认为准",
-      "education": "在校生",
-      "experience": "在校生",
-      "requirements": "在校生",
+      "recruitmentType": "社招",
+      "salary": "25–50K·15薪",
+      "education": "硕士",
+      "experience": "3–5年",
+      "requirements": "负责机器人运动控制、路径规划和系统工程化。",
       "skills": [
-        "研究强化学习",
-        "模仿学习和 VLA",
-        "开发灵巧手抓取与接触调整策略",
-        "参与机器人数据采集",
-        "模型训练",
-        "Sim2Real 迁移和真机部署。"
+        "运动控制",
+        "路径规划",
+        "C++"
       ],
-      "summary": "研究强化学习、模仿学习和 VLA，开发灵巧手抓取与接触调整策略，参与机器人数据采集、模型训练、Sim2Real 迁移和真机部署。",
-      "sourceName": "实习僧",
+      "summary": "负责机器人运动控制、路径规划和系统工程化。",
+      "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
-      "sourceUrl": "https://www.shixiseng.com/intern/inn_zebv11dvnsmy",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
       "capturedAt": "2026-10-14",
       "direction": "planning-control",
       "normalizedSalary": {
-        "kind": "undisclosed",
-        "min": null,
-        "max": null,
-        "unit": null,
+        "kind": "monthly",
+        "min": 25,
+        "max": 50,
+        "unit": "K/月",
+        "months": 15
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-jdlogistics-algorithm",
+      "title": "机器人算法工程师",
+      "organization": "京东物流",
+      "city": "北京",
+      "location": "北京",
+      "recruitmentType": "社招",
+      "salary": "20–40K·19薪",
+      "education": "本科",
+      "experience": "5–10年",
+      "requirements": "研发物流机器人定位、调度、规划与控制算法。",
+      "skills": [
+        "物流机器人",
+        "路径规划",
+        "调度算法"
+      ],
+      "summary": "研发物流机器人定位、调度、规划与控制算法。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
+      "capturedAt": "2026-10-14",
+      "direction": "planning-control",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 20,
+        "max": 40,
+        "unit": "K/月",
+        "months": 19
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-yuanshen-control",
+      "title": "机器人控制算法工程师",
+      "organization": "原身科技",
+      "city": "北京",
+      "location": "北京",
+      "recruitmentType": "社招",
+      "salary": "10–20K",
+      "education": "本科",
+      "experience": "经验不限",
+      "requirements": "开发机器人运动学、动力学与控制算法。",
+      "skills": [
+        "运动学",
+        "动力学",
+        "运动控制"
+      ],
+      "summary": "开发机器人运动学、动力学与控制算法。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/31d3f534ce06d3441nN63tm7FA~~/",
+      "capturedAt": "2026-10-14",
+      "direction": "planning-control",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 10,
+        "max": 20,
+        "unit": "K/月",
         "months": null
       },
       "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-liepin-bhri-skill-learning",
+      "title": "技能学习算法工程师",
+      "organization": "北京人形机器人创新中心",
+      "city": "北京",
+      "location": "北京",
+      "recruitmentType": "社招",
+      "salary": "30–50K·14薪",
+      "education": "硕士",
+      "experience": "3–5年",
+      "requirements": "研发人形机器人强化学习、模仿学习和技能迁移算法。",
+      "skills": [
+        "强化学习",
+        "模仿学习",
+        "技能迁移"
+      ],
+      "summary": "研发人形机器人强化学习、模仿学习和技能迁移算法。",
+      "sourceName": "猎聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.liepin.com/job/1970080167.shtml",
+      "capturedAt": "2026-10-14",
+      "direction": "planning-control",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 30,
+        "max": 50,
+        "unit": "K/月",
+        "months": 14
+      },
+      "verifiedAt": "2026-10-14",
       "sourceStatus": "可访问",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-liepin-leju-rl",
+      "title": "强化学习运动控制算法工程师",
+      "organization": "乐聚机器人",
+      "city": "北京",
+      "location": "北京",
+      "recruitmentType": "社招",
+      "salary": "30–60K·13薪",
+      "education": "硕士",
+      "experience": "经验不限",
+      "requirements": "研发人形机器人强化学习运动控制、仿真训练与 Sim2Real。",
+      "skills": [
+        "强化学习",
+        "运动控制",
+        "Sim2Real"
+      ],
+      "summary": "研发人形机器人强化学习运动控制、仿真训练与 Sim2Real。",
+      "sourceName": "猎聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.liepin.com/job/1984025401.shtml",
+      "capturedAt": "2026-10-14",
+      "direction": "planning-control",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 30,
+        "max": 60,
+        "unit": "K/月",
+        "months": 13
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "可访问",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-liepin-motion-control",
+      "title": "机器人运动控制算法工程师",
+      "organization": "猎聘平台公开雇主",
+      "city": "北京",
+      "location": "北京",
+      "recruitmentType": "社招",
+      "salary": "35–65K·14薪",
+      "education": "硕士",
+      "experience": "3–5年",
+      "requirements": "研发人形机器人运动学、动力学、轨迹规划与控制算法。",
+      "skills": [
+        "运动控制",
+        "动力学",
+        "轨迹规划"
+      ],
+      "summary": "研发人形机器人运动学、动力学、轨迹规划与控制算法。",
+      "sourceName": "猎聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.liepin.com/job/1966653253.shtml",
+      "capturedAt": "2026-10-14",
+      "direction": "planning-control",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 35,
+        "max": 65,
+        "unit": "K/月",
+        "months": 14
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "可访问",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-santai-algorithm",
+      "title": "机器人算法工程师",
+      "organization": "三泰科技",
+      "city": "常州",
+      "location": "常州",
+      "recruitmentType": "社招",
+      "salary": "20–30K",
+      "education": "硕士",
+      "experience": "3–5年",
+      "requirements": "研发机器人感知、规划与控制算法，完成真机验证。",
+      "skills": [
+        "机器人算法",
+        "规划",
+        "控制",
+        "C++"
+      ],
+      "summary": "研发机器人感知、规划与控制算法，完成真机验证。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
+      "capturedAt": "2026-10-14",
+      "direction": "planning-control",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 20,
+        "max": 30,
+        "unit": "K/月",
+        "months": null
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-medical-robot-algorithm",
+      "title": "医疗机器人算法工程师",
+      "organization": "深度医疗",
+      "city": "东莞",
+      "location": "东莞",
+      "recruitmentType": "社招",
+      "salary": "11–18K",
+      "education": "硕士",
+      "experience": "经验不限",
+      "requirements": "研发医疗机器人视觉感知和运动控制算法。",
+      "skills": [
+        "机器视觉",
+        "运动控制",
+        "医疗机器人"
+      ],
+      "summary": "研发医疗机器人视觉感知和运动控制算法。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
+      "capturedAt": "2026-10-14",
+      "direction": "planning-control",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 11,
+        "max": 18,
+        "unit": "K/月",
+        "months": null
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-lingyi-algorithm",
+      "title": "机器人算法工程师",
+      "organization": "领益精密",
+      "city": "东莞",
+      "location": "东莞",
+      "recruitmentType": "社招",
+      "salary": "13–26K",
+      "education": "本科",
+      "experience": "经验不限",
+      "requirements": "参与工业机器人视觉、路径规划与项目落地。",
+      "skills": [
+        "机器视觉",
+        "路径规划",
+        "工业自动化"
+      ],
+      "summary": "参与工业机器人视觉、路径规划与项目落地。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
+      "capturedAt": "2026-10-14",
+      "direction": "planning-control",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 13,
+        "max": 26,
+        "unit": "K/月",
+        "months": null
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
     {
@@ -532,7 +1331,7 @@
         "months": 14
       },
       "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
+      "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
     {
@@ -643,6 +1442,171 @@
       "httpStatus": 200
     },
     {
+      "id": "platform-deti-algorithm",
+      "title": "机器人算法工程师",
+      "organization": "得体科技",
+      "city": "杭州",
+      "location": "杭州",
+      "recruitmentType": "社招",
+      "salary": "20–30K",
+      "education": "硕士",
+      "experience": "1–3年",
+      "requirements": "开发机器人感知、规划与控制模块。",
+      "skills": [
+        "机器人感知",
+        "路径规划",
+        "控制"
+      ],
+      "summary": "开发机器人感知、规划与控制模块。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
+      "capturedAt": "2026-10-14",
+      "direction": "planning-control",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 20,
+        "max": 30,
+        "unit": "K/月",
+        "months": null
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-xuanliang-algorithm",
+      "title": "机器人算法工程师",
+      "organization": "旋量科技",
+      "city": "合肥",
+      "location": "合肥",
+      "recruitmentType": "社招",
+      "salary": "12–20K",
+      "education": "本科",
+      "experience": "1–3年",
+      "requirements": "研发机器人运动规划、感知与控制算法。",
+      "skills": [
+        "运动规划",
+        "感知",
+        "控制"
+      ],
+      "summary": "研发机器人运动规划、感知与控制算法。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
+      "capturedAt": "2026-10-14",
+      "direction": "planning-control",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 12,
+        "max": 20,
+        "unit": "K/月",
+        "months": null
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-hongshengda-algorithm",
+      "title": "机器人算法工程师",
+      "organization": "宏圣达",
+      "city": "廊坊",
+      "location": "廊坊",
+      "recruitmentType": "社招",
+      "salary": "24–45K",
+      "education": "硕士",
+      "experience": "1–3年",
+      "requirements": "研发机器人运动规划、控制与学习算法。",
+      "skills": [
+        "运动规划",
+        "运动控制",
+        "强化学习"
+      ],
+      "summary": "研发机器人运动规划、控制与学习算法。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
+      "capturedAt": "2026-10-14",
+      "direction": "planning-control",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 24,
+        "max": 45,
+        "unit": "K/月",
+        "months": null
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-minth-robot-algorithm",
+      "title": "机器人算法工程师",
+      "organization": "敏实集团",
+      "city": "宁波",
+      "location": "宁波",
+      "recruitmentType": "校招",
+      "salary": "15–30K·15薪",
+      "education": "硕士",
+      "experience": "应届生",
+      "requirements": "开发机器人强化学习、模仿学习与 VLA 算法。",
+      "skills": [
+        "VLA",
+        "强化学习",
+        "模仿学习"
+      ],
+      "summary": "开发机器人强化学习、模仿学习与 VLA 算法。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
+      "capturedAt": "2026-10-14",
+      "direction": "planning-control",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 15,
+        "max": 30,
+        "unit": "K/月",
+        "months": 15
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-xinchengkong-algorithm",
+      "title": "机器人算法工程师",
+      "organization": "日照新橙空",
+      "city": "青岛",
+      "location": "青岛",
+      "recruitmentType": "社招",
+      "salary": "15–25K",
+      "education": "本科",
+      "experience": "5–10年",
+      "requirements": "负责机器人定位、导航与运动控制算法开发。",
+      "skills": [
+        "SLAM",
+        "导航",
+        "运动控制"
+      ],
+      "summary": "负责机器人定位、导航与运动控制算法开发。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
+      "capturedAt": "2026-10-14",
+      "direction": "planning-control",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 15,
+        "max": 25,
+        "unit": "K/月",
+        "months": null
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
       "id": "job-206",
       "title": "具身算法工程师（WBC全身运动控制）",
       "organization": "智元机器人",
@@ -675,7 +1639,40 @@
         "months": null
       },
       "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-nbii-dexterous",
+      "title": "灵巧操作控制算法工程师",
+      "organization": "宁波工业互联网研究院",
+      "city": "绍兴",
+      "location": "绍兴",
+      "recruitmentType": "社招",
+      "salary": "25–35K",
+      "education": "硕士",
+      "experience": "1–3年",
+      "requirements": "研发灵巧手、机械臂的运动控制与操作学习算法。",
+      "skills": [
+        "灵巧操作",
+        "运动控制",
+        "模仿学习"
+      ],
+      "summary": "研发灵巧手、机械臂的运动控制与操作学习算法。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
+      "capturedAt": "2026-10-14",
+      "direction": "planning-control",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 25,
+        "max": 35,
+        "unit": "K/月",
+        "months": null
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
     {
@@ -716,6 +1713,138 @@
       "httpStatus": 200
     },
     {
+      "id": "platform-siasun-algorithm",
+      "title": "机器人算法工程师",
+      "organization": "沈阳新松",
+      "city": "沈阳",
+      "location": "沈阳",
+      "recruitmentType": "社招",
+      "salary": "12–20K·13薪",
+      "education": "硕士",
+      "experience": "5–10年",
+      "requirements": "研发工业与移动机器人的规划控制算法。",
+      "skills": [
+        "工业机器人",
+        "规划",
+        "控制"
+      ],
+      "summary": "研发工业与移动机器人的规划控制算法。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
+      "capturedAt": "2026-10-14",
+      "direction": "planning-control",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 12,
+        "max": 20,
+        "unit": "K/月",
+        "months": 13
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-ape-algorithm",
+      "title": "机器人算法工程师",
+      "organization": "APE",
+      "city": "苏州",
+      "location": "苏州",
+      "recruitmentType": "社招",
+      "salary": "12–20K",
+      "education": "本科",
+      "experience": "1–3年",
+      "requirements": "开发工业机器人规划与控制算法。",
+      "skills": [
+        "路径规划",
+        "运动控制",
+        "C++"
+      ],
+      "summary": "开发工业机器人规划与控制算法。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
+      "capturedAt": "2026-10-14",
+      "direction": "planning-control",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 12,
+        "max": 20,
+        "unit": "K/月",
+        "months": null
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-zhongguan-path",
+      "title": "3D 机器人路径规划算法工程师",
+      "organization": "中观自动化",
+      "city": "武汉",
+      "location": "武汉",
+      "recruitmentType": "社招",
+      "salary": "20–35K·14薪",
+      "education": "硕士",
+      "experience": "1–3年",
+      "requirements": "开发机械臂三维路径规划、避障和轨迹优化算法。",
+      "skills": [
+        "3D路径规划",
+        "避障",
+        "轨迹优化"
+      ],
+      "summary": "开发机械臂三维路径规划、避障和轨迹优化算法。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
+      "capturedAt": "2026-10-14",
+      "direction": "planning-control",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 20,
+        "max": 35,
+        "unit": "K/月",
+        "months": 14
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-hyperion-robot-model",
+      "title": "AI 大模型机器人控制算法工程师",
+      "organization": "海伯利安",
+      "city": "武汉",
+      "location": "武汉",
+      "recruitmentType": "社招",
+      "salary": "16–30K·14薪",
+      "education": "硕士",
+      "experience": "经验不限",
+      "requirements": "将大模型与机器人决策、规划和控制结合。",
+      "skills": [
+        "大模型",
+        "机器人控制",
+        "决策规划"
+      ],
+      "summary": "将大模型与机器人决策、规划和控制结合。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/58706ec48f108c9f33Zz3dW6/",
+      "capturedAt": "2026-10-14",
+      "direction": "planning-control",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 16,
+        "max": 30,
+        "unit": "K/月",
+        "months": 14
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
       "id": "job-579",
       "title": "仿真工程师（世界模型）",
       "organization": "北京智源人工智能研究院",
@@ -748,7 +1877,7 @@
         "months": 15
       },
       "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
+      "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
     {
@@ -784,7 +1913,7 @@
         "months": 15
       },
       "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
+      "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
     {
@@ -898,106 +2027,6 @@
       "httpStatus": 200
     },
     {
-      "id": "internship-zhiyuan-embodied-algorithm",
-      "title": "具身智能算法实习生",
-      "organization": "智源人工智能研究院",
-      "city": "北京",
-      "location": "北京·海淀·苏州桥",
-      "recruitmentType": "实习",
-      "salary": "200–400 元/天",
-      "education": "本科",
-      "experience": "在校生",
-      "requirements": "本科",
-      "skills": [
-        "参与室内移动操作机器人平台的感知",
-        "决策与控制算法研发及仿真",
-        "集成测试。"
-      ],
-      "summary": "参与室内移动操作机器人平台的感知、决策与控制算法研发及仿真、集成测试。",
-      "sourceName": "BOSS直聘",
-      "sourceType": "招聘平台",
-      "sourceUrl": "https://www.zhipin.com/zhaopin/edd58b3f4970c4851n1-2d-_Fw~~/",
-      "capturedAt": "2026-10-13",
-      "direction": "simulation",
-      "normalizedSalary": {
-        "kind": "daily",
-        "min": 200,
-        "max": 400,
-        "unit": "元/天",
-        "months": null
-      },
-      "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
-      "httpStatus": 200
-    },
-    {
-      "id": "internship-lightwheel-embodied-simulation-beijing",
-      "title": "具身智能仿真开发实习生",
-      "organization": "光轮智能",
-      "city": "北京",
-      "location": "北京·海淀·学院路",
-      "recruitmentType": "实习",
-      "salary": "300–400 元/天",
-      "education": "本科",
-      "experience": "在校生",
-      "requirements": "本科",
-      "skills": [
-        "参与具身智能仿真系统",
-        "仿真环境",
-        "仿真引擎和工具链的开发与优化。"
-      ],
-      "summary": "参与具身智能仿真系统、仿真环境、仿真引擎和工具链的开发与优化。",
-      "sourceName": "BOSS 直聘",
-      "sourceType": "招聘平台",
-      "sourceUrl": "https://www.zhipin.com/zhaopin/e84791c11a695f5003xy3tS6Ew~~/",
-      "capturedAt": "2026-10-13",
-      "direction": "simulation",
-      "normalizedSalary": {
-        "kind": "daily",
-        "min": 300,
-        "max": 400,
-        "unit": "元/天",
-        "months": null
-      },
-      "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
-      "httpStatus": 200
-    },
-    {
-      "id": "internship-xiaomi-robot-simulation",
-      "title": "机器人仿真工程师实习生",
-      "organization": "小米",
-      "city": "北京",
-      "location": "北京·通州",
-      "recruitmentType": "实习",
-      "salary": "300–350 元/天",
-      "education": "硕士",
-      "experience": "在校生",
-      "requirements": "硕士",
-      "skills": [
-        "负责双足人形机器人机械结构",
-        "动力学",
-        "传感器与控制系统建模",
-        "并开发维护机器人仿真平台。"
-      ],
-      "summary": "负责双足人形机器人机械结构、动力学、传感器与控制系统建模，并开发维护机器人仿真平台。",
-      "sourceName": "BOSS 直聘",
-      "sourceType": "招聘平台",
-      "sourceUrl": "https://m.zhipin.com/zhaopin/e84791c11a695f5003xy3tS6Ew~~/",
-      "capturedAt": "2026-10-13",
-      "direction": "simulation",
-      "normalizedSalary": {
-        "kind": "daily",
-        "min": 300,
-        "max": 350,
-        "unit": "元/天",
-        "months": null
-      },
-      "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
-      "httpStatus": 200
-    },
-    {
       "id": "job-581",
       "title": "测试准入与仿真评价专家",
       "organization": "51WORLD",
@@ -1030,7 +2059,7 @@
         "months": 13
       },
       "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
+      "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
     {
@@ -1066,106 +2095,37 @@
         "months": 15
       },
       "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
+      "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
     {
-      "id": "internship-agibot-embodied-simulation",
-      "title": "具身智能仿真实习生",
-      "organization": "智元机器人",
+      "id": "platform-liepin-ant-simulation",
+      "title": "机器人仿真系统开发工程师",
+      "organization": "蚂蚁集团",
       "city": "上海",
-      "location": "上海·浦东·康桥",
-      "recruitmentType": "实习",
-      "salary": "300–500 元/天",
-      "education": "硕士",
-      "experience": "在校生",
-      "requirements": "硕士",
-      "skills": [
-        "研发具身智能仿真引擎",
-        "传感器和运控模型",
-        "构建仿真合成数据",
-        "评测场景与自动化场景生成工具。"
-      ],
-      "summary": "研发具身智能仿真引擎、传感器和运控模型，构建仿真合成数据、评测场景与自动化场景生成工具。",
-      "sourceName": "BOSS 直聘",
-      "sourceType": "招聘平台",
-      "sourceUrl": "https://m.zhipin.com/zhaopin/a0b48f456169510203Zz39m1Fg~~/",
-      "capturedAt": "2026-10-13",
-      "direction": "simulation",
-      "normalizedSalary": {
-        "kind": "daily",
-        "min": 300,
-        "max": 500,
-        "unit": "元/天",
-        "months": null
-      },
-      "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
-      "httpStatus": 200
-    },
-    {
-      "id": "internship-lightwheel-simulation-engine-shanghai",
-      "title": "具身智能仿真引擎实习生",
-      "organization": "光轮智能",
-      "city": "上海",
-      "location": "上海·嘉定·安亭",
-      "recruitmentType": "实习",
-      "salary": "300–600 元/天",
+      "location": "上海",
+      "recruitmentType": "社招",
+      "salary": "35–65K·16薪",
       "education": "本科",
-      "experience": "在校生",
-      "requirements": "本科",
+      "experience": "3–5年",
+      "requirements": "开发机器人高保真仿真平台、传感器模型和训练评测工具链。",
       "skills": [
-        "参与融合物理求解",
-        "机器人控制与 AI 算法的高保真具身智能仿真引擎开发。"
+        "机器人仿真",
+        "传感器模型",
+        "评测平台"
       ],
-      "summary": "参与融合物理求解、机器人控制与 AI 算法的高保真具身智能仿真引擎开发。",
-      "sourceName": "BOSS 直聘",
+      "summary": "开发机器人高保真仿真平台、传感器模型和训练评测工具链。",
+      "sourceName": "猎聘",
       "sourceType": "招聘平台",
-      "sourceUrl": "https://m.zhipin.com/zhaopin/a0b48f456169510203Zz39m1Fg~~/",
-      "capturedAt": "2026-10-13",
-      "direction": "simulation",
-      "normalizedSalary": {
-        "kind": "daily",
-        "min": 300,
-        "max": 600,
-        "unit": "元/天",
-        "months": null
-      },
-      "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
-      "httpStatus": 200
-    },
-    {
-      "id": "internship-agibot-software-simulation-test",
-      "title": "软件仿真测试实习生",
-      "organization": "智元机器人",
-      "city": "深圳",
-      "location": "深圳",
-      "recruitmentType": "实习",
-      "salary": "以招聘方确认为准",
-      "education": "本科及以上应届生",
-      "experience": "在校生",
-      "requirements": "本科及以上应届生",
-      "skills": [
-        "借助机器人仿真工具和整机",
-        "测试运动控制",
-        "人机交互大模型",
-        "PNC",
-        "SLAM 等软件算法",
-        "建设自动化"
-      ],
-      "summary": "借助机器人仿真工具和整机，测试运动控制、人机交互大模型、PNC、SLAM 等软件算法，建设自动化、仿真测试与数据分析能力。",
-      "sourceName": "智元机器人招聘官网",
-      "sourceType": "企业官网",
-      "sourceUrl": "https://agirobot.jobs.feishu.cn/internrecruitment/m/position/7664443935624775979/detail",
+      "sourceUrl": "https://www.liepin.com/job/1971802319.shtml",
       "capturedAt": "2026-10-14",
       "direction": "simulation",
       "normalizedSalary": {
-        "kind": "undisclosed",
-        "min": null,
-        "max": null,
-        "unit": null,
-        "months": null
+        "kind": "monthly",
+        "min": 35,
+        "max": 65,
+        "unit": "K/月",
+        "months": 16
       },
       "verifiedAt": "2026-10-14",
       "sourceStatus": "可访问",
@@ -1202,6 +2162,39 @@
         "months": null
       },
       "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-liepin-wuhan-simulation",
+      "title": "机器人仿真算法工程师",
+      "organization": "猎聘平台公开雇主",
+      "city": "武汉",
+      "location": "武汉",
+      "recruitmentType": "社招",
+      "salary": "20–30K·13薪",
+      "education": "博士",
+      "experience": "3–5年",
+      "requirements": "研发机器人动力学仿真、控制策略验证与数字孪生模型。",
+      "skills": [
+        "机器人仿真",
+        "动力学",
+        "数字孪生"
+      ],
+      "summary": "研发机器人动力学仿真、控制策略验证与数字孪生模型。",
+      "sourceName": "猎聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.liepin.com/job/1971367915.shtml",
+      "capturedAt": "2026-10-14",
+      "direction": "simulation",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 20,
+        "max": 30,
+        "unit": "K/月",
+        "months": 13
+      },
+      "verifiedAt": "2026-10-14",
       "sourceStatus": "可访问",
       "httpStatus": 200
     },
@@ -1236,7 +2229,7 @@
         "months": null
       },
       "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
+      "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
     {
@@ -1270,7 +2263,7 @@
         "months": null
       },
       "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
+      "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
     {
@@ -1346,6 +2339,40 @@
       "httpStatus": 200
     },
     {
+      "id": "platform-huiwen-middleware",
+      "title": "机器人中间件工程师",
+      "organization": "北京慧闻",
+      "city": "惠州",
+      "location": "惠州",
+      "recruitmentType": "社招",
+      "salary": "12–24K",
+      "education": "本科",
+      "experience": "3–5年",
+      "requirements": "负责 ROS2 中间件、硬件抽象、通信与性能优化。",
+      "skills": [
+        "ROS2",
+        "中间件",
+        "C++",
+        "性能优化"
+      ],
+      "summary": "负责 ROS2 中间件、硬件抽象、通信与性能优化。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/31d3f534ce06d3441nN63tm7FA~~/",
+      "capturedAt": "2026-10-14",
+      "direction": "system-hardware",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 12,
+        "max": 24,
+        "unit": "K/月",
+        "months": null
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
       "id": "job-603",
       "title": "具身智能硬件工程师",
       "organization": "51WORLD",
@@ -1379,7 +2406,7 @@
         "months": null
       },
       "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
+      "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
     {
@@ -1419,6 +2446,40 @@
       "httpStatus": 200
     },
     {
+      "id": "platform-youai-software",
+      "title": "人形机器人软件工程师",
+      "organization": "优艾智合",
+      "city": "深圳",
+      "location": "深圳",
+      "recruitmentType": "社招",
+      "salary": "20–40K",
+      "education": "本科",
+      "experience": "3–5年",
+      "requirements": "开发人形机器人中间件、通信、调度与系统集成能力。",
+      "skills": [
+        "ROS2",
+        "机器人中间件",
+        "C++",
+        "系统集成"
+      ],
+      "summary": "开发人形机器人中间件、通信、调度与系统集成能力。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/ebf41c3315eb7f8d1Xx80967GA~~/",
+      "capturedAt": "2026-10-14",
+      "direction": "system-hardware",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 20,
+        "max": 40,
+        "unit": "K/月",
+        "months": null
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
       "id": "job-598",
       "title": "具身智能算法工程师（2027届校招）",
       "organization": "星海图",
@@ -1452,133 +2513,128 @@
         "months": null
       },
       "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
+      "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
     {
-      "id": "internship-zhiyuan-embodied-vla",
-      "title": "具身 VLA 算法工程师（实习生）",
-      "organization": "智源人工智能研究院",
-      "city": "北京",
-      "location": "北京·海淀·学院路",
-      "recruitmentType": "实习",
-      "salary": "330–380 元/天",
-      "education": "硕士",
-      "experience": "在校生",
-      "requirements": "硕士",
-      "skills": [
-        "探索 VLM",
-        "VLA 与世界模型在真实机器人场景中的结合",
-        "提升具身策略泛化和鲁棒性。"
-      ],
-      "summary": "探索 VLM、VLA 与世界模型在真实机器人场景中的结合，提升具身策略泛化和鲁棒性。",
-      "sourceName": "BOSS直聘",
-      "sourceType": "招聘平台",
-      "sourceUrl": "https://www.zhipin.com/zhaopin/6f7c45e6f7f38cb503J439q-EA~~/",
-      "capturedAt": "2026-10-13",
-      "direction": "vla",
-      "normalizedSalary": {
-        "kind": "daily",
-        "min": 330,
-        "max": 380,
-        "unit": "元/天",
-        "months": null
-      },
-      "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
-      "httpStatus": 200
-    },
-    {
-      "id": "internship-zhishifang-vla",
-      "title": "机器人 VLA 算法实习生",
-      "organization": "智平方",
-      "city": "北京",
-      "location": "北京·朝阳·望京",
-      "recruitmentType": "实习",
-      "salary": "300–350 元/天",
-      "education": "本科",
-      "experience": "在校生",
-      "requirements": "本科",
-      "skills": [
-        "面向轮式人形机器人的移动",
-        "交互和操作任务",
-        "参与 VLA / WAM 模型研发",
-        "训练与评测。"
-      ],
-      "summary": "面向轮式人形机器人的移动、交互和操作任务，参与 VLA / WAM 模型研发、训练与评测。",
-      "sourceName": "BOSS直聘",
-      "sourceType": "招聘平台",
-      "sourceUrl": "https://m.zhipin.com/zhaopin/b4b730a4386f0129331y3di4/",
-      "capturedAt": "2026-10-13",
-      "direction": "vla",
-      "normalizedSalary": {
-        "kind": "daily",
-        "min": 300,
-        "max": 350,
-        "unit": "元/天",
-        "months": null
-      },
-      "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
-      "httpStatus": 200
-    },
-    {
-      "id": "internship-tsinghua-air-embodied-research",
-      "title": "具身智能科研实习生",
-      "organization": "清华大学智能产业研究院（AIR）",
-      "city": "北京",
-      "location": "北京·海淀",
-      "recruitmentType": "实习",
-      "salary": "以招聘方确认为准",
-      "education": "本硕博在读",
-      "experience": "每周不少于 4 天，连续不少于 6 个月",
-      "requirements": "本硕博在读；每周不少于 4 天，连续不少于 6 个月",
-      "skills": [
-        "开展具身智能模型架构及建模机制研究",
-        "岗位明确提到 Diffusion",
-        "Flow Matching",
-        "强化学习以及灵巧操作 VLA / WAM。"
-      ],
-      "summary": "开展具身智能模型架构及建模机制研究，岗位明确提到 Diffusion、Flow Matching、强化学习以及灵巧操作 VLA / WAM。",
-      "sourceName": "清华大学 AIR 官网",
-      "sourceType": "高校/研究机构",
-      "sourceUrl": "https://air.tsinghua.edu.cn/info/1030/2541.htm",
-      "capturedAt": "2026-10-14",
-      "direction": "vla",
-      "normalizedSalary": {
-        "kind": "undisclosed",
-        "min": null,
-        "max": null,
-        "unit": null,
-        "months": null
-      },
-      "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
-      "httpStatus": 200
-    },
-    {
-      "id": "internship-meituan-embodied-foundation-model",
-      "title": "具身智能大模型算法实习生",
-      "organization": "美团",
+      "id": "platform-zhuoshi-vla",
+      "title": "VLA 具身智能研究员",
+      "organization": "卓世科技",
       "city": "北京",
       "location": "北京",
-      "recruitmentType": "实习",
-      "salary": "以招聘方确认为准",
-      "education": "硕士或博士在读",
-      "experience": "在校生",
-      "requirements": "硕士或博士在读",
+      "recruitmentType": "社招",
+      "salary": "30–60K",
+      "education": "硕士",
+      "experience": "经验不限",
+      "requirements": "研究视觉—语言—动作模型，推进具身任务训练和部署。",
       "skills": [
-        "研究 VLA",
-        "World Model",
-        "多模态对齐",
-        "真机模仿学习与强化学习",
-        "参与移动操作",
-        "灵巧操作"
+        "VLA",
+        "多模态大模型",
+        "具身智能"
       ],
-      "summary": "研究 VLA、World Model、多模态对齐、真机模仿学习与强化学习，参与移动操作、灵巧操作、全身控制与具身评测。",
-      "sourceName": "招聘聚合页（标注来自美团官网，需回源）",
+      "summary": "研究视觉—语言—动作模型，推进具身任务训练和部署。",
+      "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
-      "sourceUrl": "https://agechild.com/job/b9a701d46a900e480297cd7d4fa60eff",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/50cd2e307388e6bd33xz0tu-/",
+      "capturedAt": "2026-10-14",
+      "direction": "vla",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 30,
+        "max": 60,
+        "unit": "K/月",
+        "months": null
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-robotera-vla",
+      "title": "VLA 具身大模型算法工程师",
+      "organization": "星动纪元",
+      "city": "北京",
+      "location": "北京",
+      "recruitmentType": "社招",
+      "salary": "50–70K·15薪",
+      "education": "硕士",
+      "experience": "经验不限",
+      "requirements": "研发人形机器人 VLA 大模型和操作策略。",
+      "skills": [
+        "VLA",
+        "具身大模型",
+        "机器人操作"
+      ],
+      "summary": "研发人形机器人 VLA 大模型和操作策略。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/58706ec48f108c9f33Zz3dW6/",
+      "capturedAt": "2026-10-14",
+      "direction": "vla",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 50,
+        "max": 70,
+        "unit": "K/月",
+        "months": 15
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-bit-huahui-model",
+      "title": "机器人大模型算法工程师",
+      "organization": "北京理工华汇",
+      "city": "北京",
+      "location": "北京",
+      "recruitmentType": "社招",
+      "salary": "30–40K·13薪",
+      "education": "本科",
+      "experience": "3–5年",
+      "requirements": "研发机器人多模态理解、大模型决策与部署能力。",
+      "skills": [
+        "机器人大模型",
+        "多模态",
+        "模型部署"
+      ],
+      "summary": "研发机器人多模态理解、大模型决策与部署能力。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/58706ec48f108c9f33Zz3dW6/",
+      "capturedAt": "2026-10-14",
+      "direction": "vla",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 30,
+        "max": 40,
+        "unit": "K/月",
+        "months": 13
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-liepin-geekplus-training",
+      "title": "大模型分布式训练工程师",
+      "organization": "极智嘉",
+      "city": "北京",
+      "location": "北京",
+      "recruitmentType": "校招",
+      "salary": "未公开",
+      "education": "硕士",
+      "experience": "经验不限",
+      "requirements": "建设机器人大模型分布式训练、数据和评测基础设施。",
+      "skills": [
+        "大模型",
+        "分布式训练",
+        "数据工程"
+      ],
+      "summary": "建设机器人大模型分布式训练、数据和评测基础设施。",
+      "sourceName": "猎聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.liepin.com/job/1983965917.shtml",
       "capturedAt": "2026-10-14",
       "direction": "vla",
       "normalizedSalary": {
@@ -1590,6 +2646,39 @@
       },
       "verifiedAt": "2026-10-14",
       "sourceStatus": "可访问",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-tuoyuan-vla",
+      "title": "具身智能算法研究员",
+      "organization": "拓元智慧",
+      "city": "广州",
+      "location": "广州",
+      "recruitmentType": "社招",
+      "salary": "25–50K",
+      "education": "硕士",
+      "experience": "经验不限",
+      "requirements": "研究多模态大模型、VLA 与机器人任务规划。",
+      "skills": [
+        "VLA",
+        "多模态",
+        "任务规划"
+      ],
+      "summary": "研究多模态大模型、VLA 与机器人任务规划。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/50cd2e307388e6bd33xz0tu-/",
+      "capturedAt": "2026-10-14",
+      "direction": "vla",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 25,
+        "max": 50,
+        "unit": "K/月",
+        "months": null
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
     {
@@ -1662,7 +2751,7 @@
         "months": null
       },
       "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
+      "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
     {
@@ -1699,7 +2788,7 @@
         "months": null
       },
       "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
+      "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
     {
@@ -1736,7 +2825,7 @@
         "months": null
       },
       "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
+      "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
     {
@@ -1769,7 +2858,7 @@
         "months": 14
       },
       "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
+      "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
     {
@@ -1805,7 +2894,7 @@
         "months": null
       },
       "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
+      "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
     {
@@ -1841,7 +2930,7 @@
         "months": null
       },
       "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
+      "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
     {
@@ -1882,36 +2971,36 @@
       "httpStatus": 200
     },
     {
-      "id": "internship-zhiyuan-robot-embodied",
-      "title": "具身算法实习生",
-      "organization": "智元机器人",
+      "id": "platform-sharpa-vlm",
+      "title": "机器人算法工程师（VLM）",
+      "organization": "Sharpa",
       "city": "上海",
-      "location": "上海·浦东·康桥",
-      "recruitmentType": "实习",
-      "salary": "200–400 元/天",
+      "location": "上海",
+      "recruitmentType": "社招",
+      "salary": "40–70K·16薪",
       "education": "硕士",
-      "experience": "在校生",
-      "requirements": "硕士",
+      "experience": "3–5年",
+      "requirements": "研发视觉语言模型并用于机器人感知和操作。",
       "skills": [
-        "研发用于人形机器人任务的模仿学习与强化学习算法",
-        "探索视觉",
-        "触觉和语言多模态感知决策。"
+        "VLM",
+        "多模态大模型",
+        "机器人操作"
       ],
-      "summary": "研发用于人形机器人任务的模仿学习与强化学习算法，探索视觉、触觉和语言多模态感知决策。",
+      "summary": "研发视觉语言模型并用于机器人感知和操作。",
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
-      "sourceUrl": "https://www.zhipin.com/zhaopin/b7e6d71074b05cf0031z3tS0Ew~~/",
-      "capturedAt": "2026-10-13",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
+      "capturedAt": "2026-10-14",
       "direction": "vla",
       "normalizedSalary": {
-        "kind": "daily",
-        "min": 200,
-        "max": 400,
-        "unit": "元/天",
-        "months": null
+        "kind": "monthly",
+        "min": 40,
+        "max": 70,
+        "unit": "K/月",
+        "months": 16
       },
       "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
+      "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
     {
@@ -2022,7 +3111,73 @@
         "months": null
       },
       "verifiedAt": "2026-10-14",
-      "sourceStatus": "可访问",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-tencent-embodied-model",
+      "title": "机器人具身大模型算法工程师",
+      "organization": "腾讯",
+      "city": "深圳",
+      "location": "深圳",
+      "recruitmentType": "社招",
+      "salary": "50–70K",
+      "education": "硕士",
+      "experience": "5–10年",
+      "requirements": "研发机器人多模态大模型、VLA 与具身决策算法。",
+      "skills": [
+        "VLA",
+        "具身大模型",
+        "多模态"
+      ],
+      "summary": "研发机器人多模态大模型、VLA 与具身决策算法。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/50cd2e307388e6bd33xz0tu-/",
+      "capturedAt": "2026-10-14",
+      "direction": "vla",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 50,
+        "max": 70,
+        "unit": "K/月",
+        "months": null
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-youai-vla",
+      "title": "VLA 算法工程师",
+      "organization": "优艾智合",
+      "city": "深圳",
+      "location": "深圳",
+      "recruitmentType": "社招",
+      "salary": "40–60K·13薪",
+      "education": "硕士",
+      "experience": "3–5年",
+      "requirements": "开发移动操作机器人的 VLA 模型训练、评测与部署链路。",
+      "skills": [
+        "VLA",
+        "移动操作",
+        "模型部署"
+      ],
+      "summary": "开发移动操作机器人的 VLA 模型训练、评测与部署链路。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/ebf41c3315eb7f8d1Xx80967GA~~/",
+      "capturedAt": "2026-10-14",
+      "direction": "vla",
+      "normalizedSalary": {
+        "kind": "monthly",
+        "min": 40,
+        "max": 60,
+        "unit": "K/月",
+        "months": 13
+      },
+      "verifiedAt": "2026-10-14",
+      "sourceStatus": "受限或需复核",
       "httpStatus": 200
     }
   ]

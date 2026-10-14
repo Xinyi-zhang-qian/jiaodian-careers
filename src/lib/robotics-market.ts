@@ -38,8 +38,16 @@ export const roboticsDirectionDefinitions = [
 ] as const;
 
 export type RoboticsDirectionId = (typeof roboticsDirectionDefinitions)[number]['id'];
-export type RoboticsRecruitmentType = '实习' | '校招' | '社招' | '博士后';
+export type RoboticsRecruitmentType = '校招' | '社招' | '博士后';
 export type RoboticsSourceType = '企业官网' | '高校/研究机构' | '招聘平台';
+
+export interface RoboticsPlatformSearch {
+  platform: 'BOSS直聘' | '猎聘';
+  query: string;
+  sourceUrl: string;
+  includedJobs: number;
+  note: string;
+}
 
 export interface NormalizedSalary {
   kind: 'monthly' | 'daily' | 'undisclosed';
@@ -77,6 +85,7 @@ export interface RoboticsMarketDataset {
   generatedAt: string;
   scope: string;
   methodology: string[];
+  platformSearches: RoboticsPlatformSearch[];
   jobs: RoboticsMarketJob[];
 }
 

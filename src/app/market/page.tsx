@@ -68,15 +68,15 @@ export default function MarketPage() {
         </div>
         <div className="mt-3 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <h2 className="text-2xl font-semibold text-text-primary">全国机器人岗位需求分析</h2>
+            <h2 className="text-2xl font-semibold text-text-primary">全国机器人正式岗位样本分析</h2>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-text-secondary">
-              由采集脚本汇总企业官网、官方招聘系统和招聘平台公开职位，比较 VLA、仿真、规划控制、感知、数据评测及系统硬件方向，并保留岗位名称、薪资、要求与来源。
+              由采集脚本汇总 BOSS 直聘、猎聘、企业官网与研究机构公开职位，比较 VLA、仿真、规划控制、感知、数据评测及系统硬件方向。本专题只统计正式岗位，不含实习。
             </p>
           </div>
           <p className="shrink-0 text-xs text-text-secondary">数据生成于 {roboticsDataset.generatedAt}</p>
         </div>
         <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-          <div className="rounded-xl border border-white/70 bg-white/80 p-4"><p className="text-2xl font-semibold text-text-primary">{roboticsSummary.total}</p><p className="mt-1 text-sm text-text-secondary">去重岗位样本</p></div>
+          <div className="rounded-xl border border-white/70 bg-white/80 p-4"><p className="text-2xl font-semibold text-text-primary">{roboticsSummary.total}</p><p className="mt-1 text-sm text-text-secondary">去重正式岗位样本</p></div>
           <div className="rounded-xl border border-white/70 bg-white/80 p-4"><p className="text-2xl font-semibold text-[#db2777]">{vlaDemand?.count ?? 0} 条 · {vlaDemand?.share ?? 0}%</p><p className="mt-1 text-sm text-text-secondary">VLA / 具身大模型</p></div>
           <div className="rounded-xl border border-white/70 bg-white/80 p-4"><p className="text-2xl font-semibold text-[#0f766e]">{simulationDemand?.count ?? 0} 条 · {simulationDemand?.share ?? 0}%</p><p className="mt-1 text-sm text-text-secondary">仿真与合成数据</p></div>
           <div className="rounded-xl border border-white/70 bg-white/80 p-4"><p className="text-2xl font-semibold text-brand-dark">{roboticsSummary.salaryDisclosureRate}%</p><p className="mt-1 text-sm text-text-secondary">薪资公开率</p></div>

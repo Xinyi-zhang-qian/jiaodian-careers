@@ -59,7 +59,6 @@ export default function RoboticsJobTable({ jobs }: RoboticsJobTableProps) {
           className="h-10 rounded-lg border border-border bg-surface px-3 text-sm outline-none focus:border-brand"
         >
           <option value="all">全部招聘类型</option>
-          <option value="实习">实习</option>
           <option value="校招">校招</option>
           <option value="社招">社招</option>
           <option value="博士后">博士后</option>
