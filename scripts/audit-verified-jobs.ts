@@ -1,5 +1,6 @@
 import verifiedJobs from '../src/data/verified-jobs';
 import restoredJobs from '../src/data/restored-jobs';
+import additionalVerifiedJobs from '../src/data/additional-verified-jobs';
 
 const offline = process.argv.includes('--offline');
 
@@ -22,7 +23,7 @@ async function main() {
   const errors: string[] = [];
   const ids = new Set<number>();
 
-  const jobs = [...verifiedJobs, ...restoredJobs];
+  const jobs = [...verifiedJobs, ...restoredJobs, ...additionalVerifiedJobs];
   for (const job of jobs) {
     if (ids.has(job.id)) errors.push(`ID ${job.id}: duplicate id`);
     ids.add(job.id);
