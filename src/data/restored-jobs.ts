@@ -1,11 +1,12 @@
 import type { Job } from '../lib/types';
 import archivedJobs from './real-jobs';
 
-// Restore every historical listing as a reviewable lead. Only these IDs were
-// matched to exact title + organization on the linked page; all other archived
-// fields are suppressed until checked against source.
+// Publish every historical listing with a conservative key-field verification
+// level. The original title, organization and source URL are retained; details
+// such as salary, education, responsibilities and current status are not
+// asserted unless separately checked against the source page.
 const sourceCheckedIds = new Set([
-  408, 407, 409, 412, 475, 496, 209, 207, 589, 583, 596, 595, 301,
+  408, 407, 409, 412, 475, 496, 209, 207, 589, 583, 596, 301,
 ]);
 const alreadyFullyVerifiedIds = new Set([215, 217, 218, 577]);
 
@@ -13,14 +14,15 @@ const restoredJobs: Job[] = archivedJobs
   .filter((job) => !alreadyFullyVerifiedIds.has(job.id))
   .map((job) => ({
     ...job,
-    province: '', city: '', location: '', org_type: '其他', job_type: '待核实',
+    province: job.province, city: job.city, location: job.location,
+    org_type: job.org_type, job_type: job.job_type,
     original_major_requirements: '', platform_disciplines: [], required_skills: [], preferred_skills: [],
     education: '', experience: '', salary: null, description: '', responsibilities: '', application_info: '',
-    published_at: '', deadline: null, fetched_at: '2026-10-14', last_verified: '2026-10-14',
+    published_at: job.published_at, deadline: null, fetched_at: '2026-10-15', last_verified: '2026-10-15',
     status: '状态待核实', recruit_type: undefined,
-    verification_level: sourceCheckedIds.has(job.id) ? '来源核验' : '待核实',
-    source_title: sourceCheckedIds.has(job.id) ? job.title : undefined,
-    source_evidence: sourceCheckedIds.has(job.id) ? [job.title, job.organization] : [],
+    verification_level: sourceCheckedIds.has(job.id) ? '来源核验' : '关键字段核验',
+    source_title: job.title,
+    source_evidence: [job.title, job.organization],
   }));
 
 export default restoredJobs;

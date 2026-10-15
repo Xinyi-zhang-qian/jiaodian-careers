@@ -27,7 +27,7 @@ export interface Job {
   status: '招聘中' | '已截止' | '状态待核实';
   is_demo: boolean;
   recruit_type?: '校招' | '社招';
-  verification_level?: '待核实' | '来源核验' | '逐字段核验';
+  verification_level?: '待核实' | '关键字段核验' | '来源核验' | '逐字段核验';
   source_title?: string;
   source_evidence?: string[];
 }

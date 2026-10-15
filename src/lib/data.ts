@@ -2,7 +2,8 @@ import { Job } from './types';
 import verifiedJobs from '../data/verified-jobs';
 import restoredJobs from '../data/restored-jobs';
 
-// Only real jobs, no demo data
+// Publish the complete 300-record catalog. Each record carries a verification
+// level so the UI distinguishes field-level, source-level and key-field checks.
 const allJobs: Job[] = [...verifiedJobs, ...restoredJobs];
 
 
@@ -23,9 +24,9 @@ export function getJobs(filters: {
   let result = [...allJobs];
 
   if (filters.region && filters.region !== '其他地区') {
-    result = result.filter(j => j.province === filters.region);
+    result = result.filter(j => j.province.includes(filters.region!));
   } else if (filters.region === '其他地区') {
-    result = result.filter(j => !['北京', '上海', '广东', '浙江', '江苏'].includes(j.province));
+    result = result.filter(j => !['北京', '上海', '天津', '广东', '浙江', '江苏'].some((region) => j.province.includes(region)));
   }
 
   if (filters.city) result = result.filter(j => j.city === filters.city);
@@ -47,6 +48,9 @@ export function getJobs(filters: {
     result = result.filter(j =>
       j.title.toLowerCase().includes(kw) ||
       j.organization.toLowerCase().includes(kw) ||
+      j.province.toLowerCase().includes(kw) ||
+      j.city.toLowerCase().includes(kw) ||
+      j.location.toLowerCase().includes(kw) ||
       j.original_major_requirements.toLowerCase().includes(kw) ||
       j.description.toLowerCase().includes(kw)
     );
@@ -88,5 +92,5 @@ export function getJobCountByDiscipline(discipline: string): number {
 }
 
 export function getDistinctCities(province: string): string[] {
-  return [...new Set(allJobs.filter(j => j.province === province && j.city).map(j => j.city))].sort();
+  return [...new Set(allJobs.filter(j => j.province.includes(province) && j.city).map(j => j.city))].sort();
 }

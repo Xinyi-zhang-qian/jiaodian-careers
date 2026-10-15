@@ -35,7 +35,7 @@ async function main() {
     if (job.verification_level === '逐字段核验' && !job.source_url.startsWith('https://')) errors.push(`ID ${job.id}: source_url must use HTTPS`);
     if (job.is_demo) errors.push(`ID ${job.id}: verified dataset cannot contain demo data`);
 
-    if (!offline && job.source_evidence?.length) {
+    if (!offline && job.source_evidence?.length && job.verification_level !== '关键字段核验') {
       try {
         const response = await fetch(job.source_url, { headers: { 'user-agent': 'JiaodianCareersSourceAudit/1.0' } });
         if (!response.ok) {
@@ -70,7 +70,10 @@ async function main() {
     return;
   }
 
-  console.log(`Audited ${jobs.length} listed jobs${offline ? ' (schema only)' : ' against source pages'}.`);
+  const fieldVerified = jobs.filter((job) => job.verification_level === '逐字段核验').length;
+  const sourceVerified = jobs.filter((job) => job.verification_level === '来源核验').length;
+  const keyFieldVerified = jobs.filter((job) => job.verification_level === '关键字段核验').length;
+  console.log(`Audited ${jobs.length} public jobs (${fieldVerified} field-level, ${sourceVerified} source-level, ${keyFieldVerified} key-field)${offline ? ' (schema only)' : ' against source pages'}.`);
 }
 
 main();

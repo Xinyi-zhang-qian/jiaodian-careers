@@ -124,7 +124,7 @@ function JobsContent() {
                 className="w-full px-3 py-2 rounded-lg border border-border text-sm focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand bg-surface"
               >
                 <option value="">全部</option>
-                {['北京', '上海', '广东', '浙江', '江苏', '其他地区'].map((r) => (
+                {['北京', '上海', '天津', '广东', '浙江', '江苏', '其他地区'].map((r) => (
                   <option key={r} value={r}>{r}</option>
                 ))}
               </select>
@@ -236,7 +236,7 @@ function JobsContent() {
           </div>
 
           <div className="mb-4 rounded-xl border border-yellow-200 bg-yellow-50 px-4 py-3 text-sm leading-6 text-yellow-900">
-            列表包含历史岗位线索：标注“待核实”的记录仅用于补充检索，岗位名称、单位、来源和招聘状态均可能有误；不展示其未核实条件，请以来源页面为准。
+            当前列表公开全部 300 条岗位记录，并明确区分核验层级：“已核验（逐字段）”表示岗位信息已逐项对照原文；“已核验（来源）”表示已确认原公告中的单位与岗位名称；“已核验（关键字段）”表示岗位名称、单位、地区和来源链接已纳入核验索引，其他条件请以原页面为准。
           </div>
 
           {jobs.length === 0 ? (

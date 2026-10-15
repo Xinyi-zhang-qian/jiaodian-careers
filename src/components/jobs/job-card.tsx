@@ -4,6 +4,14 @@ import { Job } from '@/lib/types';
 import { useFavorites } from '@/lib/use-favorites';
 import { getListingKind } from '@/lib/utils';
 
+function verificationLabel(level?: string) {
+  if (level === '逐字段核验') return '已核验（逐字段）';
+  if (level === '来源核验') return '已核验（来源）';
+  if (level === '关键字段核验') return '已核验（关键字段）';
+  if (level === '待核实') return '未发布';
+  return level;
+}
+
 export default function JobCard({ job }: { job: Job }) {
   const { isFavorited, toggleFavorite } = useFavorites();
   const favorited = isFavorited(job.id);
@@ -17,8 +25,8 @@ export default function JobCard({ job }: { job: Job }) {
             {listingKind !== '具体岗位' && (
               <span className="rounded-md bg-accent/10 px-2 py-0.5 text-xs font-medium text-accent">{listingKind}</span>
             )}
-            {job.verification_level && (
-              <span className={`rounded-md px-2 py-0.5 text-xs font-medium ${job.verification_level === '待核实' ? 'bg-yellow-100 text-yellow-800' : 'bg-emerald-50 text-emerald-700'}`}>{job.verification_level}</span>
+            {job.verification_level && verificationLabel(job.verification_level) && (
+              <span className={`rounded-md px-2 py-0.5 text-xs font-medium ${job.verification_level === '待核实' ? 'bg-yellow-100 text-yellow-800' : 'bg-emerald-50 text-emerald-700'}`}>{verificationLabel(job.verification_level)}</span>
             )}
             <Link href={`/jobs/${job.id}`} className="text-lg font-medium text-text-primary hover:text-brand transition-colors">
               {job.title}
@@ -82,7 +90,7 @@ export default function JobCard({ job }: { job: Job }) {
           {job.salary && (
             <span className="text-brand-dark font-medium">{job.salary}</span>
           )}
-          {!job.salary && <span className="text-text-secondary/60">{job.verification_level === '逐字段核验' ? '薪资未公开' : '薪资待核实'}</span>}
+          {!job.salary && <span className="text-text-secondary/60">{job.verification_level === '逐字段核验' ? '薪资未公开' : '薪资以原文为准'}</span>}
           {job.recruit_type && (
             <span className={`px-2 py-0.5 rounded text-xs font-medium ${
               job.recruit_type === '校招' ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700'
@@ -101,7 +109,7 @@ export default function JobCard({ job }: { job: Job }) {
             <span className="px-2 py-0.5 rounded bg-text-secondary/10 text-text-secondary">已截止</span>
           )}
           {job.status === '状态待核实' && (
-            <span className="px-2 py-0.5 rounded bg-yellow-100 text-yellow-700">状态待核实</span>
+            <span className="px-2 py-0.5 rounded bg-amber-50 text-amber-700">状态以原文为准</span>
           )}
           <a
             href={job.source_url}

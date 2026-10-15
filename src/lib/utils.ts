@@ -1,4 +1,4 @@
-export const REGIONS = ['北京', '上海', '广东', '浙江', '江苏', '其他地区'] as const;
+export const REGIONS = ['北京', '上海', '天津', '广东', '浙江', '江苏', '其他地区'] as const;
 
 export const ZHEJIANG_CITIES = ['杭州', '宁波', '温州', '嘉兴', '湖州', '绍兴', '金华', '衢州', '舟山', '台州', '丽水'];
 export const JIANGSU_CITIES = ['南京', '苏州', '无锡', '常州', '镇江', '南通', '泰州', '扬州', '盐城', '连云港', '淮安', '宿迁', '徐州'];

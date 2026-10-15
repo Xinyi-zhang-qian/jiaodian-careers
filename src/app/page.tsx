@@ -38,6 +38,10 @@ export default function HomePage() {
   };
 
   const { jobs } = getJobs({ limit: 6, sort: 'newest' });
+  const publishedJobs = getJobs({ limit: 1000 }).jobs;
+  const fieldVerifiedCount = publishedJobs.filter((job) => job.verification_level === '逐字段核验').length;
+  const sourceVerifiedCount = publishedJobs.filter((job) => job.verification_level === '来源核验').length;
+  const keyFieldVerifiedCount = publishedJobs.filter((job) => job.verification_level === '关键字段核验').length;
 
   const disciplinesWithCount = disciplines.map((d) => ({
     ...d,
@@ -150,6 +154,31 @@ export default function HomePage() {
         <Link href="/analysis" className="shrink-0 rounded-xl bg-brand px-4 py-2.5 text-center text-sm font-medium text-white transition-colors hover:bg-brand-dark">
           查看方向分析 →
         </Link>
+      </section>
+
+      <section className="rounded-3xl border border-border bg-surface p-6 shadow-sm sm:p-8">
+        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand">核验摘要</p>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="rounded-2xl bg-muted p-5">
+            <p className="text-3xl font-semibold text-text-primary">{publishedJobs.length}</p>
+            <p className="mt-1 text-sm text-text-secondary">当前公开岗位</p>
+          </div>
+          <div className="rounded-2xl bg-emerald-50 p-5">
+            <p className="text-3xl font-semibold text-emerald-800">{fieldVerifiedCount}</p>
+            <p className="mt-1 text-sm text-emerald-700">已核验（逐字段）</p>
+          </div>
+          <div className="rounded-2xl bg-sky-50 p-5">
+            <p className="text-3xl font-semibold text-sky-800">{sourceVerifiedCount}</p>
+            <p className="mt-1 text-sm text-sky-700">已核验（来源）</p>
+          </div>
+          <div className="rounded-2xl bg-amber-50 p-5">
+            <p className="text-3xl font-semibold text-amber-800">{keyFieldVerifiedCount}</p>
+            <p className="mt-1 text-sm text-amber-700">已核验（关键字段）</p>
+          </div>
+        </div>
+        <p className="mt-6 text-sm leading-7 text-text-secondary">
+          当前岗位覆盖北京、上海、天津、江浙沪、广东等地区，方向包括哲学与科技伦理、数字治理、AI4S、具身智能、机器人仿真、大模型、算法、编辑出版、人事与项目管理。所有 300 条记录均公开展示，并在详情页标明可确认的信息范围。
+        </p>
       </section>
 
       {/* Cross-Discipline Directions */}

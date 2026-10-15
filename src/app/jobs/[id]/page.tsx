@@ -4,6 +4,13 @@ import { ExternalLink, MapPin, Building2, Calendar, GraduationCap, ArrowLeft } f
 import { getJob, getJobIds } from '@/lib/data';
 import { getListingKind } from '@/lib/utils';
 
+function verificationLabel(level?: string) {
+  if (level === '逐字段核验') return '已核验（逐字段）';
+  if (level === '来源核验') return '已核验（来源）';
+  if (level === '关键字段核验') return '已核验（关键字段）';
+  return level ?? '';
+}
+
 export function generateStaticParams() {
   return getJobIds().map((id) => ({ id: String(id) }));
 }
@@ -51,7 +58,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
                 job.status === '已截止' ? 'bg-text-secondary/10 text-text-secondary' :
                 'bg-yellow-100 text-yellow-700'
               }`}>
-                {job.status}
+                {job.status === '状态待核实' ? '状态以原文为准' : job.status}
               </span>
             </div>
           </div>
@@ -64,7 +71,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
 
           {job.verification_level === '逐字段核验' && (
             <section className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm leading-6 text-emerald-900">
-              本条已按来源全文逐字段核验。标注为“原公告”的内容来自源页；平台标签仅用于检索和归类，不代表招聘单位原文。
+              本条已按来源全文逐字段核验，标注为“原公告”的内容来自源页；平台标签仅用于检索和归类，不代表招聘单位原文。
             </section>
           )}
 
@@ -88,7 +95,8 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
             </div>
           </section>}
 
-          {job.verification_level === '来源核验' && <section className="rounded-2xl border border-yellow-200 bg-yellow-50 p-4 text-sm leading-6 text-yellow-900">已核对来源页面中的岗位名称与单位；薪资、学历、专业、职责和招聘状态不在本站转述，请以原页面为准。</section>}
+          {job.verification_level === '来源核验' && <section className="rounded-2xl border border-sky-200 bg-sky-50 p-4 text-sm leading-6 text-sky-900">本条已核对来源页面中的岗位名称与单位，标注为“已核验（来源）”；薪资、学历、专业、职责和招聘状态请以原公告为准。</section>}
+          {job.verification_level === '关键字段核验' && <section className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-amber-900">本条已公开岗位名称、单位、地区和来源链接等关键字段，标注为“已核验（关键字段）”；薪资、学历、专业、职责和当前招聘状态未在本站作完整转述，请以原公告为准。</section>}
           {job.verification_level === '待核实' && <section className="rounded-2xl border border-yellow-200 bg-yellow-50 p-4 text-sm leading-6 text-yellow-900">历史招聘线索，尚未核对来源页面。岗位名称、单位及链接也可能有误；本页不展示未经核实的条件信息，请打开来源自行确认。</section>}
 
           {job.source_evidence && job.source_evidence.length > 0 && (
@@ -168,7 +176,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
               <p>来源：{job.source_name}（{job.source_type}）</p>
               {job.verification_level !== '待核实' && <><p>获取时间：{new Date(job.fetched_at).toLocaleDateString('zh-CN')}</p><p>最后核验：{new Date(job.last_verified).toLocaleDateString('zh-CN')}</p></>}
               {job.source_title && <p>来源页标题：{job.source_title}</p>}
-              {job.verification_level && <p>核验：{job.verification_level}</p>}
+              {job.verification_level && <p>核验：{verificationLabel(job.verification_level)}</p>}
               <a href={job.source_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 mt-2 text-brand hover:text-brand-dark transition-colors">
                 前往来源页面 <ExternalLink className="w-4 h-4" />
               </a>
