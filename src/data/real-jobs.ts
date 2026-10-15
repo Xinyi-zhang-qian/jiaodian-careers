@@ -1830,7 +1830,7 @@ const realJobs: Job[] = [
     responsibilities: '1.承担岗位相关业务与项目工作\n2.参与团队协作与跨部门沟通\n3.完成既定工作目标与交付',
     application_info: '详见中国国家博物馆招聘公告或官网投递',
     published_at: '2026-09-01', deadline: null,
-    source_name: '中国国家博物馆', source_type: '官网', source_url: 'https://www.chnmuseum.cn/',
+    source_name: '中国国家博物馆国博招聘', source_type: '官网', source_url: 'https://www.chnmuseum.cn/shxg/gbzp/index.shtml',
     fetched_at: now, last_verified: now, status: '招聘中', is_demo: false,
     recruit_type: '社招',
   },
