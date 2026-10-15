@@ -306,7 +306,7 @@ const unverifiedInternshipCandidates: InternshipListing[] = [
 ];
 
 // 实习页只能导出通过原文核验的记录。完成首批复核前保持为空。
-export const internshipListings: InternshipListing[] = [];
+export { verifiedInternshipAdditions as internshipListings } from './verified-internship-additions';
 
 // 防止候选数据被 tree-shaking 以外的工具误判为可发布数据。
 void unverifiedInternshipCandidates;
