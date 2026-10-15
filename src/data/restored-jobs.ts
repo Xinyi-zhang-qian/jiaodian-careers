@@ -7,16 +7,25 @@ import archivedJobs from './real-jobs';
 // asserted unless separately checked against the source page.
 const sourceCheckedIds = new Set([
   408, 407, 409, 412, 475, 496, 209, 207, 589, 583, 596, 301,
+  595,
 ]);
 const alreadyFullyVerifiedIds = new Set([215, 217, 218, 577]);
 // The original National Museum recruitment announcement now returns 404 and
 // the remaining official page is only a shortlist/result notice, so do not
 // publish it as an actionable vacancy.
 const withdrawnSourceIds = new Set([506]);
+// Do not publish records whose current source is inaccessible, non-specific,
+// or a repost rather than an exact recruitment page.
+const invalidSourceIds = new Set([304, 549, 558]);
 
 function hasDirectSourcePage(sourceUrl: string) {
   try {
-    const pathname = new URL(sourceUrl).pathname;
+    const parsed = new URL(sourceUrl);
+    // NIO's official campus-recruitment microsite is intentionally served at
+    // the domain root, but it is a recruitment page rather than a corporate
+    // homepage.
+    if (parsed.hostname === 'intern.nio.com') return true;
+    const pathname = parsed.pathname;
     return pathname !== '' && pathname !== '/' && pathname !== '/index.html';
   } catch {
     return false;
@@ -26,6 +35,7 @@ function hasDirectSourcePage(sourceUrl: string) {
 const restoredJobs: Job[] = archivedJobs
   .filter((job) => !alreadyFullyVerifiedIds.has(job.id)
     && !withdrawnSourceIds.has(job.id)
+    && !invalidSourceIds.has(job.id)
     && hasDirectSourcePage(job.source_url))
   .map((job) => ({
     ...job,
