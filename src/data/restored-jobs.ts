@@ -9,9 +9,13 @@ const sourceCheckedIds = new Set([
   408, 407, 409, 412, 475, 496, 209, 207, 589, 583, 596, 301,
 ]);
 const alreadyFullyVerifiedIds = new Set([215, 217, 218, 577]);
+// The original National Museum recruitment announcement now returns 404 and
+// the remaining official page is only a shortlist/result notice, so do not
+// publish it as an actionable vacancy.
+const withdrawnSourceIds = new Set([506]);
 
 const restoredJobs: Job[] = archivedJobs
-  .filter((job) => !alreadyFullyVerifiedIds.has(job.id))
+  .filter((job) => !alreadyFullyVerifiedIds.has(job.id) && !withdrawnSourceIds.has(job.id))
   .map((job) => ({
     ...job,
     province: job.province, city: job.city, location: job.location,

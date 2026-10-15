@@ -2,7 +2,7 @@ import { Job } from './types';
 import verifiedJobs from '../data/verified-jobs';
 import restoredJobs from '../data/restored-jobs';
 
-// Publish the complete 300-record catalog. Each record carries a verification
+// Publish the complete current catalog. Each record carries a verification
 // level so the UI distinguishes field-level, source-level and key-field checks.
 const allJobs: Job[] = [...verifiedJobs, ...restoredJobs];
 
