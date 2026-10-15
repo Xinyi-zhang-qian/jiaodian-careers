@@ -258,4 +258,36 @@ export const verifiedInternshipAdditions: InternshipListing[] = [
     id: 'oppo-system-ai-intern', track: 'ai4s', title: 'System for AI / AI as System 实习生', organization: 'OPPO', organizationType: '科技企业', location: '深圳/东莞', pay: '以招聘方确认为准', education: '在校生',
     summary: '参与大模型驱动的系统优化、AI Agent 框架、端侧推理部署和多媒体智能系统研发。', sourceUrl: 'https://careers.oppo.com/university/oppo/campus/post?shareId=16042', capturedAt: '2026-10-15', sourceName: 'OPPO 招聘官网',
   },
+  {
+    id: 'bairong-ai-product-agent', track: 'humanities_tech', title: 'AI 产品经理实习生（Agent / 实时语音方向）', organization: '百融智能', organizationType: '金融科技企业', location: '北京', pay: '以招聘方确认为准', education: '在校生',
+    summary: '参与 Agent 与实时语音产品的需求分析、用户调研、PRD 撰写、项目推进、竞品研究和产品文档建设。', sourceUrl: 'https://careers.brgroup.com/jobs/e41213f7-5b2c-4cbc-b867-e65687d142d9?recruitmentType=social', capturedAt: '2026-10-15', sourceName: '百融智能招聘官网',
+  },
+  {
+    id: 'kujiale-ai-product', track: 'humanities_tech', title: 'AI 产品经理实习生', organization: '酷家乐', organizationType: '互联网科技企业', location: '杭州', pay: '以招聘方确认为准', education: '在校生',
+    summary: '参与 AI 产品用户研究、数据洞察、需求与 PRD 梳理、模型迭代协作和 AI 产品商业化探索。', sourceUrl: 'https://www.kujiale.com/pub/hr-recruit/campus/postdetail/cf3039dd-b88a-4da2-ab32-e1874d413959', capturedAt: '2026-10-15', sourceName: '酷家乐校园招聘官网',
+  },
+  {
+    id: 'oppo-ai-product-manager', track: 'humanities_tech', title: '互联网产品经理（AI 方向）实习生', organization: 'OPPO', organizationType: '科技企业', location: '深圳/东莞', pay: '以招聘方确认为准', education: '在校生',
+    summary: '参与 AI 方向互联网产品的用户需求分析、方案设计、项目协作和产品迭代，具体要求以 OPPO 原招聘页为准。', sourceUrl: 'https://careers.oppo.com/university/oppo/campus/post/1825?recruitType=Intern', capturedAt: '2026-10-15', sourceName: 'OPPO 招聘官网',
+  },
+  {
+    id: 'pplingo-ai-product', track: 'humanities_tech', title: 'AI 产品经理实习生', organization: 'PPLingo', organizationType: '教育科技企业', location: '武汉', pay: '以招聘方确认为准', education: '在校生',
+    summary: '参与 ASR/TTS 等语音 AI 能力评测、内容与教学资源建设、供应商调研及 AI 产品协作。', sourceUrl: 'https://pplingo.wd3.myworkdayjobs.com/en-US/External/job/AI_R20251123', capturedAt: '2026-10-15', sourceName: 'PPLingo Workday 招聘官网',
+  },
+  {
+    id: 'caict-agent-application', track: 'humanities_tech', title: 'AI 智能体应用开发实习生', organization: '中国信息通信研究院', organizationType: '科研事业单位', location: '北京·西城', pay: '以招聘方确认为准', education: '在校生',
+    summary: '参与 AI 智能体应用方向的开发与研究，岗位来自中国信通院官方实习生招聘入口，具体要求以原页面为准。', sourceUrl: 'https://www.hotjob.cn/wt/caict/web/index/webPosition210%21getPostListByConditionShowPic', capturedAt: '2026-10-15', sourceName: '中国信通院招聘官网',
+  },
+  {
+    id: 'iqiyi-interactive-operations', track: 'humanities_tech', title: '互动运营实习生（AI 互动应用）', organization: '爱奇艺', organizationType: '互联网企业', location: '北京', pay: '以招聘方确认为准', education: '在校生',
+    summary: '参与 AI 互动应用的内容与用户运营、活动策划、数据分析和跨团队协作，具体招聘状态以爱奇艺官方实习入口为准。', sourceUrl: 'https://iq.jobs.feishu.cn/intern/m/', capturedAt: '2026-10-15', sourceName: '爱奇艺官方实习招聘入口',
+  },
+  {
+    id: 'iqiyi-search-product', track: 'humanities_tech', title: '产品实习生（搜推方向）', organization: '爱奇艺', organizationType: '互联网企业', location: '北京', pay: '以招聘方确认为准', education: '在校生',
+    summary: '参与搜索与推荐产品需求分析、PRD 撰写、项目管理及 AI 应用相关产品迭代。', sourceUrl: 'https://iq.jobs.feishu.cn/intern/m/', capturedAt: '2026-10-15', sourceName: '爱奇艺官方实习招聘入口',
+  },
+  {
+    id: 'qianxun-commercial-project', track: 'humanities_tech', title: '商业化项目管理实习生', organization: '千寻智能', organizationType: '机器人企业', location: '杭州', pay: '以招聘方确认为准', education: '在校生',
+    summary: '参与商业化项目规划、进度与风险跟踪、会议纪要、文档管理和资源协调，适合项目管理与产业交叉方向。', sourceUrl: 'https://nwd4iy9rd2s.jobs.feishu.cn/campusofSpiritAI/m/position/7685608542334208283/detail', capturedAt: '2026-10-15', sourceName: '千寻智能官方招聘页',
+  },
 ];
