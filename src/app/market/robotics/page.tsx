@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { AlertTriangle, ArrowLeft, BarChart3, Building2, CalendarDays, Download, ExternalLink, MapPin, WalletCards } from 'lucide-react';
 import RoboticsJobTable from '@/components/market/robotics-job-table';
+import MarketPieChart from '@/components/market/market-pie-chart';
 import marketData from '@/data/generated/robotics-market.json';
 import { analyzeRoboticsMarket, type RoboticsMarketDataset } from '@/lib/robotics-market';
 
@@ -14,6 +15,7 @@ const dataset = marketData as RoboticsMarketDataset;
 const analysis = analyzeRoboticsMarket(dataset.jobs);
 const maxDirectionCount = Math.max(...analysis.directions.map((item) => item.count), 1);
 const maxCityCount = Math.max(...analysis.cities.map((item) => item.count), 1);
+const pieColors = ['#0f766e', '#2563eb', '#db2777', '#d97706', '#7c3aed', '#0891b2', '#65a30d', '#dc2626', '#94a3b8'];
 
 export default function RoboticsMarketPage() {
   const topDirection = analysis.directions[0];
@@ -161,6 +163,16 @@ export default function RoboticsMarketPage() {
       </section>
 
       <section className="grid gap-6 lg:grid-cols-2">
+        <div className="rounded-2xl border border-border bg-surface p-6 sm:p-8">
+          <h2 className="text-xl font-semibold text-text-primary">地区分布饼图</h2>
+          <p className="mt-1 text-xs text-text-secondary">按公开样本中的城市/多地组合统计；多地岗位不拆分重复计数。</p>
+          <MarketPieChart items={analysis.cities} total={analysis.total} colors={pieColors} />
+        </div>
+        <div className="rounded-2xl border border-border bg-surface p-6 sm:p-8">
+          <h2 className="text-xl font-semibold text-text-primary">招聘单位分布饼图</h2>
+          <p className="mt-1 text-xs text-text-secondary">展示样本中岗位数量最多的单位，其余单位合并为“其他”。</p>
+          <MarketPieChart items={analysis.organizations} total={analysis.total} colors={pieColors} />
+        </div>
         <div className="rounded-2xl border border-border bg-surface p-6 sm:p-8">
           <h2 className="text-xl font-semibold text-text-primary">城市分布</h2>
           <p className="mt-1 text-xs text-text-secondary">多城市岗位按来源页展示为一个“多地组合”，不拆分重复计数。</p>

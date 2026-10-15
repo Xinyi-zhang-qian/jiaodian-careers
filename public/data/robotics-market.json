@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-14",
+  "generatedAt": "2026-10-15",
   "scope": "全国机器人方向公开正式岗位线索（社招、校招与博士后），不包含实习。未完成逐字段原文核验的记录只保留岗位名称、单位、城市、来源和平台分析标签，不展示补写的专业、职责、学历、经验或薪资。",
   "methodology": [
     "只读取无需登录即可访问的公开页面，不绕过验证码、登录或访问限制。",
@@ -14,7 +14,7 @@
       "platform": "BOSS直聘",
       "query": "机器人算法 / VLA / 大模型 / 控制 / SLAM / 仿真",
       "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
-      "includedJobs": 53,
+      "includedJobs": 82,
       "note": "来自多个全国及城市公开检索页的可见正式岗位；不代表平台全量。"
     },
     {
@@ -46,7 +46,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "data-evaluation",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -55,7 +55,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -80,7 +80,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/01dcaba1dc096db61XV82928/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "perception",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -89,7 +89,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -113,7 +113,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "perception",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -122,7 +122,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -146,7 +146,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/31d3f534ce06d3441nN63tm7FA~~/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "perception",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -155,7 +155,41 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-boss-siling-vision",
+      "title": "具身智能视觉算法专家",
+      "organization": "思灵机器人",
+      "city": "北京 / 深圳",
+      "location": "北京 / 深圳",
+      "recruitmentType": "社招",
+      "salary": "未公开",
+      "education": "硕士",
+      "experience": "经验不限",
+      "requirements": "公开检索页显示结合视觉、触觉和力反馈提升机器人决策与操作能力。",
+      "skills": [
+        "视觉感知",
+        "触觉",
+        "力反馈",
+        "机器人操作"
+      ],
+      "summary": "公开检索页显示结合视觉、触觉和力反馈提升机器人决策与操作能力。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://m.zhipin.com/zhaopin/69371641f90afde303Z52ty5Ew~~/",
+      "capturedAt": "2026-10-15",
+      "direction": "perception",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -179,7 +213,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "perception",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -188,7 +222,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -213,7 +247,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://m.zhipin.com/zhaopin/c43db07a1b5bf70303Zz29y4/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "perception",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -222,7 +256,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -246,7 +280,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://m.zhipin.com/zhaopin/c43db07a1b5bf70303Zz29y4/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "perception",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -255,7 +289,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -279,7 +313,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://m.zhipin.com/zhaopin/c43db07a1b5bf70303Zz29y4/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "perception",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -288,7 +322,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -312,7 +346,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://m.zhipin.com/zhaopin/c43db07a1b5bf70303Zz29y4/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "perception",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -321,7 +355,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -345,7 +379,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://m.zhipin.com/zhaopin/c43db07a1b5bf70303Zz29y4/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "perception",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -354,7 +388,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -378,7 +412,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://m.zhipin.com/zhaopin/c43db07a1b5bf70303Zz29y4/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "perception",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -387,7 +421,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -411,7 +445,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://m.zhipin.com/zhaopin/c43db07a1b5bf70303Zz29y4/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "perception",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -420,7 +454,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -444,7 +478,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://m.zhipin.com/zhaopin/c43db07a1b5bf70303Zz29y4/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "perception",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -453,7 +487,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -477,7 +511,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://m.zhipin.com/zhaopin/c43db07a1b5bf70303Zz29y4/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "perception",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -486,7 +520,40 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-boss-jdlogistics-slam",
+      "title": "机器人定位导航算法专家",
+      "organization": "京东物流",
+      "city": "杭州",
+      "location": "杭州",
+      "recruitmentType": "社招",
+      "salary": "未公开",
+      "education": "硕士",
+      "experience": "5–10年",
+      "requirements": "公开检索页显示负责多传感器融合定位建图，结合激光雷达、视觉、IMU 与里程计。",
+      "skills": [
+        "SLAM",
+        "定位建图",
+        "多传感器融合"
+      ],
+      "summary": "公开检索页显示负责多传感器融合定位建图，结合激光雷达、视觉、IMU 与里程计。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/1805903ecd88ca970Hd42Ny-/",
+      "capturedAt": "2026-10-15",
+      "direction": "perception",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -510,7 +577,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "perception",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -519,7 +586,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -544,7 +611,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://m.zhipin.com/zhaopin/1c5f61f0d20c1fe403x_3t2-Eg~~/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "perception",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -553,7 +620,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -577,7 +644,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "perception",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -586,7 +653,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -610,7 +677,7 @@
       "sourceName": "猎聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.liepin.com/job/1976177361.shtml",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "perception",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -619,8 +686,76 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "可访问",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-boss-laifu-perception",
+      "title": "机器人视觉感知算法专家",
+      "organization": "深圳徕福机器人",
+      "city": "上海",
+      "location": "上海",
+      "recruitmentType": "社招",
+      "salary": "未公开",
+      "education": "学历不限",
+      "experience": "经验不限",
+      "requirements": "公开检索页显示负责机器视觉感知算法开发、性能指标与工程优化。",
+      "skills": [
+        "视觉感知",
+        "机器视觉",
+        "算法工程化"
+      ],
+      "summary": "公开检索页显示负责机器视觉感知算法开发、性能指标与工程优化。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/1805903ecd88ca970Hd42Ny-/",
+      "capturedAt": "2026-10-15",
+      "direction": "perception",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-boss-nvidia-system-software",
+      "title": "System Software Engineer—Autonomous Vehicles",
+      "organization": "NVIDIA",
+      "city": "上海",
+      "location": "上海",
+      "recruitmentType": "社招",
+      "salary": "未公开",
+      "education": "本科及以上",
+      "experience": "5年以上",
+      "requirements": "NVIDIA 官方职位页显示负责自动驾驶系统软件，覆盖感知、定位、规划、控制及高性能 C/C++ 系统。",
+      "skills": [
+        "自动驾驶",
+        "机器人系统",
+        "C++",
+        "CUDA",
+        "感知规划控制"
+      ],
+      "summary": "NVIDIA 官方职位页显示负责自动驾驶系统软件，覆盖感知、定位、规划、控制及高性能 C/C++ 系统。",
+      "sourceName": "NVIDIA Careers",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://jobs.nvidia.com/careers/job/893396815754?domain=nvidia.com&hl=ru",
+      "capturedAt": "2026-10-15",
+      "direction": "perception",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
     {
@@ -644,7 +779,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/197659aa2c7730131X1y0tq0Fg~~/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "perception",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -653,7 +788,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -680,7 +815,7 @@
       "sourceName": "黑芝麻智能招聘官网",
       "sourceType": "企业官网",
       "sourceUrl": "https://bsthr.zhiye.com/social/detail?jobAdId=4df8b0f0-1124-4476-a501-4cf11fa0fc9f",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "perception",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -689,7 +824,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -713,7 +848,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/197659aa2c7730131X1y0tq0Fg~~/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "perception",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -722,7 +857,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -746,7 +881,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/197659aa2c7730131X1y0tq0Fg~~/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "perception",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -755,7 +890,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -779,7 +914,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/197659aa2c7730131X1y0tq0Fg~~/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "perception",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -788,7 +923,73 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-boss-bytedance-robot-ml",
+      "title": "机器学习算法工程师（机器人视觉/模仿学习）",
+      "organization": "字节跳动",
+      "city": "深圳",
+      "location": "深圳",
+      "recruitmentType": "社招",
+      "salary": "未公开",
+      "education": "本科",
+      "experience": "经验不限",
+      "requirements": "公开检索页显示开展机器人视觉感知、模仿学习和强化学习算法研发。",
+      "skills": [
+        "机器人视觉",
+        "模仿学习",
+        "强化学习"
+      ],
+      "summary": "公开检索页显示开展机器人视觉感知、模仿学习和强化学习算法研发。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/c027aed5bd24eefe3n1z39i0/",
+      "capturedAt": "2026-10-15",
+      "direction": "perception",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-boss-bytedance-robot-3d",
+      "title": "具身智能 3D 场景感知算法工程师",
+      "organization": "字节跳动",
+      "city": "深圳",
+      "location": "深圳",
+      "recruitmentType": "社招",
+      "salary": "未公开",
+      "education": "本科",
+      "experience": "5–10年",
+      "requirements": "公开检索页显示研发具身智能导航、抓取和操作中的三维场景感知与信息融合。",
+      "skills": [
+        "3D视觉",
+        "场景理解",
+        "具身智能"
+      ],
+      "summary": "公开检索页显示研发具身智能导航、抓取和操作中的三维场景感知与信息融合。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/c027aed5bd24eefe3n1z39i0/",
+      "capturedAt": "2026-10-15",
+      "direction": "perception",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -812,7 +1013,7 @@
       "sourceName": "猎聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.liepin.com/job/1980018579.shtml",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "perception",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -821,7 +1022,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "可访问",
       "httpStatus": 200
     },
@@ -845,7 +1046,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "planning-control",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -854,8 +1055,43 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "job-619",
+      "title": "银河通用机器人2027秋季校园招聘·具身领航者人才计划",
+      "organization": "北京银河通用机器人股份有限公司",
+      "city": "北京",
+      "location": "北京、深圳、苏州",
+      "recruitmentType": "校招",
+      "salary": "20000元以上",
+      "education": "硕士／博士",
+      "experience": "2027届应届毕业生",
+      "requirements": "原公告面向2027届海内外高校毕业生，专业要求为“计算机相关等”，学历要求为硕士研究生／博士研究生。",
+      "skills": [
+        "具身多模态大模型",
+        "具身智能操作算法",
+        "机器人规划与控制",
+        "人形强化学习控制",
+        "前沿具身技术研究或核心算法工程开发经历"
+      ],
+      "summary": "银河通用面向2027届青年人才开展具身领航者校园招聘，岗位方向包括具身多模态大模型、操作算法、规划控制、人形强化学习控制、机器人硬件与量产及具身软件系统开发。",
+      "sourceName": "南开大学就业信息网（转载）",
+      "sourceType": "企业官网",
+      "sourceUrl": "https://career.nankai.edu.cn/correcruit/content/id/116497.html",
+      "capturedAt": "2026-10-15",
+      "direction": "planning-control",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "可访问",
       "httpStatus": 200
     },
     {
@@ -878,7 +1114,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "planning-control",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -887,7 +1123,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -911,7 +1147,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "planning-control",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -920,7 +1156,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -944,7 +1180,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "planning-control",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -953,7 +1189,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -977,7 +1213,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/31d3f534ce06d3441nN63tm7FA~~/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "planning-control",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -986,7 +1222,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -1010,7 +1246,7 @@
       "sourceName": "猎聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.liepin.com/job/1970080167.shtml",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "planning-control",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -1019,7 +1255,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "可访问",
       "httpStatus": 200
     },
@@ -1043,7 +1279,7 @@
       "sourceName": "猎聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.liepin.com/job/1984025401.shtml",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "planning-control",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -1052,7 +1288,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "可访问",
       "httpStatus": 200
     },
@@ -1076,7 +1312,7 @@
       "sourceName": "猎聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.liepin.com/job/1966653253.shtml",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "planning-control",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -1085,8 +1321,211 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "可访问",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-boss-siling-embodied",
+      "title": "具身智能算法工程师",
+      "organization": "思灵机器人",
+      "city": "北京",
+      "location": "北京",
+      "recruitmentType": "社招",
+      "salary": "未公开",
+      "education": "硕士",
+      "experience": "经验不限",
+      "requirements": "公开检索页显示为机器人具身操作、强化学习、多模态与真机部署方向。",
+      "skills": [
+        "具身智能",
+        "强化学习",
+        "多模态",
+        "真机部署"
+      ],
+      "summary": "公开检索页显示为机器人具身操作、强化学习、多模态与真机部署方向。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://m.zhipin.com/zhaopin/69371641f90afde303Z52ty5Ew~~/",
+      "capturedAt": "2026-10-15",
+      "direction": "planning-control",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-boss-airs-wbc",
+      "title": "机器人全身运控算法研究员",
+      "organization": "AIRS",
+      "city": "北京",
+      "location": "北京",
+      "recruitmentType": "社招",
+      "salary": "未公开",
+      "education": "本科",
+      "experience": "1–3年",
+      "requirements": "公开检索页显示面向人形机器人全身运动控制算法研究。",
+      "skills": [
+        "全身控制",
+        "运动控制",
+        "人形机器人"
+      ],
+      "summary": "公开检索页显示面向人形机器人全身运动控制算法研究。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/de9f53a86049b04133Z5390~/",
+      "capturedAt": "2026-10-15",
+      "direction": "planning-control",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-boss-xtalpi-pnc",
+      "title": "具身机器人 PnC 算法专家",
+      "organization": "晶泰科技",
+      "city": "北京",
+      "location": "北京",
+      "recruitmentType": "社招",
+      "salary": "未公开",
+      "education": "硕士",
+      "experience": "5–10年",
+      "requirements": "公开检索页显示负责轮式具身机器人 AMR 决策规划、路径规划、避障与脱困。",
+      "skills": [
+        "PnC",
+        "AMR",
+        "路径规划",
+        "避障"
+      ],
+      "summary": "公开检索页显示负责轮式具身机器人 AMR 决策规划、路径规划、避障与脱困。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/1805903ecd88ca970Hd42Ny-/",
+      "capturedAt": "2026-10-15",
+      "direction": "planning-control",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-boss-jd-embodied-algorithm",
+      "title": "算法工程师—具身智能",
+      "organization": "京东世纪贸易有限公司",
+      "city": "北京",
+      "location": "北京",
+      "recruitmentType": "社招",
+      "salary": "未公开",
+      "education": "本科",
+      "experience": "经验不限",
+      "requirements": "公开检索页显示覆盖多模态感知、强化学习、运动规划和人机交互。",
+      "skills": [
+        "具身智能",
+        "多模态感知",
+        "强化学习",
+        "运动规划"
+      ],
+      "summary": "公开检索页显示覆盖多模态感知、强化学习、运动规划和人机交互。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://m.zhipin.com/zhaopin/5a029ac3558e6d921HB-3tm8Ew~~/",
+      "capturedAt": "2026-10-15",
+      "direction": "planning-control",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-boss-airs-wbc-exact",
+      "title": "机器人全身运控（WBC）算法研究员",
+      "organization": "AIRS",
+      "city": "北京",
+      "location": "北京",
+      "recruitmentType": "社招",
+      "salary": "未公开",
+      "education": "本科",
+      "experience": "1–3年",
+      "requirements": "公开检索页显示负责机器人全身运控算法研究。",
+      "skills": [
+        "WBC",
+        "全身控制",
+        "人形机器人"
+      ],
+      "summary": "公开检索页显示负责机器人全身运控算法研究。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/de9f53a86049b04133Z5390~/",
+      "capturedAt": "2026-10-15",
+      "direction": "planning-control",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-boss-wenxin-framework",
+      "title": "具身智能算法工程师（框架方向）",
+      "organization": "无问芯穹",
+      "city": "北京 / 上海",
+      "location": "北京 / 上海",
+      "recruitmentType": "社招",
+      "salary": "未公开",
+      "education": "硕士",
+      "experience": "1–3年",
+      "requirements": "公开检索页显示将强化学习、模仿学习、扩散策略和 VLM/LLM 接入具身算法框架。",
+      "skills": [
+        "具身算法",
+        "强化学习",
+        "模仿学习",
+        "VLM",
+        "LLM"
+      ],
+      "summary": "公开检索页显示将强化学习、模仿学习、扩散策略和 VLM/LLM 接入具身算法框架。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://m.zhipin.com/zhaopin/69371641f90afde303Z52ty5Ew~~/",
+      "capturedAt": "2026-10-15",
+      "direction": "planning-control",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
     {
@@ -1110,7 +1549,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "planning-control",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -1119,7 +1558,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -1143,7 +1582,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "planning-control",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -1152,7 +1591,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -1176,7 +1615,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "planning-control",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -1185,7 +1624,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -1210,7 +1649,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/4be9443b06ab66150XJ609W5/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "planning-control",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -1219,7 +1658,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -1243,7 +1682,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "planning-control",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -1252,7 +1691,41 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-boss-jd-robot-pnc",
+      "title": "机器人 PnC 算法工程师",
+      "organization": "京东物流",
+      "city": "杭州",
+      "location": "杭州",
+      "recruitmentType": "社招",
+      "salary": "未公开",
+      "education": "硕士",
+      "experience": "5–10年",
+      "requirements": "公开检索页显示负责 AMR 决策规划、路径规划、避障和脱困算法。",
+      "skills": [
+        "PnC",
+        "AMR",
+        "路径规划",
+        "避障"
+      ],
+      "summary": "公开检索页显示负责 AMR 决策规划、路径规划、避障和脱困算法。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/1805903ecd88ca970Hd42Ny-/",
+      "capturedAt": "2026-10-15",
+      "direction": "planning-control",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -1276,7 +1749,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "planning-control",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -1285,7 +1758,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -1309,7 +1782,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "planning-control",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -1318,7 +1791,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -1342,7 +1815,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "planning-control",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -1351,7 +1824,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -1375,7 +1848,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "planning-control",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -1384,7 +1857,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -1408,7 +1881,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "planning-control",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -1417,7 +1890,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -1441,7 +1914,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "planning-control",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -1450,7 +1923,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -1474,7 +1947,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "planning-control",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -1483,7 +1956,75 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-boss-luming-control",
+      "title": "机器人运动控制算法专家",
+      "organization": "鹿明机器人",
+      "city": "苏州",
+      "location": "苏州",
+      "recruitmentType": "社招",
+      "salary": "未公开",
+      "education": "硕士",
+      "experience": "经验不限",
+      "requirements": "公开检索页显示面向多自由度、双足和四足机器人研发 ZMP、MPC 与深度强化学习控制算法。",
+      "skills": [
+        "运动控制",
+        "MPC",
+        "强化学习",
+        "四足机器人"
+      ],
+      "summary": "公开检索页显示面向多自由度、双足和四足机器人研发 ZMP、MPC 与深度强化学习控制算法。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/1805903ecd88ca970Hd42Ny-/",
+      "capturedAt": "2026-10-15",
+      "direction": "planning-control",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-boss-luming-humanoid-control",
+      "title": "双足/四足机器人运动控制算法工程师",
+      "organization": "鹿明机器人",
+      "city": "苏州",
+      "location": "苏州",
+      "recruitmentType": "社招",
+      "salary": "未公开",
+      "education": "硕士",
+      "experience": "经验不限",
+      "requirements": "公开检索页显示面向双足、四足仿生机器人研发 ZMP、MPC 和强化学习控制。",
+      "skills": [
+        "双足机器人",
+        "四足机器人",
+        "MPC",
+        "强化学习"
+      ],
+      "summary": "公开检索页显示面向双足、四足仿生机器人研发 ZMP、MPC 和强化学习控制。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/1805903ecd88ca970Hd42Ny-/",
+      "capturedAt": "2026-10-15",
+      "direction": "planning-control",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -1507,7 +2048,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "planning-control",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -1516,7 +2057,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -1540,7 +2081,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/58706ec48f108c9f33Zz3dW6/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "planning-control",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -1549,7 +2090,214 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-boss-jd-embodied-product",
+      "title": "具身智能产品负责人",
+      "organization": "京东科技集团",
+      "city": "北京",
+      "location": "北京",
+      "recruitmentType": "社招",
+      "salary": "未公开",
+      "education": "本科",
+      "experience": "5–10年",
+      "requirements": "公开检索页显示负责具身智能产品从需求、定义、迭代到商业化落地。",
+      "skills": [
+        "具身智能",
+        "产品管理",
+        "商业化"
+      ],
+      "summary": "公开检索页显示负责具身智能产品从需求、定义、迭代到商业化落地。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://m.zhipin.com/zhaopin/69371641f90afde303Z52ty5Ew~~/",
+      "capturedAt": "2026-10-15",
+      "direction": "simulation",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-boss-bazhua-embodied",
+      "title": "具身智能算法工程师",
+      "organization": "八爪智能",
+      "city": "北京",
+      "location": "北京",
+      "recruitmentType": "社招",
+      "salary": "未公开",
+      "education": "硕士",
+      "experience": "1–3年",
+      "requirements": "公开检索页显示研发精细操作强化学习、模仿学习，并建设 Isaac Sim、PyBullet 或 Gazebo 仿真环境。",
+      "skills": [
+        "具身智能",
+        "强化学习",
+        "模仿学习",
+        "Isaac Sim"
+      ],
+      "summary": "公开检索页显示研发精细操作强化学习、模仿学习，并建设 Isaac Sim、PyBullet 或 Gazebo 仿真环境。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://m.zhipin.com/zhaopin/5a029ac3558e6d921HB-3tm8Ew~~/",
+      "capturedAt": "2026-10-15",
+      "direction": "simulation",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-boss-junnan-embodied",
+      "title": "具身智能算法工程师",
+      "organization": "君南圣达",
+      "city": "北京",
+      "location": "北京",
+      "recruitmentType": "社招",
+      "salary": "未公开",
+      "education": "硕士",
+      "experience": "3–5年",
+      "requirements": "公开检索页显示覆盖感知、决策、规划、控制，并进行仿真验证。",
+      "skills": [
+        "具身智能",
+        "感知",
+        "规划",
+        "控制",
+        "仿真"
+      ],
+      "summary": "公开检索页显示覆盖感知、决策、规划、控制，并进行仿真验证。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://m.zhipin.com/zhaopin/5a029ac3558e6d921HB-3tm8Ew~~/",
+      "capturedAt": "2026-10-15",
+      "direction": "simulation",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-boss-jd-robot-product",
+      "title": "具身智能产品经理",
+      "organization": "京东科技集团",
+      "city": "北京",
+      "location": "北京",
+      "recruitmentType": "社招",
+      "salary": "未公开",
+      "education": "本科",
+      "experience": "5–10年",
+      "requirements": "公开检索页显示负责具身智能产品市场调研、需求定义、版本迭代和商业化。",
+      "skills": [
+        "具身智能",
+        "产品经理",
+        "商业化"
+      ],
+      "summary": "公开检索页显示负责具身智能产品市场调研、需求定义、版本迭代和商业化。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://m.zhipin.com/zhaopin/69371641f90afde303Z52ty5Ew~~/",
+      "capturedAt": "2026-10-15",
+      "direction": "simulation",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "job-618",
+      "title": "机器人仿真能力与仿真平台工程师",
+      "organization": "荣耀终端股份有限公司",
+      "city": "北京、上海、深圳",
+      "location": "北京市、上海市、深圳市",
+      "recruitmentType": "校招",
+      "salary": "公告未公开",
+      "education": "本科及以上",
+      "experience": "应届校招",
+      "requirements": "计算机、自动化、机器人、控制工程、人工智能等相关专业，本科及以上学历。",
+      "skills": [
+        "Isaac Sim／Isaac Lab",
+        "ROS2",
+        "合成数据",
+        "强化学习与模仿学习",
+        "有机器人实机调试经验",
+        "在仿真平台、具身智能或机器人系统方向有开源项目、论文或竞赛成果"
+      ],
+      "summary": "荣耀2027届校园招聘中的机器人仿真岗位，负责仿真平台、合成数据、机器人模型评测、ROS2系统集成和整机仿真测试。",
+      "sourceName": "南开大学就业信息网（荣耀招聘转载）",
+      "sourceType": "企业官网",
+      "sourceUrl": "https://career.nankai.edu.cn/recruitment/content/type/2/id/6037.html",
+      "capturedAt": "2026-10-15",
+      "direction": "simulation",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "可访问",
+      "httpStatus": 200
+    },
+    {
+      "id": "job-615",
+      "title": "物理智能仿真与生成工程师",
+      "organization": "浦江实验室",
+      "city": "上海",
+      "location": "上海市徐汇区龙文路129号",
+      "recruitmentType": "社招",
+      "salary": "面议",
+      "education": "本科及以上",
+      "experience": "相关工程经验优先",
+      "requirements": "计算机科学、人工智能、机器人、自动化、电子信息等相关专业，本科及以上学历。",
+      "skills": [
+        "Real2Sim2Real",
+        "Isaac Sim／Isaac Lab",
+        "合成数据",
+        "VLA与World Model",
+        "具有Real2Sim／Sim2Real、生成式仿真、数字孪生或自动化场景构建经验",
+        "熟悉ROS／ROS2、MoveIt或机器人控制"
+      ],
+      "summary": "物理智能中心招聘全职科研通道工程师，负责具身智能仿真、生成式仿真、可交互3D场景、合成数据和机器人策略评测工具链。",
+      "sourceName": "浦江实验室",
+      "sourceType": "企业官网",
+      "sourceUrl": "https://www.pjlab.ac.cn/joinus/detail/7687427339903289641?mode=social",
+      "capturedAt": "2026-10-15",
+      "direction": "simulation",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -1573,7 +2321,7 @@
       "sourceName": "猎聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.liepin.com/job/1971802319.shtml",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "simulation",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -1582,8 +2330,76 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "可访问",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-boss-robot-simulation-research",
+      "title": "机器人运动学建模与仿真算法工程师",
+      "organization": "上海赤豆信息",
+      "city": "上海",
+      "location": "上海",
+      "recruitmentType": "社招",
+      "salary": "未公开",
+      "education": "硕士",
+      "experience": "经验不限",
+      "requirements": "公开检索页显示开展机器人运动学建模、仿真和关键参数辨识。",
+      "skills": [
+        "运动学",
+        "动力学",
+        "机器人仿真",
+        "参数辨识"
+      ],
+      "summary": "公开检索页显示开展机器人运动学建模、仿真和关键参数辨识。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/1805903ecd88ca970Hd42Ny-/",
+      "capturedAt": "2026-10-15",
+      "direction": "simulation",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-boss-nvidia-china-robotics",
+      "title": "NVIDIA 2027 New College Graduate：Autonomous Vehicles and Robotics—China",
+      "organization": "NVIDIA",
+      "city": "上海 / 北京 / 深圳",
+      "location": "上海 / 北京 / 深圳",
+      "recruitmentType": "校招",
+      "salary": "未公开",
+      "education": "硕士",
+      "experience": "应届生",
+      "requirements": "NVIDIA 官方招聘页列出中国区 Autonomous Vehicles and Robotics 校招岗位；具体职责与地点组合以官方职位页为准。",
+      "skills": [
+        "机器人",
+        "自动驾驶",
+        "AI",
+        "软件工程"
+      ],
+      "summary": "NVIDIA 官方招聘页列出中国区 Autonomous Vehicles and Robotics 校招岗位；具体职责与地点组合以官方职位页为准。",
+      "sourceName": "NVIDIA Careers",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://jobs.nvidia.com/careers?query=nvidia+career",
+      "capturedAt": "2026-10-15",
+      "direction": "simulation",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
     {
@@ -1607,7 +2423,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/e0ca58b35b3cff0d1nx909y9/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "simulation",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -1616,7 +2432,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -1640,7 +2456,7 @@
       "sourceName": "猎聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.liepin.com/job/1971367915.shtml",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "simulation",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -1649,7 +2465,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "可访问",
       "httpStatus": 200
     },
@@ -1674,7 +2490,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/e0ca58b35b3cff0d1nx909y9/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "simulation",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -1683,7 +2499,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -1708,7 +2524,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/e0ca58b35b3cff0d1nx909y9/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "simulation",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -1717,7 +2533,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -1744,7 +2560,7 @@
       "sourceName": "智平方招聘官网",
       "sourceType": "企业官网",
       "sourceUrl": "https://ai2robotics.jobs.feishu.cn/094992/position/7547314312236615986/detail",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "system-hardware",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -1753,7 +2569,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "可访问",
       "httpStatus": 200
     },
@@ -1780,7 +2596,7 @@
       "sourceName": "智平方招聘官网",
       "sourceType": "企业官网",
       "sourceUrl": "https://ai2robotics.jobs.feishu.cn/094992/position/7547314619989494057/detail",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "system-hardware",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -1789,7 +2605,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "可访问",
       "httpStatus": 200
     },
@@ -1814,7 +2630,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/31d3f534ce06d3441nN63tm7FA~~/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "system-hardware",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -1823,7 +2639,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -1850,7 +2666,7 @@
       "sourceName": "XYZ Robotics 招聘官网",
       "sourceType": "企业官网",
       "sourceUrl": "https://xyzrobotics.jobs.feishu.cn/2026/position/7670803894288877887/detail",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "system-hardware",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -1859,7 +2675,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "可访问",
       "httpStatus": 200
     },
@@ -1884,7 +2700,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/ebf41c3315eb7f8d1Xx80967GA~~/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "system-hardware",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -1893,7 +2709,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -1917,7 +2733,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/50cd2e307388e6bd33xz0tu-/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "vla",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -1926,7 +2742,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -1950,7 +2766,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/58706ec48f108c9f33Zz3dW6/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "vla",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -1959,7 +2775,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -1983,7 +2799,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/58706ec48f108c9f33Zz3dW6/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "vla",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -1992,7 +2808,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -2016,7 +2832,7 @@
       "sourceName": "猎聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.liepin.com/job/1983965917.shtml",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "vla",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -2025,7 +2841,245 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "可访问",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-boss-zhuoshi-vla-research",
+      "title": "VLA 具身智能算法研究员",
+      "organization": "卓世科技",
+      "city": "北京",
+      "location": "北京",
+      "recruitmentType": "社招",
+      "salary": "未公开",
+      "education": "硕士",
+      "experience": "经验不限",
+      "requirements": "公开检索页显示面向人形机器人研发 VLA 具身智能算法。",
+      "skills": [
+        "VLA",
+        "具身大模型",
+        "人形机器人"
+      ],
+      "summary": "公开检索页显示面向人形机器人研发 VLA 具身智能算法。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/50cd2e307388e6bd33xz0tu-/",
+      "capturedAt": "2026-10-15",
+      "direction": "vla",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-boss-bit-huahui-vla",
+      "title": "具身智能大模型算法工程师",
+      "organization": "北京理工华汇智能科技",
+      "city": "北京",
+      "location": "北京",
+      "recruitmentType": "社招",
+      "salary": "未公开",
+      "education": "硕士",
+      "experience": "1–3年",
+      "requirements": "公开检索页显示研发基于 LLM/VLM 的 VLA 模型训练与优化。",
+      "skills": [
+        "VLA",
+        "LLM",
+        "VLM",
+        "具身大模型"
+      ],
+      "summary": "公开检索页显示研发基于 LLM/VLM 的 VLA 模型训练与优化。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://m.zhipin.com/zhaopin/5a029ac3558e6d921HB-3tm8Ew~~/",
+      "capturedAt": "2026-10-15",
+      "direction": "vla",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-boss-nvidia-ai-labs",
+      "title": "Solution Architect—AI Labs",
+      "organization": "NVIDIA",
+      "city": "北京",
+      "location": "北京",
+      "recruitmentType": "社招",
+      "salary": "未公开",
+      "education": "硕士或博士",
+      "experience": "3年以上",
+      "requirements": "NVIDIA 官方职位页显示面向大模型训练推理、RAG、Agent 与机器人等 AI 应用提供解决方案。",
+      "skills": [
+        "大模型",
+        "RAG",
+        "Agent",
+        "机器人",
+        "CUDA"
+      ],
+      "summary": "NVIDIA 官方职位页显示面向大模型训练推理、RAG、Agent 与机器人等 AI 应用提供解决方案。",
+      "sourceName": "NVIDIA Careers",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://jobs.nvidia.com/careers/job/893397390454?domain=nvidia.com&hl=ru",
+      "capturedAt": "2026-10-15",
+      "direction": "vla",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-boss-zhushi-vla-humanoid",
+      "title": "VLA 具身智能算法研究员（人形机器人方向）",
+      "organization": "卓世科技",
+      "city": "北京",
+      "location": "北京",
+      "recruitmentType": "社招",
+      "salary": "未公开",
+      "education": "硕士",
+      "experience": "经验不限",
+      "requirements": "公开检索页显示面向人形机器人研发视觉—语言—动作模型。",
+      "skills": [
+        "VLA",
+        "人形机器人",
+        "多模态大模型"
+      ],
+      "summary": "公开检索页显示面向人形机器人研发视觉—语言—动作模型。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/50cd2e307388e6bd33xz0tu-/",
+      "capturedAt": "2026-10-15",
+      "direction": "vla",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-boss-tencent-agent-env",
+      "title": "混元后台开发工程师—智能体交互环境",
+      "organization": "腾讯",
+      "city": "北京",
+      "location": "北京",
+      "recruitmentType": "社招",
+      "salary": "未公开",
+      "education": "本科",
+      "experience": "1–3年",
+      "requirements": "公开检索页显示负责智能体交互环境接入、适配、标准化和验证。",
+      "skills": [
+        "智能体",
+        "交互环境",
+        "Docker",
+        "后端开发"
+      ],
+      "summary": "公开检索页显示负责智能体交互环境接入、适配、标准化和验证。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://m.zhipin.com/zhaopin/69371641f90afde303Z52ty5Ew~~/",
+      "capturedAt": "2026-10-15",
+      "direction": "vla",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-boss-vita-agent",
+      "title": "具身智能 Agent 开发工程师",
+      "organization": "维他动力",
+      "city": "北京 / 上海",
+      "location": "北京 / 上海",
+      "recruitmentType": "社招",
+      "salary": "未公开",
+      "education": "硕士",
+      "experience": "3–5年",
+      "requirements": "公开检索页显示面向机器人实体开发智能体、任务理解与行动闭环。",
+      "skills": [
+        "具身智能",
+        "Agent",
+        "任务规划"
+      ],
+      "summary": "公开检索页显示面向机器人实体开发智能体、任务理解与行动闭环。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://m.zhipin.com/zhaopin/69371641f90afde303Z52ty5Ew~~/",
+      "capturedAt": "2026-10-15",
+      "direction": "vla",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "job-617",
+      "title": "具身智能研发工程师",
+      "organization": "珞石（北京）机器人有限公司",
+      "city": "北京、上海",
+      "location": "北京市、上海市、广东省",
+      "recruitmentType": "校招",
+      "salary": "20000元以上",
+      "education": "硕士／博士",
+      "experience": "应届或相关项目经历均可按公告要求申请",
+      "requirements": "硕士及以上学历，计算机、人工智能、机器人、自动化、电子信息、应用数学等相关专业。",
+      "skills": [
+        "VLA／WAM",
+        "世界模型",
+        "模仿学习与强化学习",
+        "机器人数据闭环",
+        "有真实机器人实验经历或使用过主流机器人仿真与学习平台",
+        "有大模型训练、模型部署或机器人软件实践"
+      ],
+      "summary": "珞石招聘具身智能研发工程师6人，方向覆盖具身模型与算法、机器人数据与评测、模型部署、机器人系统及真机验证。公告工作地域包括北京、上海和广东。",
+      "sourceName": "南开大学就业信息网（转载）",
+      "sourceType": "企业官网",
+      "sourceUrl": "https://career.nankai.edu.cn/correcruit/content/id/118074.html",
+      "capturedAt": "2026-10-15",
+      "direction": "vla",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "可访问",
       "httpStatus": 200
     },
@@ -2049,7 +3103,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/50cd2e307388e6bd33xz0tu-/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "vla",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -2058,7 +3112,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -2082,7 +3136,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/4be9443b06ab66150XJ609W5/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "vla",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -2091,7 +3145,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -2115,7 +3169,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/75010dd316a5690503J83tS0/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "vla",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -2124,7 +3178,75 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-boss-jushen-foundation",
+      "title": "具身大模型算法研究员",
+      "organization": "具深科技",
+      "city": "上海",
+      "location": "上海",
+      "recruitmentType": "社招",
+      "salary": "未公开",
+      "education": "本科",
+      "experience": "经验不限",
+      "requirements": "公开检索页显示研发 VLA、VLAM、强化学习策略优化和世界模型。",
+      "skills": [
+        "具身大模型",
+        "VLA",
+        "强化学习",
+        "世界模型"
+      ],
+      "summary": "公开检索页显示研发 VLA、VLAM、强化学习策略优化和世界模型。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/de9f53a86049b04133Z5390~/",
+      "capturedAt": "2026-10-15",
+      "direction": "vla",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-boss-jushen-humanoid",
+      "title": "具身大模型算法研究员—人形机器人",
+      "organization": "具深科技",
+      "city": "上海",
+      "location": "上海",
+      "recruitmentType": "社招",
+      "salary": "未公开",
+      "education": "本科",
+      "experience": "经验不限",
+      "requirements": "公开检索页显示覆盖运动控制、VLA、VLAM、强化学习策略与世界模型。",
+      "skills": [
+        "具身大模型",
+        "VLA",
+        "运动控制",
+        "世界模型"
+      ],
+      "summary": "公开检索页显示覆盖运动控制、VLA、VLAM、强化学习策略与世界模型。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/de9f53a86049b04133Z5390~/",
+      "capturedAt": "2026-10-15",
+      "direction": "vla",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -2148,7 +3270,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/50cd2e307388e6bd33xz0tu-/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "vla",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -2157,7 +3279,7 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     },
@@ -2181,7 +3303,7 @@
       "sourceName": "BOSS直聘",
       "sourceType": "招聘平台",
       "sourceUrl": "https://www.zhipin.com/zhaopin/ebf41c3315eb7f8d1Xx80967GA~~/",
-      "capturedAt": "2026-10-14",
+      "capturedAt": "2026-10-15",
       "direction": "vla",
       "normalizedSalary": {
         "kind": "undisclosed",
@@ -2190,7 +3312,108 @@
         "unit": null,
         "months": null
       },
-      "verifiedAt": "2026-10-14",
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-boss-tencent-embodied-research",
+      "title": "机器人具身智能研究员—大模型方向",
+      "organization": "腾讯",
+      "city": "深圳",
+      "location": "深圳",
+      "recruitmentType": "社招",
+      "salary": "未公开",
+      "education": "硕士",
+      "experience": "5–10年",
+      "requirements": "公开检索页显示研发机器人具身大模型、规划模型、奖励模型、世界模型与通用框架。",
+      "skills": [
+        "具身大模型",
+        "世界模型",
+        "规划",
+        "奖励模型"
+      ],
+      "summary": "公开检索页显示研发机器人具身大模型、规划模型、奖励模型、世界模型与通用框架。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/50cd2e307388e6bd33xz0tu-/",
+      "capturedAt": "2026-10-15",
+      "direction": "vla",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-boss-airs-planning",
+      "title": "机器人规控算法研究员",
+      "organization": "AIRS",
+      "city": "深圳",
+      "location": "深圳",
+      "recruitmentType": "社招",
+      "salary": "未公开",
+      "education": "硕士",
+      "experience": "3–5年",
+      "requirements": "公开检索页显示探索大模型、多模态模型在机器人任务规划、决策控制中的应用。",
+      "skills": [
+        "规控",
+        "大模型",
+        "任务规划",
+        "决策控制"
+      ],
+      "summary": "公开检索页显示探索大模型、多模态模型在机器人任务规划、决策控制中的应用。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/de9f53a86049b04133Z5390~/",
+      "capturedAt": "2026-10-15",
+      "direction": "vla",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
+      "sourceStatus": "受限或需复核",
+      "httpStatus": 200
+    },
+    {
+      "id": "platform-boss-airs-pnc-exact",
+      "title": "机器人规控算法研究员（J10451）",
+      "organization": "AIRS",
+      "city": "深圳",
+      "location": "深圳",
+      "recruitmentType": "社招",
+      "salary": "未公开",
+      "education": "硕士",
+      "experience": "3–5年",
+      "requirements": "公开检索页显示研发大模型、多模态模型在机器人任务规划和自主决策中的应用。",
+      "skills": [
+        "规控",
+        "任务规划",
+        "自主决策"
+      ],
+      "summary": "公开检索页显示研发大模型、多模态模型在机器人任务规划和自主决策中的应用。",
+      "sourceName": "BOSS直聘",
+      "sourceType": "招聘平台",
+      "sourceUrl": "https://www.zhipin.com/zhaopin/de9f53a86049b04133Z5390~/",
+      "capturedAt": "2026-10-15",
+      "direction": "vla",
+      "normalizedSalary": {
+        "kind": "undisclosed",
+        "min": null,
+        "max": null,
+        "unit": null,
+        "months": null
+      },
+      "verifiedAt": "2026-10-15",
       "sourceStatus": "受限或需复核",
       "httpStatus": 200
     }

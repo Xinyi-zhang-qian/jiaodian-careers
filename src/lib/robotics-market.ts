@@ -200,6 +200,7 @@ export function analyzeRoboticsMarket(jobs: RoboticsMarketJob[]) {
     salaryDisclosureRate: jobs.length ? Number(((disclosed.length / jobs.length) * 100).toFixed(1)) : 0,
     directions,
     cities: countBy(jobs.map((job) => job.city)).slice(0, 12),
+    organizations: countBy(jobs.map((job) => job.organization)).slice(0, 12),
     recruitmentTypes: countBy(jobs.map((job) => job.recruitmentType)),
     sourceTypes: countBy(jobs.map((job) => job.sourceType)),
     skills,

@@ -36,7 +36,7 @@ function platformJob(
   experience: string,
   requirements: string,
   skills: string[],
-  sourceName: 'BOSS直聘' | '猎聘',
+  sourceName: 'BOSS直聘' | '猎聘' | 'NVIDIA Careers',
   sourceUrl: string,
   recruitmentType: RoboticsRecruitmentType = '社招',
 ): Seed {
@@ -242,6 +242,44 @@ const expandedPlatformJobs: Seed[] = [
   platformJob('liepin-wuhan-simulation', '机器人仿真算法工程师', '猎聘平台公开雇主', '武汉', '20–30K·13薪', '博士', '3–5年', '研发机器人动力学仿真、控制策略验证与数字孪生模型。', ['机器人仿真', '动力学', '数字孪生'], '猎聘', 'https://www.liepin.com/job/1971367915.shtml'),
 ];
 
+// Additional current public-search leads collected from BOSS result pages.
+// These entries intentionally keep requirements conservative: the result page
+// confirms the title, employer and city, but may not expose a stable detail URL.
+const additionalSearchLeads: Seed[] = [
+  platformJob('boss-siling-embodied', '具身智能算法工程师', '思灵机器人', '北京', '未公开', '硕士', '经验不限', '公开检索页显示为机器人具身操作、强化学习、多模态与真机部署方向。', ['具身智能', '强化学习', '多模态', '真机部署'], 'BOSS直聘', 'https://m.zhipin.com/zhaopin/69371641f90afde303Z52ty5Ew~~/'),
+  platformJob('boss-jd-embodied-product', '具身智能产品负责人', '京东科技集团', '北京', '未公开', '本科', '5–10年', '公开检索页显示负责具身智能产品从需求、定义、迭代到商业化落地。', ['具身智能', '产品管理', '商业化'], 'BOSS直聘', 'https://m.zhipin.com/zhaopin/69371641f90afde303Z52ty5Ew~~/'),
+  platformJob('boss-vita-agent', '具身智能 Agent 开发工程师', '维他动力', '北京 / 上海', '未公开', '硕士', '3–5年', '公开检索页显示面向机器人实体开发智能体、任务理解与行动闭环。', ['具身智能', 'Agent', '任务规划'], 'BOSS直聘', 'https://m.zhipin.com/zhaopin/69371641f90afde303Z52ty5Ew~~/'),
+  platformJob('boss-wenxin-framework', '具身智能算法工程师（框架方向）', '无问芯穹', '北京 / 上海', '未公开', '硕士', '1–3年', '公开检索页显示将强化学习、模仿学习、扩散策略和 VLM/LLM 接入具身算法框架。', ['具身算法', '强化学习', '模仿学习', 'VLM', 'LLM'], 'BOSS直聘', 'https://m.zhipin.com/zhaopin/69371641f90afde303Z52ty5Ew~~/'),
+  platformJob('boss-zhuoshi-vla-research', 'VLA 具身智能算法研究员', '卓世科技', '北京', '未公开', '硕士', '经验不限', '公开检索页显示面向人形机器人研发 VLA 具身智能算法。', ['VLA', '具身大模型', '人形机器人'], 'BOSS直聘', 'https://www.zhipin.com/zhaopin/50cd2e307388e6bd33xz0tu-/'),
+  platformJob('boss-tencent-embodied-research', '机器人具身智能研究员—大模型方向', '腾讯', '深圳', '未公开', '硕士', '5–10年', '公开检索页显示研发机器人具身大模型、规划模型、奖励模型、世界模型与通用框架。', ['具身大模型', '世界模型', '规划', '奖励模型'], 'BOSS直聘', 'https://www.zhipin.com/zhaopin/50cd2e307388e6bd33xz0tu-/'),
+  platformJob('boss-airs-planning', '机器人规控算法研究员', 'AIRS', '深圳', '未公开', '硕士', '3–5年', '公开检索页显示探索大模型、多模态模型在机器人任务规划、决策控制中的应用。', ['规控', '大模型', '任务规划', '决策控制'], 'BOSS直聘', 'https://www.zhipin.com/zhaopin/de9f53a86049b04133Z5390~/'),
+  platformJob('boss-airs-wbc', '机器人全身运控算法研究员', 'AIRS', '北京', '未公开', '本科', '1–3年', '公开检索页显示面向人形机器人全身运动控制算法研究。', ['全身控制', '运动控制', '人形机器人'], 'BOSS直聘', 'https://www.zhipin.com/zhaopin/de9f53a86049b04133Z5390~/'),
+  platformJob('boss-jushen-foundation', '具身大模型算法研究员', '具深科技', '上海', '未公开', '本科', '经验不限', '公开检索页显示研发 VLA、VLAM、强化学习策略优化和世界模型。', ['具身大模型', 'VLA', '强化学习', '世界模型'], 'BOSS直聘', 'https://www.zhipin.com/zhaopin/de9f53a86049b04133Z5390~/'),
+  platformJob('boss-luming-control', '机器人运动控制算法专家', '鹿明机器人', '苏州', '未公开', '硕士', '经验不限', '公开检索页显示面向多自由度、双足和四足机器人研发 ZMP、MPC 与深度强化学习控制算法。', ['运动控制', 'MPC', '强化学习', '四足机器人'], 'BOSS直聘', 'https://www.zhipin.com/zhaopin/1805903ecd88ca970Hd42Ny-/'),
+  platformJob('boss-laifu-perception', '机器人视觉感知算法专家', '深圳徕福机器人', '上海', '未公开', '学历不限', '经验不限', '公开检索页显示负责机器视觉感知算法开发、性能指标与工程优化。', ['视觉感知', '机器视觉', '算法工程化'], 'BOSS直聘', 'https://www.zhipin.com/zhaopin/1805903ecd88ca970Hd42Ny-/'),
+  platformJob('boss-xtalpi-pnc', '具身机器人 PnC 算法专家', '晶泰科技', '北京', '未公开', '硕士', '5–10年', '公开检索页显示负责轮式具身机器人 AMR 决策规划、路径规划、避障与脱困。', ['PnC', 'AMR', '路径规划', '避障'], 'BOSS直聘', 'https://www.zhipin.com/zhaopin/1805903ecd88ca970Hd42Ny-/'),
+  platformJob('boss-jdlogistics-slam', '机器人定位导航算法专家', '京东物流', '杭州', '未公开', '硕士', '5–10年', '公开检索页显示负责多传感器融合定位建图，结合激光雷达、视觉、IMU 与里程计。', ['SLAM', '定位建图', '多传感器融合'], 'BOSS直聘', 'https://www.zhipin.com/zhaopin/1805903ecd88ca970Hd42Ny-/'),
+  platformJob('boss-bazhua-embodied', '具身智能算法工程师', '八爪智能', '北京', '未公开', '硕士', '1–3年', '公开检索页显示研发精细操作强化学习、模仿学习，并建设 Isaac Sim、PyBullet 或 Gazebo 仿真环境。', ['具身智能', '强化学习', '模仿学习', 'Isaac Sim'], 'BOSS直聘', 'https://m.zhipin.com/zhaopin/5a029ac3558e6d921HB-3tm8Ew~~/'),
+  platformJob('boss-bit-huahui-vla', '具身智能大模型算法工程师', '北京理工华汇智能科技', '北京', '未公开', '硕士', '1–3年', '公开检索页显示研发基于 LLM/VLM 的 VLA 模型训练与优化。', ['VLA', 'LLM', 'VLM', '具身大模型'], 'BOSS直聘', 'https://m.zhipin.com/zhaopin/5a029ac3558e6d921HB-3tm8Ew~~/'),
+  platformJob('boss-jd-embodied-algorithm', '算法工程师—具身智能', '京东世纪贸易有限公司', '北京', '未公开', '本科', '经验不限', '公开检索页显示覆盖多模态感知、强化学习、运动规划和人机交互。', ['具身智能', '多模态感知', '强化学习', '运动规划'], 'BOSS直聘', 'https://m.zhipin.com/zhaopin/5a029ac3558e6d921HB-3tm8Ew~~/'),
+  platformJob('boss-junnan-embodied', '具身智能算法工程师', '君南圣达', '北京', '未公开', '硕士', '3–5年', '公开检索页显示覆盖感知、决策、规划、控制，并进行仿真验证。', ['具身智能', '感知', '规划', '控制', '仿真'], 'BOSS直聘', 'https://m.zhipin.com/zhaopin/5a029ac3558e6d921HB-3tm8Ew~~/'),
+  platformJob('boss-nvidia-china-robotics', 'NVIDIA 2027 New College Graduate：Autonomous Vehicles and Robotics—China', 'NVIDIA', '上海 / 北京 / 深圳', '未公开', '硕士', '应届生', 'NVIDIA 官方招聘页列出中国区 Autonomous Vehicles and Robotics 校招岗位；具体职责与地点组合以官方职位页为准。', ['机器人', '自动驾驶', 'AI', '软件工程'], 'NVIDIA Careers', 'https://jobs.nvidia.com/careers?query=nvidia+career', '校招'),
+  platformJob('boss-nvidia-system-software', 'System Software Engineer—Autonomous Vehicles', 'NVIDIA', '上海', '未公开', '本科及以上', '5年以上', 'NVIDIA 官方职位页显示负责自动驾驶系统软件，覆盖感知、定位、规划、控制及高性能 C/C++ 系统。', ['自动驾驶', '机器人系统', 'C++', 'CUDA', '感知规划控制'], 'NVIDIA Careers', 'https://jobs.nvidia.com/careers/job/893396815754?domain=nvidia.com&hl=ru'),
+  platformJob('boss-nvidia-ai-labs', 'Solution Architect—AI Labs', 'NVIDIA', '北京', '未公开', '硕士或博士', '3年以上', 'NVIDIA 官方职位页显示面向大模型训练推理、RAG、Agent 与机器人等 AI 应用提供解决方案。', ['大模型', 'RAG', 'Agent', '机器人', 'CUDA'], 'NVIDIA Careers', 'https://jobs.nvidia.com/careers/job/893397390454?domain=nvidia.com&hl=ru'),
+  platformJob('boss-bytedance-robot-ml', '机器学习算法工程师（机器人视觉/模仿学习）', '字节跳动', '深圳', '未公开', '本科', '经验不限', '公开检索页显示开展机器人视觉感知、模仿学习和强化学习算法研发。', ['机器人视觉', '模仿学习', '强化学习'], 'BOSS直聘', 'https://www.zhipin.com/zhaopin/c027aed5bd24eefe3n1z39i0/'),
+  platformJob('boss-bytedance-robot-3d', '具身智能 3D 场景感知算法工程师', '字节跳动', '深圳', '未公开', '本科', '5–10年', '公开检索页显示研发具身智能导航、抓取和操作中的三维场景感知与信息融合。', ['3D视觉', '场景理解', '具身智能'], 'BOSS直聘', 'https://www.zhipin.com/zhaopin/c027aed5bd24eefe3n1z39i0/'),
+  platformJob('boss-siling-vision', '具身智能视觉算法专家', '思灵机器人', '北京 / 深圳', '未公开', '硕士', '经验不限', '公开检索页显示结合视觉、触觉和力反馈提升机器人决策与操作能力。', ['视觉感知', '触觉', '力反馈', '机器人操作'], 'BOSS直聘', 'https://m.zhipin.com/zhaopin/69371641f90afde303Z52ty5Ew~~/'),
+  platformJob('boss-zhushi-vla-humanoid', 'VLA 具身智能算法研究员（人形机器人方向）', '卓世科技', '北京', '未公开', '硕士', '经验不限', '公开检索页显示面向人形机器人研发视觉—语言—动作模型。', ['VLA', '人形机器人', '多模态大模型'], 'BOSS直聘', 'https://www.zhipin.com/zhaopin/50cd2e307388e6bd33xz0tu-/'),
+  platformJob('boss-jushen-humanoid', '具身大模型算法研究员—人形机器人', '具深科技', '上海', '未公开', '本科', '经验不限', '公开检索页显示覆盖运动控制、VLA、VLAM、强化学习策略与世界模型。', ['具身大模型', 'VLA', '运动控制', '世界模型'], 'BOSS直聘', 'https://www.zhipin.com/zhaopin/de9f53a86049b04133Z5390~/'),
+  platformJob('boss-airs-wbc-exact', '机器人全身运控（WBC）算法研究员', 'AIRS', '北京', '未公开', '本科', '1–3年', '公开检索页显示负责机器人全身运控算法研究。', ['WBC', '全身控制', '人形机器人'], 'BOSS直聘', 'https://www.zhipin.com/zhaopin/de9f53a86049b04133Z5390~/'),
+  platformJob('boss-airs-pnc-exact', '机器人规控算法研究员（J10451）', 'AIRS', '深圳', '未公开', '硕士', '3–5年', '公开检索页显示研发大模型、多模态模型在机器人任务规划和自主决策中的应用。', ['规控', '任务规划', '自主决策'], 'BOSS直聘', 'https://www.zhipin.com/zhaopin/de9f53a86049b04133Z5390~/'),
+  platformJob('boss-jd-robot-product', '具身智能产品经理', '京东科技集团', '北京', '未公开', '本科', '5–10年', '公开检索页显示负责具身智能产品市场调研、需求定义、版本迭代和商业化。', ['具身智能', '产品经理', '商业化'], 'BOSS直聘', 'https://m.zhipin.com/zhaopin/69371641f90afde303Z52ty5Ew~~/'),
+  platformJob('boss-tencent-agent-env', '混元后台开发工程师—智能体交互环境', '腾讯', '北京', '未公开', '本科', '1–3年', '公开检索页显示负责智能体交互环境接入、适配、标准化和验证。', ['智能体', '交互环境', 'Docker', '后端开发'], 'BOSS直聘', 'https://m.zhipin.com/zhaopin/69371641f90afde303Z52ty5Ew~~/'),
+  platformJob('boss-jd-robot-pnc', '机器人 PnC 算法工程师', '京东物流', '杭州', '未公开', '硕士', '5–10年', '公开检索页显示负责 AMR 决策规划、路径规划、避障和脱困算法。', ['PnC', 'AMR', '路径规划', '避障'], 'BOSS直聘', 'https://www.zhipin.com/zhaopin/1805903ecd88ca970Hd42Ny-/'),
+  platformJob('boss-luming-humanoid-control', '双足/四足机器人运动控制算法工程师', '鹿明机器人', '苏州', '未公开', '硕士', '经验不限', '公开检索页显示面向双足、四足仿生机器人研发 ZMP、MPC 和强化学习控制。', ['双足机器人', '四足机器人', 'MPC', '强化学习'], 'BOSS直聘', 'https://www.zhipin.com/zhaopin/1805903ecd88ca970Hd42Ny-/'),
+  platformJob('boss-robot-simulation-research', '机器人运动学建模与仿真算法工程师', '上海赤豆信息', '上海', '未公开', '硕士', '经验不限', '公开检索页显示开展机器人运动学建模、仿真和关键参数辨识。', ['运动学', '动力学', '机器人仿真', '参数辨识'], 'BOSS直聘', 'https://www.zhipin.com/zhaopin/1805903ecd88ca970Hd42Ny-/'),
+];
+
 function inferSourceType(sourceName: string, organizationType?: string): RoboticsSourceType {
   if (/BOSS|猎聘|实习僧|聚合|牛客|学术桥|求职|招聘平台/i.test(sourceName)) return '招聘平台';
   if (/大学|研究院|研究所|实验室|高校|课题组/.test(organizationType ?? sourceName)) return '高校/研究机构';
@@ -286,7 +324,7 @@ function toSeeds(): Seed[] {
     summary: '岗位方向由标题和平台分析标签归类，不代表招聘单位原文。',
   }));
 
-  return [...fullTimeSeeds, ...unverifiedLeads];
+  return [...fullTimeSeeds, ...unverifiedLeads, ...additionalSearchLeads];
 }
 
 async function verifySource(url: string): Promise<SourceCheck> {
