@@ -14,8 +14,19 @@ const alreadyFullyVerifiedIds = new Set([215, 217, 218, 577]);
 // publish it as an actionable vacancy.
 const withdrawnSourceIds = new Set([506]);
 
+function hasDirectSourcePage(sourceUrl: string) {
+  try {
+    const pathname = new URL(sourceUrl).pathname;
+    return pathname !== '' && pathname !== '/' && pathname !== '/index.html';
+  } catch {
+    return false;
+  }
+}
+
 const restoredJobs: Job[] = archivedJobs
-  .filter((job) => !alreadyFullyVerifiedIds.has(job.id) && !withdrawnSourceIds.has(job.id))
+  .filter((job) => !alreadyFullyVerifiedIds.has(job.id)
+    && !withdrawnSourceIds.has(job.id)
+    && hasDirectSourcePage(job.source_url))
   .map((job) => ({
     ...job,
     province: job.province, city: job.city, location: job.location,
