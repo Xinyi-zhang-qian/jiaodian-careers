@@ -158,4 +158,104 @@ export const verifiedInternshipAdditions: InternshipListing[] = [
     id: 'shlab-ai-agent-training', track: 'ai4s', title: '大模型算法实习生（AI Agent 方向）', organization: '上海人工智能实验室', organizationType: '新型科研机构', location: '上海', pay: '面议', education: '本科及以上在读', cohort: '每周至少 4 天，连续 4 个月以上',
     summary: '参与科学领域 Agent 任务轨迹、数据集、Benchmark、训练环境及长程后训练算法建设。', sourceUrl: 'https://www.shlab.org.cn/joinus/detail/7688979700371507519?mode=campus', capturedAt: '2026-10-15', sourceName: '上海人工智能实验室官网',
   },
+  {
+    id: 'bytedance-seed-llm-intern', track: 'ai4s', title: 'Seed 大模型人才校招实习生（大模型方向）', organization: '字节跳动 Seed', organizationType: '科技企业', location: '北京/上海/深圳', pay: '以招聘方确认为准', education: '在读本科、硕士或博士', cohort: '2027 年 9 月及以后毕业',
+    summary: '官方项目面向在校实习生，覆盖基础大模型、机器学习系统、视觉智能、语音智能、AI 搜索和具身智能等方向。', sourceUrl: 'https://seed.bytedance.com/zh/seedearlycareer', capturedAt: '2026-10-15', sourceName: '字节跳动 Seed 官网',
+  },
+  {
+    id: 'bytedance-seed-agent', track: 'embodied', title: '多模态 Agent 算法研究实习生（Seed）', organization: '字节跳动 Seed', organizationType: '科技企业', location: '北京/上海/深圳', pay: '以招聘方确认为准', education: '在读本科、硕士或博士', cohort: '实习生招聘项目',
+    summary: 'Seed 官方热招方向，参与多模态 Agent 研究与大模型人才校招实习项目。', sourceUrl: 'https://seed.bytedance.com/zh/career?view_from=homepage_tab', capturedAt: '2026-10-15', sourceName: '字节跳动 Seed 官网',
+  },
+  {
+    id: 'wind-llm-algorithm', track: 'ai4s', title: '大模型算法工程师（实习）', organization: '万得信息（Wind）', organizationType: '金融科技企业', location: '上海', pay: '以招聘方确认为准', education: '硕士/博士在读', cohort: '至少 2 个月，每周至少 3 天',
+    summary: '参与 LLM 预训练、高效微调、模型评估、AI 应用开发和业务落地。', sourceUrl: 'https://www.wind.com.cn/portal/zh/JoinUs/recruit.html?channelPositionId=662&positionType=9002', capturedAt: '2026-10-15', sourceName: 'Wind 招聘官网',
+  },
+  {
+    id: 'baidu-multimodal-intern', track: 'ai4s', title: '多模态大模型算法实习生（百度校园招聘）', organization: '百度', organizationType: '科技企业', location: '北京/深圳/上海', pay: '以招聘方确认为准', education: '在校生', cohort: '实习生招聘/暑期实习项目',
+    summary: '百度官方校园招聘页列出多模态大模型算法研发与迭代方向，覆盖图文、视频、语音和 3D 多模态理解与生成。', sourceUrl: 'https://talent.baidu.com/jobs/list?projectType=3&recruitType=GRADUATE', capturedAt: '2026-10-15', sourceName: '百度招聘官网',
+  },
+  {
+    id: 'alibaba-llm-evaluation', track: 'ai4s', title: '大模型评测实习生（通用方向）', organization: '阿里巴巴', organizationType: '科技企业', location: '北京/杭州', pay: '以招聘方确认为准', education: '在读本科、硕士或博士', cohort: '每周 4–5 天，6 个月以上优先',
+    summary: '构建文本、图像、音频、视频多模态 Benchmark，开展数据质检、模型评测、错误归因与评测数据闭环。', sourceUrl: 'https://campus-talent.alibaba.com/campus/position/199909720005', capturedAt: '2026-10-15', sourceName: '阿里巴巴校园招聘官网',
+  },
+  {
+    id: 'huawei-vllm-infra', track: 'ai4s', title: '大模型低时延推理 Infra 优化研究实习生', organization: '华为鲲鹏/昇腾生态', organizationType: '科技企业', location: '北京/杭州/上海', pay: '面议', education: '本科及以上', cohort: '开放至 2027-12-01',
+    summary: '参与大模型推理基础设施与低时延优化研究，官方岗位列表明确开放实习岗位。', sourceUrl: 'https://edu.hicomputing.huawei.com/ecosystem/internship-program/cardList', capturedAt: '2026-10-15', sourceName: '华为鲲鹏&昇腾教育科研平台',
+  },
+  {
+    id: 'huawei-training-system', track: 'ai4s', title: '大模型训练系统开发工程师实习生', organization: '华为鲲鹏/昇腾生态', organizationType: '科技企业', location: '北京/杭州/上海', pay: '面议', education: '本科及以上', cohort: '开放至 2027-12-01',
+    summary: '参与大模型训练系统开发，官方岗位列表列明北京、杭州、上海实习地点。', sourceUrl: 'https://edu.hicomputing.huawei.com/ecosystem/internship-program/cardList', capturedAt: '2026-10-15', sourceName: '华为鲲鹏&昇腾教育科研平台',
+  },
+  {
+    id: 'horizon-embodied-intern', track: 'embodied', title: '运动控制/通用操作（具身方向）实习生', organization: '地平线', organizationType: '智能驾驶与机器人企业', location: '北京/上海/南京/杭州/深圳', pay: '以招聘方确认为准', education: '在读本硕博', cohort: '日常实习/专项人才计划',
+    summary: '官方招聘信息列出世界模型、运动控制、通用操作、AI Infra 等具身方向实习岗位。', sourceUrl: 'https://job.hust.edu.cn/zpinfo1/2387195.htm', capturedAt: '2026-10-15', sourceName: '华中科技大学就业信息网（地平线招聘信息）',
+  },
+  {
+    id: 'xiaomi-multimodal', track: 'ai4s', title: '多模态理解大模型实习生（2027 届）', organization: '小米', organizationType: '科技企业', location: '北京', pay: '以招聘方确认为准', education: '硕士/博士在读', cohort: '每周 4 天以上，至少 4 个月',
+    summary: '参与多模态理解与推理大模型、融合对齐、多任务联合训练和强化学习研究。', sourceUrl: 'https://xiaomi.jobs.f.mioffice.cn/internship/m/position/detail/7686713909067483418', capturedAt: '2026-10-15', sourceName: '小米实习生招聘官网',
+  },
+  {
+    id: 'digitforce-algorithm', track: 'ai4s', title: '算法实习生', organization: '数势科技', organizationType: '科技企业', location: '北京', pay: '以招聘方确认为准', education: '本科及以上', cohort: '至少 3 个月',
+    summary: '参与 Agent、RAG 大模型应用开发、数据处理、训练优化和测试。', sourceUrl: 'https://www.digitforce.com/jobinfo/12', capturedAt: '2026-10-15', sourceName: '数势科技官网',
+  },
+  {
+    id: 'fieldquantum-ais-intern', track: 'ai4s', title: 'AI4S 大模型工程师/实习生', organization: '量坤 FieldQuantum', organizationType: 'AI4S 企业', location: '北京/上海/杭州', pay: '以招聘方确认为准', education: '本科高年级/硕博优先', cohort: '至少 3 个月，每周至少 3 天',
+    summary: '参与 AI4S 大模型研发、材料/分子/蛋白质生成预测、DFT、分子动力学和材料模拟。', sourceUrl: 'https://www.fieldquantum.tech/careers/', capturedAt: '2026-10-15', sourceName: '量坤 FieldQuantum 官网',
+  },
+  {
+    id: 'fieldquantum-materials', track: 'bio', title: 'AI4S 算法实习生（材料与分子方向）', organization: '量坤 FieldQuantum', organizationType: 'AI4S 企业', location: '北京/上海/杭州', pay: '以招聘方确认为准', education: '本科高年级/硕博优先', cohort: '至少 3 个月',
+    summary: '参与计算化学、材料体系建模、论文复现、算法迭代和实际材料体系应用研究。', sourceUrl: 'https://www.fieldquantum.tech/careers/', capturedAt: '2026-10-15', sourceName: '量坤 FieldQuantum 官网',
+  },
+  {
+    id: 'kingsoft-algorithm', track: 'ai4s', title: '算法实习生（27-28 届）', organization: '金山软件集团', organizationType: '软件企业', location: '北京', pay: '以招聘方确认为准', education: '在校生', cohort: '算法岗位最短全职实习 6 个月',
+    summary: '官方招聘简章面向 27-28 届学生招聘算法实习岗位，并要求确认可全职实习时间。', sourceUrl: 'https://cug.91wllm.cn/attachment/cug/ueditor/file/20260205/1770287298681954.pdf', capturedAt: '2026-10-15', sourceName: '高校就业网公开招聘简章',
+  },
+  {
+    id: 'cuhk-robot-control', track: 'embodied', title: '算法工程师（机器人运动控制）实习生', organization: '思谋科技', organizationType: '工业智能企业', location: '深圳', pay: '以招聘方确认为准', education: '在校生', cohort: '2026/2027 届实习，可转正留用',
+    summary: '公开校园招聘简章列出机器人运动控制算法工程师实习方向。', sourceUrl: 'https://career.cuhk.edu.cn/attachment/careercuhk/ueditor/file/20251205/9275_%E6%80%9D%E8%B0%8B%E7%A7%91%E6%8A%80-2026%E5%B1%8A%E6%A0%A1%E5%9B%AD%E6%8B%9B%E8%81%98%E7%94%B5%E5%AD%90%E7%AE%80%E7%AB%A0.pdf', capturedAt: '2026-10-15', sourceName: '香港中文大学（深圳）就业平台公开简章',
+  },
+  {
+    id: 'ant-embodied-control', track: 'embodied', title: '研究型实习生（具身智能·运动控制）', organization: '蚂蚁集团', organizationType: '科技企业', location: '北京', pay: '以招聘方确认为准', education: '硕士/博士在读',
+    summary: '负责机器人运动学、动力学建模与仿真，研究足式机器人、双足机器人和多机械臂协同控制。', sourceUrl: 'https://jobs.ultraai.site/jobs/ant_campus/25051604803888', capturedAt: '2026-10-15', sourceName: '职先机（标注官网投递）',
+  },
+  {
+    id: 'dexmal-embodied-simulation', track: 'simulation', title: '具身智能仿真算法实习生', organization: '原力灵机', organizationType: '具身智能企业', location: '北京', pay: '以招聘方确认为准', education: '本科/硕士/博士在读', cohort: '至少 3 个月，长期线下优先',
+    summary: '构建机械臂抓取和机器人导航孪生仿真评测环境，研究 3D 重建、场景生成、Sim-Real、VLA/VLN/RL。', sourceUrl: 'https://career.nankai.edu.cn/correcruit/content/id/115081.html', capturedAt: '2026-10-15', sourceName: '南开大学就业信息网',
+  },
+  {
+    id: 'agibot-embodied-ecosystem', track: 'humanities_tech', title: '具身生态产品实习生', organization: '智元机器人', organizationType: '机器人企业', location: '上海', pay: '以招聘方确认为准', education: '本科及以上',
+    summary: '开展开发者和科研用户需求调研、产品需求分析、技术活动策划与开源生态运营。', sourceUrl: 'https://agirobot.jobs.feishu.cn/internrecruitment/position/7671120022186494262/detail', capturedAt: '2026-10-15', sourceName: '智元机器人招聘官网',
+  },
+  {
+    id: 'ai2robotics-embodied-model', track: 'embodied', title: '具身大模型算法实习生（长期实习）', organization: '智平方', organizationType: '具身智能企业', location: '深圳', pay: '以招聘方确认为准', education: '在校生', cohort: '2026 年 7 月及以后毕业，长期实习',
+    summary: '参与多模态融合、3D 感知基础模型和机器人基础模型研究，优秀实习生可进入未来领袖计划。', sourceUrl: 'https://ai2robotics.jobs.feishu.cn/521630/', capturedAt: '2026-10-15', sourceName: '智平方招聘官网',
+  },
+  {
+    id: 'galaxea-embodied-algorithm', track: 'embodied', title: '具身智能算法工程师（27 届实习）', organization: '星海图', organizationType: '具身智能企业', location: '深圳', pay: '以招聘方确认为准', education: '2027 届在校生',
+    summary: '参与 VLA 多模态数据、模型微调、机械臂/灵巧手操控以及仿真和真机策略验证。', sourceUrl: 'https://galaxea.zhiye.com/intern/detail?jobAdId=c1627c69-8a5b-4867-878d-ce5caf3e170e', capturedAt: '2026-10-15', sourceName: '星海图招聘官网',
+  },
+  {
+    id: 'chuangzhi-embodied-foundation', track: 'embodied', title: '具身基础模型科研实习生（全身协同操作与系统验证）', organization: '上海创智学院', organizationType: '新型科研机构', location: '上海', pay: '以招聘方确认为准', education: '在校生', cohort: '线下 6 个月以上，每周约 30 小时',
+    summary: '参与长程决策与操作模型研发训练，探索复杂开放环境下机器人自主任务执行。', sourceUrl: 'https://sii-czxy.jobs.feishu.cn/campus/position/7684555606623275310/detail', capturedAt: '2026-10-15', sourceName: '上海创智学院招聘官网',
+  },
+  {
+    id: 'tencent-medical-ai', track: 'medical', title: '医疗 AI 研究型实习生', organization: '腾讯天衍研究中心', organizationType: '企业研究中心', location: '深圳', pay: '以招聘方确认为准', education: '本科/硕士/博士在读',
+    summary: '围绕医疗影像、医疗自然语言理解和医疗大数据开展研究型实习。', sourceUrl: 'https://jarvislab.tencent.com/join-us.html', capturedAt: '2026-10-15', sourceName: '腾讯天衍研究中心官网',
+  },
+  {
+    id: 'roche-biomedical-llm', track: 'bio', title: '生物医学数据与大模型实习生', organization: '罗氏中国创新中心', organizationType: '医药企业', location: '上海', pay: '以招聘方确认为准', education: '本科/硕士/博士在读',
+    summary: '参与生物医学数据标准化、LLM 信息抽取、可溯源知识库、RAG 和科研简报自动生成。', sourceUrl: 'https://roche.wd3.myworkdayjobs.com/en-US/roche-ext/job/Shanghai/_202607-117934', capturedAt: '2026-10-15', sourceName: '罗氏 Workday 招聘官网',
+  },
+  {
+    id: 'roche-pharma-intern', track: 'medical', title: '全球药品开发中国中心实习生', organization: '罗氏中国', organizationType: '医药企业', location: '上海', pay: '以招聘方确认为准', education: '本科及以上在校生', cohort: '3–6 个月',
+    summary: '参与创新药物开发相关实习项目，开放医学、药学、生物、数据科学、AI、统计等背景。', sourceUrl: 'https://careers.roche.com/cn/zh/roche-pharma-product-development-china-summer-internship', capturedAt: '2026-10-15', sourceName: '罗氏招聘官网',
+  },
+  {
+    id: 'multigrid-medical-agent', track: 'medical', title: '医学图像多智能体研发实习生', organization: '多格科技', organizationType: '医疗 AI 企业', location: '北京/远程以招聘方为准', pay: '以招聘方确认为准', education: '本科及以上',
+    summary: '开发医学图像辅助诊断多智能体、DICOM/NIfTI 数据流程、视觉模型和医学知识库集成。', sourceUrl: 'https://multigrid.org/recruitment/9', capturedAt: '2026-10-15', sourceName: '多格科技招聘官网',
+  },
+  {
+    id: 'oppo-system-ai-intern', track: 'ai4s', title: 'System for AI / AI as System 实习生', organization: 'OPPO', organizationType: '科技企业', location: '深圳/东莞', pay: '以招聘方确认为准', education: '在校生',
+    summary: '参与大模型驱动的系统优化、AI Agent 框架、端侧推理部署和多媒体智能系统研发。', sourceUrl: 'https://careers.oppo.com/university/oppo/campus/post?shareId=16042', capturedAt: '2026-10-15', sourceName: 'OPPO 招聘官网',
+  },
 ];
