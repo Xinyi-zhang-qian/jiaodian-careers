@@ -23,3 +23,8 @@
 ## [2026-11-04 18:20:00] ::dev（第 1 轮第一批完成）
 - 批次完成 | 模块: [data-foundation×1（分支 dev/data-foundation，主 Agent 接手完成子 Agent 半成品）, legacy-cleanup×1（dev/legacy-cleanup）, data-acquisition×1（dev/data-acquisition）] | 测试 6/6 + 18/18 + 9/9 | worktree: [.worktrees/data-foundation, .worktrees/legacy-cleanup, .worktrees/data-acquisition]
 - 备注: data-foundation 子 Agent 超时失联，主 Agent 核验其半成品（批次文件与测试已就绪）、补迁移等值校验 200/200、删除一次性迁移脚本后提交；legacy-cleanup 在线复核遗留数据 295/295（可升级 51、需人工复核 236、建议下架 8），报告在 workspace/legacy-recheck/；data-acquisition 录入北京 10、上海 10、跨学科 10 条（事业单位 15 条，全部带原文证据与报名窗口）
+
+## [2026-11-04 18:45:00] ::dev（第 1 轮第二批完成，全部模块完成）
+- 全部模块完成 | 子Agent: 派发5/成功4（data-foundation 超时由主 Agent 接手完成） | 进入分支合并阶段
+- 批次完成 | 模块: [jobs-ui×1（dev/jobs-ui）, site-design×1（dev/site-design）] | 测试 27/27 + 4/4 | worktree: [.worktrees/jobs-ui, .worktrees/site-design]
+- 备注: jobs-ui 对 docs/interaction.md §7 报名窗口渲染条件做规格微调（补充 application_info 条件，避免丢失申请方式展示），已在模块文档同步；site-design 移除 update.sh、重写 README 含数据增补指引、新增语义色变量
