@@ -19,3 +19,7 @@
 ## [2026-11-04 17:40:00] ::devplan（第 1 轮）
 - 开发计划写入 plans/current.md | 涉及模块: [data-foundation, jobs-ui, legacy-cleanup, data-acquisition, site-design] | 旧计划归档至 无 | 中断续接: 无 | 状态: 等待批准
 - 备注: 5 个模块文档（design+interaction 各一份）已建立于 docs/modules/；桩策略与合并裁决项（index.ts 并集、types/utils 以 data-foundation 为准）已在计划中写明
+
+## [2026-11-04 18:20:00] ::dev（第 1 轮第一批完成）
+- 批次完成 | 模块: [data-foundation×1（分支 dev/data-foundation，主 Agent 接手完成子 Agent 半成品）, legacy-cleanup×1（dev/legacy-cleanup）, data-acquisition×1（dev/data-acquisition）] | 测试 6/6 + 18/18 + 9/9 | worktree: [.worktrees/data-foundation, .worktrees/legacy-cleanup, .worktrees/data-acquisition]
+- 备注: data-foundation 子 Agent 超时失联，主 Agent 核验其半成品（批次文件与测试已就绪）、补迁移等值校验 200/200、删除一次性迁移脚本后提交；legacy-cleanup 在线复核遗留数据 295/295（可升级 51、需人工复核 236、建议下架 8），报告在 workspace/legacy-recheck/；data-acquisition 录入北京 10、上海 10、跨学科 10 条（事业单位 15 条，全部带原文证据与报名窗口）
