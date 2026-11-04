@@ -1,59 +1,52 @@
 # 交点 Careers
 
-面向人文、社会科学与理工科交叉人才，整理重点城市的科研、公共部门与产业机会。
-
-项目公开当前有效的岗位目录，并区分三种核验层级：“已核验（逐字段）”表示逐项对照来源全文；“已核验（来源）”表示已确认原公告中的单位与岗位名称；“已核验（关键字段）”表示岗位名称、单位、地区和来源链接已纳入核验索引。已下架、失效或仅剩结果公示的来源不会继续作为可投递岗位展示；未完成逐字段核对的薪资、学历、专业、职责和当前状态不会被当作原文结论。
+面向人文、社会科学与理工科交叉人才的招聘信息静态站点。项目整理北京、上海等重点城市的科研、公共部门与产业机会，每条岗位记录都标注核验层级、保留来源链接与原文证据，使岗位的持续增补、复核与下架成为可重复的流程。
 
 **在线访问：[https://jiaodian-careers.onrender.com](https://jiaodian-careers.onrender.com)**
 
-## 功能
+## 功能清单
 
-- 岗位列表：按地区、城市、单位类型、岗位方向、学历、交叉方向、状态和关键词筛选
-- 岗位详情：专业要求、职责、来源链接、信息获取时间与核验时间
-- 交叉方向浏览与本地收藏
-- 机器人与 AI 岗位方向分析：比较 VLA、仿真、感知、控制、数据评测等七类方向
-- AI4S、医疗 × AI、生物学 × AI、人文科技内容与数据、具身智能、科技伦理与仿真算法实习专题（数据正在重新核验）
-- 市场观察：人才趋势和机器人岗位方向样本；未逐字段核验的线索不展示专业、职责、学历、经验或薪资
-- 人文社科岗位：科学技术哲学、科学技术史、哲学教学科研与学术编辑等方向
-- 静态网站导出，可部署到静态托管服务
+- 首页：关键词与地区、城市组合搜索；三级核验摘要（逐字段 / 来源 / 关键字段）；交叉方向与跨学科职能入口；最新精选岗位
+- 岗位列表（/jobs）：按地区、城市、单位类型、岗位类型、岗位职能、学历、主学科、第二学科/技能、招聘状态与关键词筛选；最新发布、核验时间、截止日期三种排序与分页；「即将截止」岗位显示红色徽标
+- 岗位详情（/jobs/[id]）：核验层级提示、报名窗口（报名开始、截止与方式）、原页核验锚点（来源标题与原文证据逐条展示）、来源页外链
+- 交叉方向（/directions）：11 个「主学科 × 次学科」方向卡与岗位计数
+- 收藏（/favorites）：浏览器本地收藏（localStorage），无需登录
+- 实习岗位（/internships）：按方向分组的实习线索与回源复核说明
+- 方向分析（/analysis）：机器人与 AI 等七类方向的岗位比较、核心技能与作品集建议
+- 市场观察（/market、/market/robotics）：人才趋势摘要与机器人岗位样本统计（统计页支持 JSON/CSV 下载）
 
-## Render 部署
-
-仓库根目录包含 `render.yaml`，可在 Render 控制台通过 **New > Blueprint** 连接本仓库并直接部署。配置如下：
-
-- 分支：`main`
-- 运行类型：Static Site
-- 构建命令：`npm ci && npm run build`
-- 发布目录：`out`
-- 自动部署：每次推送到 `main` 后自动触发
-
-第三方招聘平台的职位可能随时下架或变更；平台快照只作求职线索，申请前请打开原页面核对状态、薪资与要求。
+第三方招聘平台的职位可能随时下架或变更；申请前请打开原页面核对状态、薪资与要求。
 
 ## 本地运行
 
 ```bash
 npm ci
-npm run audit:jobs
-npm run dev
+npm run dev      # 开发服务器，http://localhost:3000
+npm run build    # 构建静态站点（prebuild 自动执行 offline 审计门禁）
+npm run test     # 聚合运行 scripts/tests/ 下全部断言脚本
 ```
 
-打开 http://localhost:3000。
+更新机器人市场样本时运行 `npm run collect:robotics`（离线重建用 `npm run collect:robotics:offline`），脚本会检查来源页面可访问性，按单位、岗位名称和城市去重，并生成页面数据以及 `public/data/` 下的 JSON、CSV。
 
-更新机器人市场样本时运行：
+## 数据增补指引
+
+新增岗位一律经增补脚本录入（手工编辑批次文件不被禁止，但同样必须通过审计门禁）：
 
 ```bash
-npm run collect:robotics
+npm run add:jobs -- <json路径> --batch <批次名>
 ```
 
-脚本会检查来源页面可访问性，按单位、岗位名称和城市去重，并生成页面数据以及位于 `public/data/` 的 JSON、CSV。未逐字段核验的线索只保留方向分析所需的基本字段，不输出人工补写的任职条件或薪资。若只需用本地来源重建数据而不访问网页，可运行 `npm run collect:robotics:offline`。
+JSON 文件为记录数组，每条记录必填字段：`title`、`organization`、`province`、`city`、`org_type`、`job_type`、`source_url`、`source_name`、`source_type`、`published_at`、`status`、`verification_level`、`source_title`、`source_evidence`。
 
-复核历史遗留数据时运行：
+核验层级照实标注，层级决定展示范围：「逐字段核验」表示全部条件字段逐项对照来源原文（证据片段 ≥3 段）；「来源核验」表示已确认来源页中的单位与岗位名称，条件字段以原文为准；「关键字段核验」表示岗位名称、单位、地区与来源链接已纳入核验索引。核对不到原文的字段一律留空，禁止按机构类型或常见待遇推测补写；报名起止时间只取公告原文。
+
+复核历史遗留或隔离数据时运行：
 
 ```bash
 npm run recheck:legacy
 ```
 
-脚本对 `src/data/real-jobs.ts`、`src/data/platform-sources.ts` 的未核验平台快照与 `src/data/expanded-source-leads.ts` 逐条回源访问，按「可升级 / 需人工复核 / 建议下架 / 未核验」分类，报告与逐条明细写入 `workspace/legacy-recheck/`（本地工作产物，不入库）。支持 `--offline`（不发请求，全量标未核验）、`--ids id1,id2`（指定条目重跑并覆盖结论）与 `--limit N`（从未复核条目按队列顺序继续 N 条）。
+脚本对隔离的历史数据清单逐条回源访问，按「可升级 / 需人工复核 / 建议下架 / 未核验」分类，报告与逐条明细写入 `workspace/legacy-recheck/`（本地工作产物，不入库）。2026-11-04 已完成首轮全量复核与处置（见批次文件头注释）；清单文件已清理完毕时脚本按 0 条处理并如实报告。支持 `--offline`、`--ids id1,id2` 与 `--limit N`。
 
 运行测试套件：
 
@@ -63,29 +56,32 @@ npm run test
 
 聚合执行 `scripts/tests/` 下的全部断言脚本，任一失败即退出码 1。
 
-## 构建静态站点
+核验层级与证据要求：
 
-```bash
-npm run build
-```
+- 逐字段核验：薪资、学历、专业、职责等条件逐项对照来源原文，`source_evidence` 至少提供 3 段能在来源页逐字命中的原文片段；
+- 来源核验：已确认原公告中的单位与岗位名称；
+- 关键字段核验：岗位名称、单位、地区和来源链接已纳入核验索引；
+- 核对不到的字段一律留空，禁止根据机构背景、研究方向或常见要求补写专业、学历、职责、薪资或优先条件；
+- 报名起止时间只取公告原文：`application_opens_at` 与 `deadline` 均为 `YYYY-MM-DD`；原文写明「长期有效」「招满为止」时不填截止日期，以报名方式原文承载。
 
-构建完成后，静态站点文件位于 `out/`。岗位详情页会在构建时按岗位记录逐一生成；搜索、筛选和收藏在浏览器中运行，不需要数据库或常驻服务器。
+录入脚本会校验结构与枚举、自动分配全目录唯一 ID、写入 `src/data/jobs/` 下的批次文件并自动执行 offline 审计。`npm run audit:jobs` 为在线回源核验门禁：实际访问来源页核对标题、发布日期与证据片段，任一证据未命中即以退出码 1 结束，提交数据前必须通过；构建阶段自动执行 offline 模式检查证据结构。
 
-## 数据与目录
+平台分析标签（学科方向、岗位职能、技能）必须与公告原文分开标注，不得混入 `original_major_requirements`、`source_title`、`source_evidence` 等原文引用字段。
 
-- 已核验岗位数据：`src/data/verified-jobs.ts`
-- 待重新核验的历史候选数据：`src/data/real-jobs.ts`（不供前台读取）
-- 原文证据校验脚本：`scripts/audit-verified-jobs.ts`
-- 招聘平台快照和市场趋势：`src/data/platform-sources.ts`
-- 机器人市场采集脚本：`scripts/collect-robotics-market.ts`
-- 机器人市场生成数据：`src/data/generated/robotics-market.json`
-- 机器人市场分析与分类逻辑：`src/lib/robotics-market.ts`
-- 交叉领域实习线索：`src/data/internship-listings.ts`
-- 机器人与 AI 分析数据：`src/data/robotics-ai-analysis.ts`
-- 页面：`src/app/`
-- 组件：`src/components/`
-- 类型与查询：`src/lib/`
+## 目录结构
 
-新增岗位必须保存来源页标题和可机器复核的原文证据片段，通过 `npm run audit:jobs`后才能进入前台数据。平台分析标签必须与公告原文分开标注；不得根据机构、研究方向或常见要求自行补写专业、学历、职责、薪资或优先条件。
+- `src/data/jobs/`：规范岗位数据源，按批次组织，`index.ts` 聚合导出 `jobsCatalog`（前台唯一数据入口）
+- `src/lib/`：类型定义、岗位查询与枚举常量
+- `src/app/`、`src/components/`：页面路由与界面组件
+- `scripts/`：数据审计（audit-verified-jobs）、增补录入（add-jobs）、遗留复核（recheck-legacy）、机器人市场采集（collect-robotics-market）与模块测试（tests/）
+- `public/data/`：机器人市场可下载数据（JSON、CSV）
+- `docs/`：需求、设计、交互与测试文档体系
 
-Render 构建阶段使用 `audit:jobs:offline` 检查证据结构，避免招聘单位网站屏蔽云服务器时阻断发布；完整的 `audit:jobs` 会实际访问来源页并核对标题、发布日期和原文片段，必须在提交数据前运行。
+## 部署
+
+站点以静态形式部署在 Render（仓库根目录 `render.yaml`）：
+
+- 运行类型：Static Site
+- 构建命令：`npm ci && npm run build`
+- 发布目录：`out`
+- 推送到 `main` 分支后自动部署；一切远程推送经命令系统 `::push` 触发，offline 审计未通过时构建中止、不会发布

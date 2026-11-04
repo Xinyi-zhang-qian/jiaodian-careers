@@ -13,60 +13,8 @@ export interface PlatformListing {
 
 // Public job-page snapshots collected on 2026-10-13. These are leads, not
 // guarantees that the employer is still accepting applications.
-// QUARANTINED: 历史平台快照未保存逐字段原文证据，不供前台读取。
-// 本快照段归 legacy-cleanup 模块管辖：导出供 scripts/recheck-legacy.ts 回源复核。
-export const unverifiedPlatformListings: PlatformListing[] = [
-  {
-    platform: 'BOSS直聘',
-    title: 'AI 产品经理（Agent 研发平台）',
-    organization: 'Moka',
-    location: '深圳',
-    salary: '20–40K/月',
-    requirements: '3–5 年 · 本科',
-    connection: '人力资源场景 × AI 产品',
-    summary: '职位页提到 Agent 研发平台、工作流编排和 AI 产品生命周期管理。',
-    sourceUrl: 'https://www.zhipin.com/job_detail/faa59b8168d6fbb00nJ509i0EVJR.html',
-    capturedAt: '2026-10-13',
-  },
-  {
-    platform: 'BOSS直聘',
-    title: 'AI 产品经理',
-    organization: '平安银行',
-    location: '上海·普陀',
-    salary: '20–35K/月',
-    requirements: '3–5 年 · 本科',
-    connection: '金融服务 × 智能办公与知识管理',
-    summary: '职位页聚焦会议转写、智能办公和知识管理产品。',
-    sourceUrl: 'https://www.zhipin.com/job_detail/eff94f8e8a1617eb0nJ40tq0GVpY.html',
-    capturedAt: '2026-10-13',
-  },
-  {
-    platform: 'BOSS直聘',
-    title: 'AI 编辑（人工智能）',
-    organization: '极客邦科技 / InfoQ',
-    location: '北京·朝阳',
-    salary: '17–25K/月',
-    requirements: '3–5 年 · 本科',
-    connection: '科技传播与编辑 × AI',
-    summary: '职位页包含 AI 技术动态报道、选题策划和内容编辑工作。',
-    sourceUrl: 'https://www.zhipin.com/job_detail/df5f214f99f02f6f0nJ709W5FlRX.html',
-    capturedAt: '2026-10-13',
-  },
-  {
-    platform: '猎聘',
-    title: 'AI 产品经理',
-    organization: '同道猎聘集团',
-    location: '北京·朝阳',
-    salary: '28–35K · 14 薪',
-    requirements: '3 年以上 · 本科',
-    connection: '招聘服务 × 大模型产品化',
-    summary: '职位页提到提示词设计、生成效果评估与产品迭代。',
-    sourceUrl: 'https://www.liepin.com/job/1974855567.shtml',
-    capturedAt: '2026-10-13',
-  },
-];
-
-void unverifiedPlatformListings;
+// 处置记录（2026-11-04 ::mergelocal）：原 QUARANTINED 平台快照段（4 条，未保存逐字段原文证据）
+// 经 recheck:legacy 复核后整体移除，不再作为任何展示数据保留。
 
 export const platformChannels = [
   {

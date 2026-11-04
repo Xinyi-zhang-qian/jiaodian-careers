@@ -11,17 +11,20 @@
 # 2. 内部结构
 
 ```text
-src/app/page.tsx             # 首页：职能快捷入口卡、核验摘要强化、布局层次
-src/app/globals.css          # 主题变量微调（徽标色彩统一所需的语义色）
-src/components/layout/*      # 导航与页脚（如有视觉调整）
-README.md                    # 面向使用者：简介、运行、数据增补指引、目录结构
+src/app/page.tsx                 # 首页：职能快捷入口卡、核验摘要强化、布局层次
+src/lib/job-function-stats.ts    # 职能入口计数纯函数（本模块新增，只依赖 utils 枚举与 Job 类型）
+src/app/globals.css              # 主题变量微调（徽标色彩统一所需的语义色，不改动既有变量取值）
+src/components/layout/*          # 导航与页脚（经核对与 docs/interaction.md §4 一致，本轮不改）
+README.md                        # 面向使用者：简介、运行、数据增补指引、目录结构、部署
 ```
 
 # 3. 内部数据流
 
-首页职能入口：读取 JOB_FUNCTIONS 枚举 → `getJobCountByFunction`（jobs-ui 在 data.ts 提供？否——data.ts 归 jobs-ui 所有。为避免跨模块接口依赖，首页职能入口直接复用 getJobs({ job_function }) 统计计数）→ 渲染有岗位的职能卡片，链接 `/jobs?function={枚举值}`。
+首页职能入口：读取 JOB_FUNCTIONS 枚举（data-foundation 在 utils.ts 定义；并行开发期本 worktree 内以完全相同的字面量桩编译，合并以 data-foundation 为准）→ `getJobs({ limit: 1000 }).jobs` 取全量记录 → `getJobFunctionEntries(jobs)` 纯函数本地统计：对每个枚举职能按 `job.job_functions?.includes(职能名)` 计数（不调用 getJobs 的 job_function 过滤参数——该参数由 jobs-ui 分支交付，合并前不存在；本地统计与合并后的过滤同语义）→ 过滤计数 >0 的职能、按计数降序（同数按枚举顺序）→ 渲染职能卡（职能名 + N 个岗位），链接 `/jobs?function={encodeURIComponent(枚举值)}`。全部职能计数为 0 或枚举不可用时区块整体不渲染，不抛异常。
 
-README 结构：项目简介 → 在线访问 → 功能 → 本地运行与数据核验 → **数据增补指引**（add:jobs 流程、证据要求、核验层级规则摘要）→ 目录结构 → 部署（Render；推送经命令系统 ::push）。
+核验摘要卡：三级核验计数逻辑保持（逐字段/来源/关键字段），补充一句「数据来源与核验方式」简短说明，不改变数据语义。
+
+README 结构：项目简介 → 在线访问 → 功能清单 → 本地运行（npm ci / dev / build / test）→ **数据增补指引**（add:jobs 用法、JSON 必填字段、核验层级与证据要求、audit:jobs 门禁）→ 目录结构（含 src/data/jobs/ 规范数据源）→ 部署（Render 静态站点；推送经命令系统 ::push）。
 
 # 4. 内部数据结构
 

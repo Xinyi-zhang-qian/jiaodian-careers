@@ -1,6 +1,6 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import verifiedJobs from '../src/data/verified-jobs';
+import jobsCatalog from '../src/data/jobs';
 import {
   classifyRoboticsDirection,
   normalizeSalary,
@@ -293,7 +293,7 @@ function inferRecruitmentType(title: string, recruitType?: string): RoboticsRecr
 }
 
 function toSeeds(): Seed[] {
-  const fullTimeSeeds: Seed[] = verifiedJobs
+  const fullTimeSeeds: Seed[] = jobsCatalog
     .filter((job) => (job.platform_disciplines.includes('机器人×仿真算法') || taggedJobIds.has(job.id))
       && !/实习/.test(job.title))
     .map((job) => ({

@@ -49,7 +49,8 @@ function toRecord(origin: RecheckOrigin, id: string, job: JobLike): LegacyRecord
 /** 加载 src/data/real-jobs.ts（228 条未发布候选，default 导出）。 */
 async function loadRealJobs(): Promise<LegacyRecord[]> {
   try {
-    const mod = await import('../src/data/real-jobs');
+    const specifier = '../src/data/real-jobs';
+    const mod = await import(specifier);
     const jobs = (mod.default ?? []) as JobLike[];
     return jobs.map((job) => toRecord('real-jobs', String(job.id), job));
   } catch (error) {
@@ -61,7 +62,8 @@ async function loadRealJobs(): Promise<LegacyRecord[]> {
 /** 加载 src/data/expanded-source-leads.ts（63 条已发布线索，default 导出）。 */
 async function loadLeads(): Promise<LegacyRecord[]> {
   try {
-    const mod = await import('../src/data/expanded-source-leads');
+    const specifier = '../src/data/expanded-source-leads';
+    const mod = await import(specifier);
     const jobs = (mod.default ?? []) as JobLike[];
     return jobs.map((job) => toRecord('leads', String(job.id), job));
   } catch (error) {
@@ -73,7 +75,8 @@ async function loadLeads(): Promise<LegacyRecord[]> {
 /** 加载 src/data/platform-sources.ts 的 QUARANTINED 平台快照段（具名导出 unverifiedPlatformListings）。 */
 async function loadPlatformListings(): Promise<LegacyRecord[]> {
   try {
-    const mod = await import('../src/data/platform-sources');
+    const specifier = '../src/data/platform-sources';
+    const mod = await import(specifier);
     const listings = (mod.unverifiedPlatformListings ?? []) as PlatformListingLike[];
     return listings.map((listing, index) =>
       toRecord('platform-sources', `ps-${index + 1}`, {
