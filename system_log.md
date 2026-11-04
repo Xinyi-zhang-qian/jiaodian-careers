@@ -28,3 +28,8 @@
 - 全部模块完成 | 子Agent: 派发5/成功4（data-foundation 超时由主 Agent 接手完成） | 进入分支合并阶段
 - 批次完成 | 模块: [jobs-ui×1（dev/jobs-ui）, site-design×1（dev/site-design）] | 测试 27/27 + 4/4 | worktree: [.worktrees/jobs-ui, .worktrees/site-design]
 - 备注: jobs-ui 对 docs/interaction.md §7 报名窗口渲染条件做规格微调（补充 application_info 条件，避免丢失申请方式展示），已在模块文档同步；site-design 移除 update.sh、重写 README 含数据增补指引、新增语义色变量
+
+## [2026-11-04 19:30:00] ::mergelocal（第 1 轮）
+- 合并分支: [dev/data-foundation, dev/data-acquisition, dev/legacy-cleanup, dev/jobs-ui, dev/site-design] | 冲突: 9 处（自动裁决 9 / 请示用户 0） | worktree 清理: 5 个（剩余 1） | 进入阶段: 代码检查
+- 冲突裁决记录: docs/test.md 四处 add/add 取并集（五模块小节齐全）；types.ts/utils.ts/index.ts 桩冲突以 data-foundation 版本为准；README 取 site-design 重写版并并集 legacy-cleanup 的 recheck:legacy 用法
+- 整合动作: index 聚合 7 批次 194 条（13 核心逐字段 + 27 线索 + 15 上海AI实验室 + 109 历史 + 30 新增京沪跨学科）；遗留处置落地——线索批次移除 36 条过期线索、restored 批次 11 条升级来源核验、5 个旧数据文件删除、platform-sources 移除未核验快照段；数据基建测试期望同步 194（58/51/85）
