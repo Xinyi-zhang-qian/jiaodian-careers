@@ -30,6 +30,8 @@ export interface Job {
   verification_level?: '待核实' | '关键字段核验' | '来源核验' | '逐字段核验';
   source_title?: string;
   source_evidence?: string[];
+  application_opens_at?: string; // 报名开始日期（YYYY-MM-DD）；缺省表示公告未提供报名开始时间
+  job_functions?: string[]; // 平台职能标签，取值限定 JOB_FUNCTIONS 枚举；缺省时读取侧按空数组处理
 }
 
 export interface Discipline {

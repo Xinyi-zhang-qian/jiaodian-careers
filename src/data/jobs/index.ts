@@ -1,0 +1,11 @@
+import type { Job } from '../../lib/types';
+
+import coreVerified from './core-verified';
+import leads from './leads-2026-09';
+import shlab from './shlab-2026';
+import restored from './restored-2026-10';
+
+// 规范数据源唯一聚合入口：显式列出全部批次并聚合（契约 13，禁止目录扫描式动态导入）。
+const jobsCatalog: Job[] = [...coreVerified, ...leads, ...shlab, ...restored];
+
+export default jobsCatalog;

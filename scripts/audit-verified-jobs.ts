@@ -1,8 +1,8 @@
-import verifiedJobs from '../src/data/verified-jobs';
-import restoredJobs from '../src/data/restored-jobs';
-import additionalVerifiedJobs from '../src/data/additional-verified-jobs';
+import jobsCatalog from '../src/data/jobs';
+import { JOB_FUNCTIONS } from '../src/lib/utils';
 
 const offline = process.argv.includes('--offline');
+const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 
 function normalize(value: string) {
   return value
@@ -23,7 +23,7 @@ async function main() {
   const errors: string[] = [];
   const ids = new Set<number>();
 
-  const jobs = [...verifiedJobs, ...restoredJobs, ...additionalVerifiedJobs];
+  const jobs = jobsCatalog;
   for (const job of jobs) {
     if (ids.has(job.id)) errors.push(`ID ${job.id}: duplicate id`);
     ids.add(job.id);
@@ -35,6 +35,14 @@ async function main() {
     }
     if (job.verification_level === '逐字段核验' && !job.source_url.startsWith('https://')) errors.push(`ID ${job.id}: source_url must use HTTPS`);
     if (job.is_demo) errors.push(`ID ${job.id}: verified dataset cannot contain demo data`);
+    if (job.application_opens_at && !DATE_PATTERN.test(job.application_opens_at)) errors.push(`ID ${job.id}: invalid date format: application_opens_at`);
+    if (job.deadline && !DATE_PATTERN.test(job.deadline)) errors.push(`ID ${job.id}: invalid date format: deadline`);
+    if (job.application_opens_at && job.deadline && DATE_PATTERN.test(job.application_opens_at) && DATE_PATTERN.test(job.deadline) && job.application_opens_at > job.deadline) {
+      errors.push(`ID ${job.id}: application_opens_at after deadline`);
+    }
+    for (const jobFunction of job.job_functions ?? []) {
+      if (!(JOB_FUNCTIONS as readonly string[]).includes(jobFunction)) errors.push(`ID ${job.id}: unknown job_function: ${jobFunction}`);
+    }
 
     if (!offline && job.source_evidence?.length && job.verification_level !== '关键字段核验') {
       try {

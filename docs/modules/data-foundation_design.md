@@ -19,15 +19,17 @@ src/data/jobs/
 └── leads-2026-09.ts         # 迁移自 expanded-source-leads.ts 的 63 条（层级原样）
 scripts/add-jobs.ts          # npm run add:jobs -- <json> --batch <名称>
 scripts/audit-verified-jobs.ts  # 同源化 + 新字段校验
+scripts/tests/data-foundation.test.ts  # 本模块断言测试（node:assert + tsx，无测试框架）
+scripts/tests/run-all.ts     # npm run test 聚合入口（依次运行 scripts/tests/*.test.ts）
 src/lib/types.ts             # Job 扩展 2 个可选字段
 src/lib/utils.ts             # 新增 JOB_FUNCTIONS 枚举
 ```
 
-迁移原则：记录字段与核验层级原样保留，不做内容改写；每个批次文件头注释注明来源与迁移日期；`restored-2026-10.ts` 的记录仍来自 `real-jobs.ts` 派生（迁移时固化字段值，之后 real-jobs.ts 的处置归 legacy-cleanup）。
+迁移原则：记录字段与核验层级原样保留，不做内容改写；每个批次文件头注释注明来源与迁移日期；记录以脚本从源模块读取后逐条单行 JSON 字面量序列化生成，保证与源值等值；`restored-2026-10.ts` 的记录仍来自 `real-jobs.ts` 派生（迁移时固化字段值，之后 real-jobs.ts 的处置归 legacy-cleanup）。
 
 # 3. 内部数据流
 
-add:jobs：读 JSON 文件 → 逐条按「模块交互文档 §3」校验 → 任一失败则整批拒绝（无半写入）→ 全部通过：ID 自动分配（现有 jobsCatalog 最大 id + 1 顺序递增）→ 生成批次 TS 文件（若已存在则追加）→ 更新 index.ts 追加 import/export 行 → 自动执行 `audit:jobs:offline` 并回显结果。
+add:jobs：读 JSON 文件 → 逐条按「模块交互文档 §3」校验 → 任一失败则整批拒绝（无半写入）→ 全部通过：与现有 jobsCatalog 的 `title+organization+source_url` 重复者跳过 → ID 自动分配（现有 jobsCatalog 最大 id + 1 顺序递增）→ 生成批次 TS 文件（若已存在则追加记录）→ 更新 index.ts 追加 import 与聚合行 → 自动执行 `audit:jobs:offline` 并回显计数。校验另有两条配套语义：输入对象只允许携带 Job 模式已知字段（`id` 由脚本自动分配，输入携带即拒绝；未知字段同样拒绝，保证批次文件满足 Job 类型）；维护者未提供的结构字段由写入层按空值语义缺省填充（详见模块交互文档 §3），缺省填充不视作内容补写。批次输出目录可用 `--jobs-dir <目录>` 覆盖（默认 `src/data/jobs`），仅供模块测试隔离写入。
 
 迁移（一次性，本模块内执行）：旧数据文件 → 批次文件 + index.ts → 切换 data.ts 前置校验（由 jobs-ui 同步改造，本模块只保证 index 正确）→ 删除 `verified-jobs.ts`、`additional-verified-jobs.ts`、`restored-jobs.ts`、`expanded-source-leads.ts`（`real-jobs.ts` 保留，归 legacy-cleanup 处置）。
 
