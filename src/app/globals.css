@@ -14,6 +14,18 @@
   --color-border-light: #EEF0EC;
   --color-muted: #F7F6F3;
   --color-demo: #D4A373;
+  /* 核验徽标语义色（docs/interaction.md §3 色彩协议：逐字段绿/来源蓝/关键字段琥珀/待核实黄/即将截止红），
+     供全站徽标统一引用；-soft 为对应浅底色。既有变量取值保持不变。 */
+  --color-verified: #065F46;
+  --color-verified-soft: #ECFDF5;
+  --color-source-verified: #075985;
+  --color-source-verified-soft: #F0F9FF;
+  --color-key-verified: #92400E;
+  --color-key-verified-soft: #FFFBEB;
+  --color-pending: #A16207;
+  --color-pending-soft: #FEFCE8;
+  --color-upcoming: #DC2626;
+  --color-upcoming-soft: #FEF2F2;
   --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
 }
 

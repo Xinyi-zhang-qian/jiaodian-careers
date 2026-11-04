@@ -30,6 +30,9 @@ export interface Job {
   verification_level?: '待核实' | '关键字段核验' | '来源核验' | '逐字段核验';
   source_title?: string;
   source_evidence?: string[];
+  // 以下两个字段为并行开发期的编译桩，与 data-foundation 分支的定义一致；合并时以对方为准。
+  application_opens_at?: string;
+  job_functions?: string[];
 }
 
 export interface Discipline {

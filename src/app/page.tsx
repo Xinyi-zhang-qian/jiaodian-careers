@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Search } from 'lucide-react';
 import Link from 'next/link';
 import { getJobs, getJobCountByDiscipline } from '@/lib/data';
+import { getJobFunctionEntries } from '@/lib/job-function-stats';
 import JobCard from '@/components/jobs/job-card';
 import { REGIONS, DISCIPLINES, ZHEJIANG_CITIES, JIANGSU_CITIES } from '@/lib/utils';
 
@@ -42,6 +43,9 @@ export default function HomePage() {
   const fieldVerifiedCount = publishedJobs.filter((job) => job.verification_level === '逐字段核验').length;
   const sourceVerifiedCount = publishedJobs.filter((job) => job.verification_level === '来源核验').length;
   const keyFieldVerifiedCount = publishedJobs.filter((job) => job.verification_level === '关键字段核验').length;
+
+  // 跨学科职能入口：全量记录本地统计（不调用 getJobs 的 job_function 过滤参数，合并前该参数不存在）
+  const functionEntries = getJobFunctionEntries(publishedJobs);
 
   const disciplinesWithCount = disciplines.map((d) => ({
     ...d,
@@ -157,26 +161,29 @@ export default function HomePage() {
       </section>
 
       <section className="rounded-3xl border border-border bg-surface p-6 shadow-sm sm:p-8">
-        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand">核验摘要</p>
+        <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-brand">核验摘要</h2>
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <div className="rounded-2xl bg-muted p-5">
             <p className="text-3xl font-semibold text-text-primary">{publishedJobs.length}</p>
             <p className="mt-1 text-sm text-text-secondary">当前公开岗位</p>
           </div>
-          <div className="rounded-2xl bg-emerald-50 p-5">
-            <p className="text-3xl font-semibold text-emerald-800">{fieldVerifiedCount}</p>
-            <p className="mt-1 text-sm text-emerald-700">已核验（逐字段）</p>
+          <div className="rounded-2xl bg-verified-soft p-5">
+            <p className="text-3xl font-semibold text-verified">{fieldVerifiedCount}</p>
+            <p className="mt-1 text-sm text-verified">已核验（逐字段）</p>
           </div>
-          <div className="rounded-2xl bg-sky-50 p-5">
-            <p className="text-3xl font-semibold text-sky-800">{sourceVerifiedCount}</p>
-            <p className="mt-1 text-sm text-sky-700">已核验（来源）</p>
+          <div className="rounded-2xl bg-source-verified-soft p-5">
+            <p className="text-3xl font-semibold text-source-verified">{sourceVerifiedCount}</p>
+            <p className="mt-1 text-sm text-source-verified">已核验（来源）</p>
           </div>
-          <div className="rounded-2xl bg-amber-50 p-5">
-            <p className="text-3xl font-semibold text-amber-800">{keyFieldVerifiedCount}</p>
-            <p className="mt-1 text-sm text-amber-700">已核验（关键字段）</p>
+          <div className="rounded-2xl bg-key-verified-soft p-5">
+            <p className="text-3xl font-semibold text-key-verified">{keyFieldVerifiedCount}</p>
+            <p className="mt-1 text-sm text-key-verified">已核验（关键字段）</p>
           </div>
         </div>
         <p className="mt-6 text-sm leading-7 text-text-secondary">
+          数据来源与核验方式：岗位记录统一存放于规范数据源并按批次组织，录入时依据来源页原文证据划定核验层级——逐字段核验要求至少 3 段原文证据，核对不到的字段留空、禁止补写；发布前经审计脚本回源复核。
+        </p>
+        <p className="mt-3 text-sm leading-7 text-text-secondary">
           当前岗位覆盖北京、上海、天津、江浙沪、广东等地区，方向包括哲学与科技伦理、数字治理、AI4S、具身智能、机器人仿真、大模型、算法、编辑出版、人事与项目管理。所有当前有效记录均公开展示，并在详情页标明可确认的信息范围。
         </p>
       </section>
@@ -213,6 +220,30 @@ export default function HomePage() {
         </section>
       )}
 
+      {/* 跨学科职能入口：按 JOB_FUNCTIONS 枚举本地统计，只渲染有岗位的职能（计数 >0） */}
+      {functionEntries.length > 0 && (
+        <section>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-[28px] font-semibold text-text-primary">跨学科职能入口</h2>
+            <Link href="/jobs" className="text-sm text-brand hover:text-brand-dark transition-colors">查看全部岗位 →</Link>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+            {functionEntries.map((entry) => (
+              <Link
+                key={entry.name}
+                href={`/jobs?function=${encodeURIComponent(entry.name)}`}
+                className="flex items-center justify-between gap-2 px-4 py-3.5 rounded-xl border border-border bg-surface hover:border-brand/40 hover:shadow-sm transition-all group"
+              >
+                <span className="text-sm font-medium text-text-primary group-hover:text-brand transition-colors">
+                  {entry.name}
+                </span>
+                <span className="text-xs text-text-secondary/70 shrink-0">{entry.count} 个岗位</span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* Featured Jobs */}
       <section>
         <div className="flex items-center justify-between mb-6">
@@ -230,7 +261,7 @@ export default function HomePage() {
 
       {/* Source Explanation */}
       <section className="p-6 rounded-2xl border border-border bg-muted">
-        <h3 className="text-lg font-medium text-text-primary mb-4">信息来源与核验</h3>
+        <h2 className="text-lg font-medium text-text-primary mb-4">信息来源与核验</h2>
         <div className="grid sm:grid-cols-2 gap-6 text-sm text-text-secondary">
           <div>
             <p className="font-medium text-text-primary mb-2">来源优先级</p>
