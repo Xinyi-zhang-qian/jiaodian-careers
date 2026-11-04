@@ -22,6 +22,10 @@ export const JOB_TYPES = ['科研', '教学', '教学科研', '工程', '产品'
 export const EDUCATION_LEVELS = ['本科', '硕士', '博士'] as const;
 export const JOB_STATUSES = ['招聘中', '已截止', '状态待核实'] as const;
 
+// 岗位职能标签枚举（docs/design.md §4 契约 12；扩充须经 ::design）。
+// 桩成员：与 data-foundation 分支的定义保持一致，合并时以对方版本为准。
+export const JOB_FUNCTIONS = ['项目管理','产品经理','AI伦理','算法','工程','数据','科研','编辑出版','综合管理','其他'] as const;
+
 export type ListingKind = '具体岗位' | '招聘项目' | '招聘公告';
 
 export function getListingKind(title: string): ListingKind {

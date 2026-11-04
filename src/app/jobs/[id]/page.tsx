@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ExternalLink, MapPin, Building2, Calendar, GraduationCap, ArrowLeft } from 'lucide-react';
-import { getJob, getJobIds } from '@/lib/data';
+import { getJob, getJobIds, deadlineBadgeLabel, applicationWindow } from '@/lib/data';
 import { getListingKind } from '@/lib/utils';
 
 function verificationLabel(level?: string) {
@@ -9,6 +9,13 @@ function verificationLabel(level?: string) {
   if (level === '来源核验') return '已核验（来源）';
   if (level === '关键字段核验') return '已核验（关键字段）';
   return level ?? '';
+}
+
+// 本地解析 YYYY-MM-DD 日期并格式化，避免 Date 直接按 UTC 解析字符串导致的日期偏移。
+function formatDateYmd(value: string): string {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return value;
+  const [year, month, day] = value.split('-').map(Number);
+  return new Date(year, month - 1, day).toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
 }
 
 export function generateStaticParams() {
@@ -28,6 +35,8 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
   const job = getJob(parseInt(id));
   if (!job) notFound();
   const listingKind = getListingKind(job.title);
+  const deadlineBadge = deadlineBadgeLabel(job);
+  const appWindow = applicationWindow(job, listingKind);
 
   return (
     <div>
@@ -43,7 +52,12 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
             {listingKind !== '具体岗位' && (
               <div className="mb-3 inline-flex rounded-md bg-accent/10 px-2.5 py-1 text-xs font-medium text-accent">{listingKind}</div>
             )}
-            <h1 className="text-2xl lg:text-[32px] font-semibold text-text-primary">{job.title}</h1>
+            <div className="flex flex-wrap items-center gap-3">
+              <h1 className="text-2xl lg:text-[32px] font-semibold text-text-primary">{job.title}</h1>
+              {deadlineBadge && (
+                <span className="rounded-md bg-red-600 px-2 py-0.5 text-xs font-medium text-white">{deadlineBadge}</span>
+              )}
+            </div>
             <div className="mt-3 flex flex-wrap items-center gap-4 text-sm text-text-secondary">
               <span className="flex items-center gap-1.5">
                 <Building2 className="w-4 h-4" />
@@ -154,19 +168,37 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
             </section>
           )}
 
-          {job.application_info && (
-            <section>
-              <h2 className="text-lg font-semibold text-text-primary mb-3">申请方式与材料</h2>
-              <p className="text-sm text-text-secondary leading-relaxed whitespace-pre-wrap">{job.application_info}</p>
-            </section>
-          )}
-
-          {job.deadline && (
+          {appWindow.visible && (
             <section className="p-5 rounded-2xl border border-accent/20 bg-accent/5">
-              <h2 className="text-lg font-semibold text-accent mb-2">截止日期</h2>
-              <p className="text-[18px] font-medium text-text-primary">
-                {new Date(job.deadline).toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' })}
-              </p>
+              <div className="flex flex-wrap items-center gap-2 mb-3">
+                <h2 className="text-lg font-semibold text-accent">报名窗口</h2>
+                {appWindow.publicRecruitNotice && (
+                  <span className="rounded-md bg-accent px-2 py-0.5 text-xs font-medium text-white">事业单位公开招聘</span>
+                )}
+              </div>
+              <div className="space-y-3 text-sm">
+                {job.application_opens_at && (
+                  <div>
+                    <p className="font-medium text-text-primary">报名开始</p>
+                    <p className="mt-0.5 text-text-secondary">{formatDateYmd(job.application_opens_at)}</p>
+                  </div>
+                )}
+                {job.deadline && (
+                  <div>
+                    <p className="font-medium text-text-primary">报名截止</p>
+                    <p className="mt-0.5 text-text-secondary">{formatDateYmd(job.deadline)}</p>
+                  </div>
+                )}
+                {job.application_info && (
+                  <div>
+                    <p className="font-medium text-text-primary">报名方式</p>
+                    <p className="mt-1 text-text-secondary leading-relaxed whitespace-pre-wrap">{job.application_info}</p>
+                  </div>
+                )}
+                {!job.application_opens_at && !job.deadline && !job.application_info && (
+                  <p className="text-text-secondary">报名安排详见来源公告。</p>
+                )}
+              </div>
             </section>
           )}
 

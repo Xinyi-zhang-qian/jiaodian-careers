@@ -30,6 +30,10 @@ export interface Job {
   verification_level?: '待核实' | '关键字段核验' | '来源核验' | '逐字段核验';
   source_title?: string;
   source_evidence?: string[];
+  // 桩成员：与 data-foundation 分支的定义保持一致——application_opens_at 为报名开始日期
+  // （YYYY-MM-DD，可空），job_functions 为平台职能标签数组；合并时以 data-foundation 版本为准。
+  application_opens_at?: string;
+  job_functions?: string[];
 }
 
 export interface Discipline {
