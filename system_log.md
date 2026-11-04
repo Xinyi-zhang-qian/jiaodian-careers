@@ -15,3 +15,7 @@
 ## [2026-11-04 17:10:00] ::design（第 1 轮）
 - 设计文档写入 [docs/design.md, docs/interaction.md] | 模块 9 个 | 轮次: 第 1 轮 / 共 1 轮 | 打断归档: 无 | 一致性检查: 通过（补注模块间交互线省略原因） | 未决项: 0 | 状态: 等待批准
 - 备注: V2 设计新增契约 6 条（报名窗口、职能标签、批次文件、增补入口、遗留复核、推送通道）；新增模块 jobs-dataset、legacy-cleanup、data-acquisition、site-design；需求已批准（数量目标与文件化规范化已写入）
+
+## [2026-11-04 17:40:00] ::devplan（第 1 轮）
+- 开发计划写入 plans/current.md | 涉及模块: [data-foundation, jobs-ui, legacy-cleanup, data-acquisition, site-design] | 旧计划归档至 无 | 中断续接: 无 | 状态: 等待批准
+- 备注: 5 个模块文档（design+interaction 各一份）已建立于 docs/modules/；桩策略与合并裁决项（index.ts 并集、types/utils 以 data-foundation 为准）已在计划中写明
