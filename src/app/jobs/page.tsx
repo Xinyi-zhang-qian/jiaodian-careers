@@ -5,7 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { Filter, X } from 'lucide-react';
 import { getJobs, getDistinctCities } from '@/lib/data';
 import JobCard from '@/components/jobs/job-card';
-import { ORG_TYPES, JOB_TYPES, EDUCATION_LEVELS, JOB_STATUSES, DISCIPLINES } from '@/lib/utils';
+import { ORG_TYPES, JOB_TYPES, EDUCATION_LEVELS, JOB_STATUSES, DISCIPLINES, JOB_FUNCTIONS } from '@/lib/utils';
 
 function JobsContent() {
   const searchParams = useSearchParams();
@@ -18,6 +18,7 @@ function JobsContent() {
     city: searchParams.get('city') || '',
     org_type: searchParams.get('org_type') || '',
     job_type: searchParams.get('job_type') || '',
+    job_function: searchParams.get('function') || '',
     education: searchParams.get('education') || '',
     discipline: searchParams.get('discipline') || '',
     secondary_discipline: searchParams.get('secondary_discipline') || '',
@@ -39,8 +40,10 @@ function JobsContent() {
   useEffect(() => {
     const params = new URLSearchParams();
     Object.entries(filters).forEach(([key, value]) => {
+      // 状态键 job_function 对应 URL 参数 function，其余键与 URL 参数同名；空值不写入。
+      const urlKey = key === 'job_function' ? 'function' : key;
       if (value && value !== 'newest' && value !== '1') {
-        params.set(key, String(value));
+        params.set(urlKey, String(value));
       }
     });
     router.replace(`/jobs?${params.toString()}`, { scroll: false });
@@ -51,6 +54,7 @@ function JobsContent() {
     city: filters.city,
     org_type: filters.org_type,
     job_type: filters.job_type,
+    job_function: filters.job_function,
     education: filters.education,
     primary_discipline: filters.discipline,
     secondary_discipline: filters.secondary_discipline,
@@ -70,13 +74,13 @@ function JobsContent() {
 
   const clearFilters = () => {
     setFilters({
-      q: '', region: '', city: '', org_type: '', job_type: '',
+      q: '', region: '', city: '', org_type: '', job_type: '', job_function: '',
       education: '', discipline: '', secondary_discipline: '', status: '',
       sort: 'newest', page: 1,
     });
   };
 
-  const hasActiveFilters = filters.region || filters.city || filters.org_type || filters.job_type || filters.education || filters.discipline || filters.secondary_discipline || filters.status || filters.q;
+  const hasActiveFilters = filters.region || filters.city || filters.org_type || filters.job_type || filters.job_function || filters.education || filters.discipline || filters.secondary_discipline || filters.status || filters.q;
 
   return (
     <div>
@@ -165,6 +169,18 @@ function JobsContent() {
               >
                 <option value="">全部</option>
                 {JOB_TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
+              </select>
+            </FilterGroup>
+
+            {/* Job Function */}
+            <FilterGroup label="岗位职能">
+              <select
+                value={filters.job_function}
+                onChange={(e) => updateFilter('job_function', e.target.value)}
+                className="w-full px-3 py-2 rounded-lg border border-border text-sm focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand bg-surface"
+              >
+                <option value="">全部</option>
+                {JOB_FUNCTIONS.map((f) => <option key={f} value={f}>{f}</option>)}
               </select>
             </FilterGroup>
 

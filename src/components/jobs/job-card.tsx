@@ -3,6 +3,7 @@ import { ExternalLink, Heart, MapPin, Building2, Calendar, Building } from 'luci
 import { Job } from '@/lib/types';
 import { useFavorites } from '@/lib/use-favorites';
 import { getListingKind } from '@/lib/utils';
+import { deadlineBadgeLabel } from '@/lib/data';
 
 function verificationLabel(level?: string) {
   if (level === '逐字段核验') return '已核验（逐字段）';
@@ -16,21 +17,28 @@ export default function JobCard({ job }: { job: Job }) {
   const { isFavorited, toggleFavorite } = useFavorites();
   const favorited = isFavorited(job.id);
   const listingKind = getListingKind(job.title);
+  const deadlineBadge = deadlineBadgeLabel(job);
 
   return (
     <article className="p-5 rounded-2xl border border-border bg-surface hover:shadow-lg hover:border-brand/30 transition-all group">
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1 min-w-0">
+          {/* 标题与「即将截止」徽标同行；条目类型与核验层级徽标独立成行，信息层级更清晰 */}
           <div className="flex flex-wrap items-center gap-2">
+            <Link href={`/jobs/${job.id}`} className="text-lg font-medium text-text-primary hover:text-brand transition-colors">
+              {job.title}
+            </Link>
+            {deadlineBadge && (
+              <span className="rounded-md bg-red-600 px-2 py-0.5 text-xs font-medium text-white">{deadlineBadge}</span>
+            )}
+          </div>
+          <div className="mt-1.5 flex flex-wrap items-center gap-2">
             {listingKind !== '具体岗位' && (
               <span className="rounded-md bg-accent/10 px-2 py-0.5 text-xs font-medium text-accent">{listingKind}</span>
             )}
             {job.verification_level && verificationLabel(job.verification_level) && (
               <span className={`rounded-md px-2 py-0.5 text-xs font-medium ${job.verification_level === '待核实' ? 'bg-yellow-100 text-yellow-800' : 'bg-emerald-50 text-emerald-700'}`}>{verificationLabel(job.verification_level)}</span>
             )}
-            <Link href={`/jobs/${job.id}`} className="text-lg font-medium text-text-primary hover:text-brand transition-colors">
-              {job.title}
-            </Link>
           </div>
           <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-text-secondary">
             <span className="flex items-center gap-1">

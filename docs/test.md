@@ -7,6 +7,7 @@
 ## 全局测试
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 （暂无；整库回归测试由 ::ci 建立）
 
 ## 模块 data-acquisition 测试
@@ -81,7 +82,38 @@
 ### buildReport 报告完整性（三清单并集等于复核全集、无重复）
 - 如何运行：`npx tsx scripts/tests/legacy-cleanup.test.ts`
 
+## 模块 jobs-ui 测试
+
+### 职能筛选只命中标注记录
+- 如何运行：`npx tsx scripts/tests/jobs-ui.test.ts`
+- 测试内容：依据 docs/modules/jobs-ui_interaction.md §2（docs/interaction.md §6 岗位职能下拉），对含 `job_functions` 字段与无该字段的记录混合目录断言：传入枚举值「算法」时只返回标注该职能的记录，传入「数据」时不命中无 `job_functions` 字段的记录。
+
+### 非枚举与空职能值视为不过滤
+- 如何运行：`npx tsx scripts/tests/jobs-ui.test.ts`
+- 测试内容：依据 docs/modules/jobs-ui_interaction.md §2 边界检查，断言 `job_function` 传非枚举值、空串或缺省时混合目录全量返回；并依据 docs/interaction.md §13 断言 1 断言 `getJobs` 对全量目录在非枚举值下同样不过滤。
+
+### 职能筛选与其他过滤器 AND 组合
+- 如何运行：`npx tsx scripts/tests/jobs-ui.test.ts`
+- 测试内容：依据 docs/modules/jobs-ui_interaction.md §2 预期输出，断言 `job_function` 与 `org_type` 同时传入时返回两者交集，组合无效时返回空集。
+
+### deadlineDaysLeft 剩余天数计算
+- 如何运行：`npx tsx scripts/tests/jobs-ui.test.ts`
+- 测试内容：依据 docs/modules/jobs-ui_interaction.md §3，注入固定当前日期，断言：无 deadline 返回 null；status「已截止」返回 null；deadline 当天返回 0；未来 3 天返回 3；过去日期返回负数；非法日期（02-30、非 YYYY-MM-DD 格式）返回 null；「状态待核实」仍按 deadline 计算。
+
+### 即将截止徽标判定
+- 如何运行：`npx tsx scripts/tests/jobs-ui.test.ts`
+- 测试内容：依据 docs/interaction.md §6「JobCard 即将截止徽标」、§7「即将截止标识」与 §13 断言 4、docs/modules/jobs-ui_interaction.md §4，断言：剩余 3 天且「招聘中」返回「3 天后截止」；当天返回「今天截止」；剩余 7 天仍在边界内；剩余 8 天、已过期、「已截止」「状态待核实」、无 deadline 均返回 null。
+
+### 报名窗口渲染判定
+- 如何运行：`npx tsx scripts/tests/jobs-ui.test.ts`
+- 测试内容：依据 docs/interaction.md §7「报名窗口区块」与 §13 断言 5、docs/modules/jobs-ui_interaction.md §5，断言：有 `application_opens_at`、`deadline`、`application_info` 之一或公告级条目时 visible 为 true；事业单位公告级 publicRecruitNotice 为 true；企业公告级为 false；具体岗位三字段全空 visible 为 false。
+
+### 职能枚举与契约一致
+- 如何运行：`npx tsx scripts/tests/jobs-ui.test.ts`
+- 测试内容：依据 docs/design.md §4 契约 12，断言 `JOB_FUNCTIONS` 恰为契约规定的 10 个枚举值（项目管理、产品经理、AI伦理、算法、工程、数据、科研、编辑出版、综合管理、其他）。
+
 ## 最近一轮结果
+- 2026-11-04 | 模块 jobs-ui | 通过 27/共 27 | 无失败（`npx tsx scripts/tests/jobs-ui.test.ts` 全部通过；`npx tsc --noEmit` 无类型错误）。
 - 2026-11-04 | 模块 legacy-cleanup | 通过 18/18，失败 0 | 运行方式：`npx tsx scripts/tests/legacy-cleanup.test.ts`（聚合入口 `npm run test` 通过，1/1 套件）；`npx tsc --noEmit` 无错误。
   - 覆盖：classifySource 判定口径第 1–9 条（可升级/需人工复核/建议下架/未核验、过期提示页与已暂停招聘例外）、normalizeHtml、markUnverified、mergeDetails 同 id 覆盖、buildReport 三清单并集等于复核全集且无重复。
   - 复核执行（`npm run recheck:legacy`，在线模式）：全量 295 条复核完成——可升级 51（real-jobs 24、expanded-source-leads 27、platform-sources 0）、需人工复核 236（含过期提示页 36、停招标注 1、访问失败 19、页面内容为空 7、HTTP 非成功 4、疑似非招聘页 3、锚点不命中 166）、建议下架 8（域名失效 3 经 nslookup 独立佐证、反爬拦截 403/404 共 5）；未核验 0。明细与报告见 `workspace/legacy-recheck/`（本地工作产物，不入库）。
@@ -144,3 +176,40 @@
   - 抽样验证：可升级条目（南开 117635/116865、猎聘 ps-4 前身）来源页实际内容与锚点命中逐一核对；猎聘 ps-4 因页面标注「该职位已暂停招聘」由可升级改判需人工复核，据此在口径第 8/9 条补充停招例外。
   - 处置建议（逐条 id）见 `workspace/legacy-recheck/report.md` 处置建议节；物理删除与迁入由主 Agent 在合并阶段执行。
 >>>>>>> dev/legacy-cleanup
+=======
+（占位说明：本节用于登记库级测试——模块间集成、端到端、契约、视觉验收等，由主 Agent 在分支合并阶段统一登记；并行开发期间各模块只在下方各自模块小节登记模块内测试，聚合运行入口 `npm run test` 由主 Agent 合并时建立。）
+
+## 模块 jobs-ui 测试
+
+### 职能筛选只命中标注记录
+- 如何运行：`npx tsx scripts/tests/jobs-ui.test.ts`
+- 测试内容：依据 docs/modules/jobs-ui_interaction.md §2（docs/interaction.md §6 岗位职能下拉），对含 `job_functions` 字段与无该字段的记录混合目录断言：传入枚举值「算法」时只返回标注该职能的记录，传入「数据」时不命中无 `job_functions` 字段的记录。
+
+### 非枚举与空职能值视为不过滤
+- 如何运行：`npx tsx scripts/tests/jobs-ui.test.ts`
+- 测试内容：依据 docs/modules/jobs-ui_interaction.md §2 边界检查，断言 `job_function` 传非枚举值、空串或缺省时混合目录全量返回；并依据 docs/interaction.md §13 断言 1 断言 `getJobs` 对全量目录在非枚举值下同样不过滤。
+
+### 职能筛选与其他过滤器 AND 组合
+- 如何运行：`npx tsx scripts/tests/jobs-ui.test.ts`
+- 测试内容：依据 docs/modules/jobs-ui_interaction.md §2 预期输出，断言 `job_function` 与 `org_type` 同时传入时返回两者交集，组合无效时返回空集。
+
+### deadlineDaysLeft 剩余天数计算
+- 如何运行：`npx tsx scripts/tests/jobs-ui.test.ts`
+- 测试内容：依据 docs/modules/jobs-ui_interaction.md §3，注入固定当前日期，断言：无 deadline 返回 null；status「已截止」返回 null；deadline 当天返回 0；未来 3 天返回 3；过去日期返回负数；非法日期（02-30、非 YYYY-MM-DD 格式）返回 null；「状态待核实」仍按 deadline 计算。
+
+### 即将截止徽标判定
+- 如何运行：`npx tsx scripts/tests/jobs-ui.test.ts`
+- 测试内容：依据 docs/interaction.md §6「JobCard 即将截止徽标」、§7「即将截止标识」与 §13 断言 4、docs/modules/jobs-ui_interaction.md §4，断言：剩余 3 天且「招聘中」返回「3 天后截止」；当天返回「今天截止」；剩余 7 天仍在边界内；剩余 8 天、已过期、「已截止」「状态待核实」、无 deadline 均返回 null。
+
+### 报名窗口渲染判定
+- 如何运行：`npx tsx scripts/tests/jobs-ui.test.ts`
+- 测试内容：依据 docs/interaction.md §7「报名窗口区块」与 §13 断言 5、docs/modules/jobs-ui_interaction.md §5，断言：有 `application_opens_at`、`deadline`、`application_info` 之一或公告级条目时 visible 为 true；事业单位公告级 publicRecruitNotice 为 true；企业公告级为 false；具体岗位三字段全空 visible 为 false。
+
+### 职能枚举与契约一致
+- 如何运行：`npx tsx scripts/tests/jobs-ui.test.ts`
+- 测试内容：依据 docs/design.md §4 契约 12，断言 `JOB_FUNCTIONS` 恰为契约规定的 10 个枚举值（项目管理、产品经理、AI伦理、算法、工程、数据、科研、编辑出版、综合管理、其他）。
+
+## 最近一轮结果
+
+- 2026-11-04 | 模块 jobs-ui | 通过 27/共 27 | 无失败（`npx tsx scripts/tests/jobs-ui.test.ts` 全部通过；`npx tsc --noEmit` 无类型错误）。
+>>>>>>> dev/jobs-ui
