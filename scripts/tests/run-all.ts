@@ -1,37 +1,29 @@
-// npm run test 聚合入口：依次运行 scripts/tests/ 下全部 *.test.ts 断言脚本，
-// 任一套件抛出断言失败即记录，最终任一失败以退出码 1 结束。
+// 聚合测试入口：动态发现并逐个运行 scripts/tests/ 下的断言脚本（docs/interaction.md §11 npm run test）。
+// 各模块测试文件自带有统计与退出码，本入口只负责聚合与汇总，任一套件失败即退出码 1。
 import { readdirSync } from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { spawnSync } from 'node:child_process';
 
-const testsDir = path.dirname(fileURLToPath(import.meta.url));
+const testsDir = path.resolve('scripts/tests');
+const tsx = path.resolve('node_modules/.bin/tsx');
 
-async function main() {
-  const testFiles = readdirSync(testsDir).filter((name) => name.endsWith('.test.ts')).sort();
+const files = readdirSync(testsDir)
+  .filter((file) => file.endsWith('.test.ts') && file !== 'run-all.ts')
+  .sort();
 
-  const failures: { file: string; message: string }[] = [];
-  let passed = 0;
-
-  for (const file of testFiles) {
-    console.log(`\n===== 套件 ${file} =====`);
-    try {
-      await import(path.join(testsDir, file));
-      passed += 1;
-      console.log(`[通过] ${file}`);
-    } catch (error) {
-      failures.push({ file, message: error instanceof Error ? error.message : String(error) });
-      console.error(`[失败] ${file}`);
-    }
+if (files.length === 0) {
+  console.error('scripts/tests/ 下没有发现 *.test.ts 测试文件。');
+  process.exitCode = 1;
+} else {
+  const failed: string[] = [];
+  for (const file of files) {
+    console.log(`\n=== 运行 ${file} ===`);
+    const result = spawnSync(tsx, [path.join(testsDir, file)], { stdio: 'inherit' });
+    if (result.status !== 0) failed.push(file);
   }
-
-  console.log(`\n测试套件：${passed} 通过 / ${failures.length} 失败（共 ${testFiles.length}）`);
-  if (failures.length > 0) {
-    console.error('失败断言明细：');
-    for (const failure of failures) {
-      console.error(`- ${failure.file}: ${failure.message}`);
-    }
+  console.log(`\n聚合测试完成：${files.length - failed.length}/${files.length} 个套件通过`);
+  if (failed.length > 0) {
+    console.error(`失败套件：${failed.join('、')}`);
     process.exitCode = 1;
   }
 }
-
-main();

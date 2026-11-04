@@ -6,6 +6,7 @@
 
 ## 全局测试
 
+<<<<<<< HEAD
 （暂无；整库回归测试由 ::ci 建立）
 
 ## 模块 data-acquisition 测试
@@ -39,8 +40,107 @@
 - 如何运行：`npm run test`（scripts/tests/data-foundation.test.ts，通过 `--jobs-dir` 注入临时目录隔离写入）
 - 测试内容：依据 docs/interaction.md §11 add:jobs 行与 docs/modules/data-foundation_interaction.md §3 错误处理与边界检查，验证批次内任一记录非法时整批拒绝、退出码 1、不产生任何文件写入；title+organization+source_url 与现有目录重复的记录被跳过并提示；合法批次自动分配 ID（现有 jobsCatalog 最大 id+1 起递增）、创建批次文件、更新 index.ts 的 import 与聚合行，并以退出码 0 结束；非 kebab-case 批次名（如 Bad_Batch）被拒绝且无文件写入。
 
+## 模块 legacy-cleanup 测试
+
+### classifySource 分类判定（来源命中 → 可升级）
+- 如何运行：`npx tsx scripts/tests/legacy-cleanup.test.ts`
+- 测试内容：依据模块交互文档 §2 判定口径第 8 条，注入返回含 source_title 原文的夹具 HTML 的 fetch 假实现（不发真实请求），断言带 source_title 的记录判定为「可升级」且 evidence_hits 记录命中锚点；平台快照记录（无 source_title）在 title 与 organization 都命中时判定为「可升级」。
+
+### classifySource 分类判定（锚点不命中/疑似非招聘页 → 需人工复核）
+- 如何运行：`npx tsx scripts/tests/legacy-cleanup.test.ts`
+- 测试内容：依据模块交互文档 §2 判定口径第 7、9 条，注入返回与记录无关内容的夹具 HTML 的 fetch 假实现，断言锚点不命中判定为「需人工复核」且 note 含「锚点不命中」；注入返回 200 但正文经 normalizeHtml 后为空的夹具，断言判定为「需人工复核」且 note 含「页面内容为空」。
+
+### classifySource 分类判定（过期提示页如实标注）
+- 如何运行：`npx tsx scripts/tests/legacy-cleanup.test.ts`
+- 测试内容：依据模块交互文档 §2 判定口径第 9 条（「信息已过期」类提示页标注），以南开就业网实测的 200 过期跳转页夹具驱动 classifySource，断言判定为「需人工复核」且 note 同时含「锚点不命中」与「过期提示页」。
+
+### classifySource 分类判定（已暂停招聘页不得升级）
+- 如何运行：`npx tsx scripts/tests/legacy-cleanup.test.ts`
+- 测试内容：依据模块交互文档 §2 判定口径第 8、9 条（停招字样例外），以锚点命中但标注「该职位已暂停招聘」的平台职位页夹具（猎聘实测行为）驱动 classifySource，断言判定为「需人工复核」且 note 含「已暂停招聘」。
+
+### classifySource 分类判定（网络异常 → 需人工复核且 note 含原因）
+- 如何运行：`npx tsx scripts/tests/legacy-cleanup.test.ts`
+- 测试内容：依据模块交互文档 §2 判定口径第 3 条，注入抛出普通 Error 的 fetch 假实现模拟网络异常，断言判定为「需人工复核」且 note 含「访问失败：」与异常原因，不发真实请求。
+
+### classifySource 分类判定（URL 非法/404/反爬/域名失效 → 建议下架）
+- 如何运行：`npx tsx scripts/tests/legacy-cleanup.test.ts`
+- 测试内容：依据模块交互文档 §2 判定口径第 1、2、4、5 条，分别以空 URL、返回 404 与 403 的 fetch 假实现、抛出带 ENOTFOUND  cause 的 fetch 假实现驱动 classifySource，断言均判定为「建议下架」且 note 分别含「URL 非法」、HTTP 状态码、「疑似反爬拦截」、「域名失效」。
+
+### normalizeHtml 规范化
+- 如何运行：`npx tsx scripts/tests/legacy-cleanup.test.ts`
+- 测试内容：依据模块交互文档 §4 normalizeHtml 规格，给定含 script/style 块、标签、&nbsp;/&amp;/&quot; 实体、换行缩进与 en dash 的夹具 HTML，断言输出为去除上述噪声后的连续文本，且「中国移动2027校园招聘」这类跨标签短语规范化后可被 includes 命中。
+
+### markUnverified 离线态标注
+- 如何运行：`npx tsx scripts/tests/legacy-cleanup.test.ts`
+- 测试内容：依据模块交互文档 §4 markUnverified 规格，断言离线标注条目 verdict 为「未核验」、http_status 为 null、note 为「离线模式未访问来源」，对应 interaction.md §11 离线模式全量标「未核验」。
+
+### mergeDetails 增量合并（同 id 覆盖）
+- 如何运行：`npx tsx scripts/tests/legacy-cleanup.test.ts`
+- 测试内容：依据模块交互文档 §4 mergeDetails 规格与设计文档 §3「同 id 覆盖」，给定旧明细与新一批含同 `origin+id` 条目的明细，断言同键条目被新结果覆盖、旧独有条目保留、输出无重复键。
+
+### buildReport 报告完整性（三清单并集等于复核全集、无重复）
+- 如何运行：`npx tsx scripts/tests/legacy-cleanup.test.ts`
+
 ## 最近一轮结果
+- 2026-11-04 | 模块 legacy-cleanup | 通过 18/18，失败 0 | 运行方式：`npx tsx scripts/tests/legacy-cleanup.test.ts`（聚合入口 `npm run test` 通过，1/1 套件）；`npx tsc --noEmit` 无错误。
+  - 覆盖：classifySource 判定口径第 1–9 条（可升级/需人工复核/建议下架/未核验、过期提示页与已暂停招聘例外）、normalizeHtml、markUnverified、mergeDetails 同 id 覆盖、buildReport 三清单并集等于复核全集且无重复。
+  - 复核执行（`npm run recheck:legacy`，在线模式）：全量 295 条复核完成——可升级 51（real-jobs 24、expanded-source-leads 27、platform-sources 0）、需人工复核 236（含过期提示页 36、停招标注 1、访问失败 19、页面内容为空 7、HTTP 非成功 4、疑似非招聘页 3、锚点不命中 166）、建议下架 8（域名失效 3 经 nslookup 独立佐证、反爬拦截 403/404 共 5）；未核验 0。明细与报告见 `workspace/legacy-recheck/`（本地工作产物，不入库）。
+  - 抽样验证：可升级条目（南开 117635/116865、猎聘 ps-4 前身）来源页实际内容与锚点命中逐一核对；猎聘 ps-4 因页面标注「该职位已暂停招聘」由可升级改判需人工复核，据此在口径第 8/9 条补充停招例外。
+  - 处置建议（逐条 id）见 `workspace/legacy-recheck/report.md` 处置建议节；物理删除与迁入由主 Agent 在合并阶段执行。
 - 2026-11-04 | 范围：模块 data-foundation | 通过 6/6（jobsCatalog 完整性 200 条、audit offline、add:jobs 校验矩阵、合法批次写入与 ID 自动分配、整批拒绝无写入、批次名校验）；类型检查 tsc --noEmit 无错误
 - 2026-11-04 | 范围：模块 data-foundation（一次性迁移校验，仅本轮运行，不计入永久测试）| 通过：200/200 条按 id 逐字段等值（迁移脚本运行确认；脚本按其头部声明在提交前删除）
 - 2026-11-04 | 范围：data-acquisition 模块 | 运行 `npx tsx scripts/tests/data-acquisition.test.ts`：通过 9 组断言 / 失败 0，覆盖 30 条记录（北京 10、上海 10、跨学科 10；其中事业单位 15 条）；`npx tsc --noEmit` 通过（0 错误）。
 - 补充核验：本地底稿脚本（workspace/acquisition/verify-evidence.ts，normalize 口径与 scripts/audit-verified-jobs.ts 一致）对 30 条记录逐条在线回源，source_title、published_at（含中文日期变体）与全部 source_evidence 片段逐字命中，全量通过。
+=======
+（本节放库级测试：模块间集成、端到端、契约、视觉验收等；由各模块与 ::ci 按规格登记。）
+
+## 模块 legacy-cleanup 测试
+
+### classifySource 分类判定（来源命中 → 可升级）
+- 如何运行：`npx tsx scripts/tests/legacy-cleanup.test.ts`
+- 测试内容：依据模块交互文档 §2 判定口径第 8 条，注入返回含 source_title 原文的夹具 HTML 的 fetch 假实现（不发真实请求），断言带 source_title 的记录判定为「可升级」且 evidence_hits 记录命中锚点；平台快照记录（无 source_title）在 title 与 organization 都命中时判定为「可升级」。
+
+### classifySource 分类判定（锚点不命中/疑似非招聘页 → 需人工复核）
+- 如何运行：`npx tsx scripts/tests/legacy-cleanup.test.ts`
+- 测试内容：依据模块交互文档 §2 判定口径第 7、9 条，注入返回与记录无关内容的夹具 HTML 的 fetch 假实现，断言锚点不命中判定为「需人工复核」且 note 含「锚点不命中」；注入返回 200 但正文经 normalizeHtml 后为空的夹具，断言判定为「需人工复核」且 note 含「页面内容为空」。
+
+### classifySource 分类判定（过期提示页如实标注）
+- 如何运行：`npx tsx scripts/tests/legacy-cleanup.test.ts`
+- 测试内容：依据模块交互文档 §2 判定口径第 9 条（「信息已过期」类提示页标注），以南开就业网实测的 200 过期跳转页夹具驱动 classifySource，断言判定为「需人工复核」且 note 同时含「锚点不命中」与「过期提示页」。
+
+### classifySource 分类判定（已暂停招聘页不得升级）
+- 如何运行：`npx tsx scripts/tests/legacy-cleanup.test.ts`
+- 测试内容：依据模块交互文档 §2 判定口径第 8、9 条（停招字样例外），以锚点命中但标注「该职位已暂停招聘」的平台职位页夹具（猎聘实测行为）驱动 classifySource，断言判定为「需人工复核」且 note 含「已暂停招聘」。
+
+### classifySource 分类判定（网络异常 → 需人工复核且 note 含原因）
+- 如何运行：`npx tsx scripts/tests/legacy-cleanup.test.ts`
+- 测试内容：依据模块交互文档 §2 判定口径第 3 条，注入抛出普通 Error 的 fetch 假实现模拟网络异常，断言判定为「需人工复核」且 note 含「访问失败：」与异常原因，不发真实请求。
+
+### classifySource 分类判定（URL 非法/404/反爬/域名失效 → 建议下架）
+- 如何运行：`npx tsx scripts/tests/legacy-cleanup.test.ts`
+- 测试内容：依据模块交互文档 §2 判定口径第 1、2、4、5 条，分别以空 URL、返回 404 与 403 的 fetch 假实现、抛出带 ENOTFOUND  cause 的 fetch 假实现驱动 classifySource，断言均判定为「建议下架」且 note 分别含「URL 非法」、HTTP 状态码、「疑似反爬拦截」、「域名失效」。
+
+### normalizeHtml 规范化
+- 如何运行：`npx tsx scripts/tests/legacy-cleanup.test.ts`
+- 测试内容：依据模块交互文档 §4 normalizeHtml 规格，给定含 script/style 块、标签、&nbsp;/&amp;/&quot; 实体、换行缩进与 en dash 的夹具 HTML，断言输出为去除上述噪声后的连续文本，且「中国移动2027校园招聘」这类跨标签短语规范化后可被 includes 命中。
+
+### markUnverified 离线态标注
+- 如何运行：`npx tsx scripts/tests/legacy-cleanup.test.ts`
+- 测试内容：依据模块交互文档 §4 markUnverified 规格，断言离线标注条目 verdict 为「未核验」、http_status 为 null、note 为「离线模式未访问来源」，对应 interaction.md §11 离线模式全量标「未核验」。
+
+### mergeDetails 增量合并（同 id 覆盖）
+- 如何运行：`npx tsx scripts/tests/legacy-cleanup.test.ts`
+- 测试内容：依据模块交互文档 §4 mergeDetails 规格与设计文档 §3「同 id 覆盖」，给定旧明细与新一批含同 `origin+id` 条目的明细，断言同键条目被新结果覆盖、旧独有条目保留、输出无重复键。
+
+### buildReport 报告完整性（三清单并集等于复核全集、无重复）
+- 如何运行：`npx tsx scripts/tests/legacy-cleanup.test.ts`
+- 测试内容：依据模块交互文档 §3 报告验收断言，给定覆盖三种 verdict 与三个 origin 的夹具明细集生成 report.md 文本，从「可升级 / 需人工复核 / 建议下架」三个清单表中提取 id，断言三者并集等于夹具全部已复核 id、任一 id 在三个清单中不重复出现、未核验条目不出现在三个清单中。
+
+## 最近一轮结果
+
+- 2026-11-04 | 模块 legacy-cleanup | 通过 18/18，失败 0 | 运行方式：`npx tsx scripts/tests/legacy-cleanup.test.ts`（聚合入口 `npm run test` 通过，1/1 套件）；`npx tsc --noEmit` 无错误。
+  - 覆盖：classifySource 判定口径第 1–9 条（可升级/需人工复核/建议下架/未核验、过期提示页与已暂停招聘例外）、normalizeHtml、markUnverified、mergeDetails 同 id 覆盖、buildReport 三清单并集等于复核全集且无重复。
+  - 复核执行（`npm run recheck:legacy`，在线模式）：全量 295 条复核完成——可升级 51（real-jobs 24、expanded-source-leads 27、platform-sources 0）、需人工复核 236（含过期提示页 36、停招标注 1、访问失败 19、页面内容为空 7、HTTP 非成功 4、疑似非招聘页 3、锚点不命中 166）、建议下架 8（域名失效 3 经 nslookup 独立佐证、反爬拦截 403/404 共 5）；未核验 0。明细与报告见 `workspace/legacy-recheck/`（本地工作产物，不入库）。
+  - 抽样验证：可升级条目（南开 117635/116865、猎聘 ps-4 前身）来源页实际内容与锚点命中逐一核对；猎聘 ps-4 因页面标注「该职位已暂停招聘」由可升级改判需人工复核，据此在口径第 8/9 条补充停招例外。
+  - 处置建议（逐条 id）见 `workspace/legacy-recheck/report.md` 处置建议节；物理删除与迁入由主 Agent 在合并阶段执行。
+>>>>>>> dev/legacy-cleanup

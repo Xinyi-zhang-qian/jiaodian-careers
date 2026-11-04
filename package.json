@@ -10,6 +10,7 @@
     "audit:jobs": "tsx scripts/audit-verified-jobs.ts",
     "audit:jobs:offline": "tsx scripts/audit-verified-jobs.ts --offline",
     "add:jobs": "tsx scripts/add-jobs.ts",
+    "recheck:legacy": "tsx scripts/recheck-legacy.ts",
     "collect:robotics": "tsx scripts/collect-robotics-market.ts",
     "collect:robotics:offline": "tsx scripts/collect-robotics-market.ts --offline",
     "test": "tsx scripts/tests/run-all.ts"

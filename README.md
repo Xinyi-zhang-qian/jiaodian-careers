@@ -47,6 +47,22 @@ npm run collect:robotics
 
 脚本会检查来源页面可访问性，按单位、岗位名称和城市去重，并生成页面数据以及位于 `public/data/` 的 JSON、CSV。未逐字段核验的线索只保留方向分析所需的基本字段，不输出人工补写的任职条件或薪资。若只需用本地来源重建数据而不访问网页，可运行 `npm run collect:robotics:offline`。
 
+复核历史遗留数据时运行：
+
+```bash
+npm run recheck:legacy
+```
+
+脚本对 `src/data/real-jobs.ts`、`src/data/platform-sources.ts` 的未核验平台快照与 `src/data/expanded-source-leads.ts` 逐条回源访问，按「可升级 / 需人工复核 / 建议下架 / 未核验」分类，报告与逐条明细写入 `workspace/legacy-recheck/`（本地工作产物，不入库）。支持 `--offline`（不发请求，全量标未核验）、`--ids id1,id2`（指定条目重跑并覆盖结论）与 `--limit N`（从未复核条目按队列顺序继续 N 条）。
+
+运行测试套件：
+
+```bash
+npm run test
+```
+
+聚合执行 `scripts/tests/` 下的全部断言脚本，任一失败即退出码 1。
+
 ## 构建静态站点
 
 ```bash
