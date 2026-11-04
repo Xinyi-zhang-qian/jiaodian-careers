@@ -31,9 +31,9 @@
 
 签名：`validateJobRecord(record: unknown, existingIds: Set<number>): string[]`（返回错误列表，空数组即合法；调用方 add-jobs.ts main）。
 
-- 预期输入：单条记录对象；必填字段——`title`、`organization`、`province`、`city`、`org_type`（五枚举）、`job_type`、`source_url`（http/https）、`source_name`、`source_type`（三枚举）、`published_at`（YYYY-MM-DD）、`status`（三枚举）、`verification_level`（四枚举）、`source_title`、`source_evidence`（非空字符串数组）；「待核实」层级禁止携带条件字段（同 audit 规则）；`application_opens_at`/`deadline` 可选但格式必须 YYYY-MM-DD 且先后合法；`job_functions` 取值必须在枚举内；`id` 不允许出现在输入中（自动分配）。
+- 预期输入：单条记录对象；必填字段——`title`、`organization`、`province`、`city`、`org_type`（五枚举）、`job_type`、`source_url`（http/https）、`source_name`、`source_type`（三枚举）、`published_at`（YYYY-MM-DD）、`status`（三枚举）、`verification_level`（四枚举）、`source_title`、`source_evidence`（非空字符串数组）；「待核实」层级禁止携带条件字段（同 audit 规则）；`application_opens_at`/`deadline` 可选但格式必须 YYYY-MM-DD 且先后合法；`job_functions` 取值必须在枚举内；`id` 不允许出现在输入中（自动分配）。输入对象只允许携带 Job 模式已知字段（types.ts Job 接口全集），任何未知字段出现即报错，保证写入的批次文件满足 Job 类型；已知字段出现时类型必须符合 Job 定义（纯字符串字段不接受 null，数组字段元素须为非空字符串）。
 - 预期输出：错误列表（中文描述含字段名）；无错误时由调用方写入。
-- 边界检查：JSON 文件不存在/非法 JSON/顶层非数组 → 整体错误退出码 1；批次名非 kebab-case（`/^[a-z0-9-]+$/`）→ 拒绝；批次文件已存在 → 追加模式（去重：与现有 jobsCatalog 的 `title+organization+source_url` 重复的记录跳过并提示）。
+- 边界检查：JSON 文件不存在/非法 JSON/顶层非数组 → 整体错误退出码 1；批次名非 kebab-case（`/^[a-z0-9-]+$/`）→ 拒绝；批次文件已存在 → 追加模式（去重：与现有 jobsCatalog 的 `title+organization+source_url` 重复的记录跳过并提示）；维护者未提供的结构字段由写入层按空值语义缺省填充——`location`、`original_major_requirements`、`education`、`experience`、`description`、`responsibilities`、`application_info` 置空串，`platform_disciplines`、`required_skills`、`preferred_skills` 置空数组，`salary`、`deadline` 置 null，`fetched_at`、`last_verified` 置录入当日，`is_demo` 置 false，缺省填充不视作内容补写；输出目录可用 `--jobs-dir <目录>` 覆盖（默认 `src/data/jobs`），仅供模块测试隔离写入。
 - 错误处理：任一记录校验失败 → 整批拒绝，列出全部错误，不产生任何文件写入。
 
 # 4. 迁移验收断言
