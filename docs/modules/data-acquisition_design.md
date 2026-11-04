@@ -29,6 +29,12 @@ workspace/acquisition/      # 采集工作底稿：来源清单、原文摘录�
 
 批次文件记录完全遵循 `Job` 类型（data-foundation 扩展后）；本模块 worktree 内以本地扩展类型 `JobWithWindow = Job & { application_opens_at?: string; job_functions?: string[] }` 声明记录（桩策略：合并时以 data-foundation 的 Job 定义为准，结构一致无冲突）。
 
+- 记录 id 使用 2001 起的手工段（2001、2002…），三批互不重复（合并时以 data-foundation 的 ID 契约校验唯一性）。
+- `fetched_at` 与 `last_verified` 均为采集当日（本轮为 2026-11-04）。
+- `job_functions` 取值限于 `['项目管理','产品经理','AI伦理','算法','工程','数据','科研','编辑出版','综合管理','其他']`（与 utils.ts 枚举一致，合并后由 data-foundation 维护）。
+- 事业单位公告：`application_opens_at` / `deadline` 仅在公告原文给出报名起止时间时填写；原文只有「长期有效」「招满为止」等表述时不填 `deadline`，把原文写进 `application_info`。
+- `workspace/acquisition/` 为本地工作底稿（.gitignore 已排除），不入库。
+
 # 5. 内部状态机
 
 不适用。
