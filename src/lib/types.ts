@@ -33,17 +33,3 @@ export interface Job {
   application_opens_at?: string; // 报名开始日期（YYYY-MM-DD）；缺省表示公告未提供报名开始时间
   job_functions?: string[]; // 平台职能标签，取值限定 JOB_FUNCTIONS 枚举；缺省时读取侧按空数组处理
 }
-
-export interface Discipline {
-  id: string;
-  name: string;
-  primary: string;
-  secondary: string;
-  roles: string[];
-  keywords: string[];
-}
-
-export type SourceType = '官网' | '政府' | '其他';
-export type OrgType = '高校' | '科研院所' | '企业' | '事业单位' | '其他';
-export type JobStatus = '招聘中' | '已截止' | '状态待核实';
-export type Region = '北京' | '上海' | '广州' | '浙江' | '江苏' | '其他地区';

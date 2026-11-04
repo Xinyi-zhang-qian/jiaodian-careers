@@ -2,8 +2,8 @@
 
 ## 用户交互设计说明书
 
-> 版本：V2.0（第 1 轮需求分析 ::design 生成，覆盖 V1 探索版）
-> 交互方式：求职者侧为 Web GUI（静态站点，浏览器访客直接操作页面）；维护者侧为 npm 脚本命令行（新增 add:jobs、recheck:legacy）。
+> 版本：V2.0（第 1 轮需求分析 ::design 生成）
+> 交互方式：求职者侧为 Web GUI（静态站点，浏览器访客直接操作页面）；维护者侧为 npm 脚本命令行（add:jobs、recheck:legacy、test 等）。
 
 # 1. 文档定位与边界
 
@@ -21,12 +21,11 @@
 入口清单：
 
 - Web 页面：`/`、`/jobs`、`/jobs/[id]`、`/directions`、`/favorites`、`/internships`、`/analysis`、`/market`、`/market/robotics`、`/404`。
-- npm 脚本：`dev`、`build`、`start`、`audit:jobs [--offline]`、`add:jobs <json> --batch <名称>`（★ 新增）、`recheck:legacy [--offline] [--ids …] [--limit N]`（★ 新增）、`collect:robotics [--offline]`、`test`（★ 新增，聚合测试入口）。
-- 已移除：`update.sh`（原直接 git push 的遗留脚本，推送统一经命令系统 ::push）。
+- npm 脚本：`dev`、`build`、`start`、`audit:jobs [--offline]`、`add:jobs <json> --batch <名称>`、`recheck:legacy [--offline] [--ids …] [--limit N]`、`collect:robotics [--offline]`、`test`（聚合测试入口）。
 
 # 3. 全局交互协议
 
-- **URL 参数协议**（/jobs 页）：`q`（关键词）、`region`（地区）、`city`（城市）、`org_type`（单位类型）、`job_type`（岗位类型）、`education`（学历）、`discipline`（主学科）、`secondary_discipline`（第二学科/技能）、`function`（★ 新增：岗位职能，取职能枚举值）、`status`（招聘状态）、`sort`（newest/verified/deadline，缺省 newest）、`page`（页码，缺省 1）。筛选变化经 `router.replace` 同步到 URL（`scroll: false`）；空值与缺省值不写入。
+- **URL 参数协议**（/jobs 页）：`q`（关键词）、`region`（地区）、`city`（城市）、`org_type`（单位类型）、`job_type`（岗位类型）、`education`（学历）、`discipline`（主学科）、`secondary_discipline`（第二学科/技能）、`function`（岗位职能，取职能枚举值）、`status`（招聘状态）、`sort`（newest/verified/deadline，缺省 newest）、`page`（页码，缺省 1）。筛选变化经 `router.replace` 同步到 URL（`scroll: false`）；空值与缺省值不写入。
 - **收藏存储协议**：localStorage 键 `jiaodian-favorites`，JSON 数字数组；解析失败按空数组处理。
 - **核验徽标色彩协议**（★ 统一）：逐字段核验=绿、来源核验=蓝、关键字段核验=琥珀、待核实=黄；「即将截止」标识=红色强调。全站一致。
 - **错误呈现形态**：静态站点无网络失败场景；非法详情 ID 渲染 404 页；筛选无结果渲染空态文案。
@@ -49,9 +48,9 @@
 | 「搜索」按钮 | 提交表单 | 关键词/地区/城市组合 | 跳转 `/jobs?q=…&region=…&city=…`（仅携带已填项） | 无 |
 | 地区按钮组（7 个） | 点击 | 单选/再点取消 | 选中高亮；选浙江/江苏展开城市按钮组 | 无 |
 | 城市按钮组（仅浙/苏） | 点击 | 单选/再点取消 | 选中高亮；切换地区清空城市 | 无 |
-| 核验摘要卡 | 纯展示 | — | 岗位总数 + 三级核验计数（数据源切换后仍正确） | — |
+| 核验摘要卡 | 纯展示 | — | 岗位总数 + 三级核验计数 | — |
 | 交叉方向卡片（≤6） | 点击 | — | 跳转 `/jobs?discipline={方向名}` | — |
-| 职能快捷入口（★ 新增） | 点击 | — | 跳转 `/jobs?function={职能名}`（展示项目管理、产品经理、AI 伦理等有岗位的职能） | 无岗位的职能不展示 |
+| 职能快捷入口 | 点击 | — | 跳转 `/jobs?function={职能名}`（展示项目管理、产品经理、AI 伦理等有岗位的职能） | 无岗位的职能不展示 |
 | 精选岗位 JobCard ×6 | 点击 | — | 跳转详情页 | — |
 | 「查看方向分析」按钮 | 点击 | — | 跳转 /analysis | — |
 
@@ -66,7 +65,7 @@
 | 城市下拉 | 选择 | 动态枚举 | 过滤；URL 同步 | 无 |
 | 单位类型下拉（5 项） | 选择 | 高校/科研院所/企业/事业单位/其他 | 过滤；URL 同步 | 同上 |
 | 岗位类型下拉（9 项） | 选择 | 科研/教学/教学科研/工程/产品/政策研究/产业研究/编辑出版/管理 | 过滤；URL 同步 | 同上 |
-| 岗位职能下拉（★ 新增） | 选择 | 职能枚举（项目管理/产品经理/AI伦理/算法/工程/数据/科研/编辑出版/综合管理/其他） | 按平台职能标签过滤；URL 同步 `function` | 非枚举值按无筛选处理 |
+| 岗位职能下拉 | 选择 | 职能枚举（项目管理/产品经理/AI伦理/算法/工程/数据/科研/编辑出版/综合管理/其他） | 按平台职能标签过滤；URL 同步 `function` | 非枚举值按无筛选处理 |
 | 学历下拉（3 项） | 选择 | 本科/硕士/博士 | 过滤；URL 同步 | 同上 |
 | 主学科下拉（11 项） | 选择 | DISCIPLINES 名称 | 过滤；URL 同步 | 同上 |
 | 第二学科/技能输入框 | 输入即筛选 | 文本 | 按方向标签/技能包含匹配 | 无 |
@@ -75,7 +74,7 @@
 | 「清除」按钮 | 点击 | — | 全部筛选重置 | 无 |
 | 分页控件 | 点击 | 页码 | 翻页；越界按钮禁用；URL 非法页码按 1 处理 | — |
 | JobCard 收藏按钮 | 点击 | — | 心形填充切换；localStorage 更新 | localStorage 不可用时静默失败 |
-| JobCard「即将截止」徽标（★ 新增） | 纯展示 | — | deadline 距今 ≤7 天且状态「招聘中」时，卡片显示红色「x 天后截止」徽标；已截止/无 deadline 不显示 | 系统日期异常时按 deadline 原样显示 |
+| JobCard「即将截止」徽标 | 纯展示 | — | deadline 距今 ≤7 天且状态「招聘中」时，卡片显示红色「x 天后截止」徽标；已截止/无 deadline 不显示 | 系统日期异常时按 deadline 原样显示 |
 | 移动端「筛选条件」按钮 | 点击 | — | 筛选面板显示/隐藏 | 无 |
 
 列表顶部固定核验层级说明条（三级层级定义，文案与色彩协议一致）；无结果空态；有激活筛选时显示「搜索：{q}」。
@@ -88,12 +87,12 @@
 | --- | --- | --- | --- | --- |
 | 「返回岗位列表」链接 | 点击 | — | 跳转 /jobs | 无 |
 | 核验层级提示条 | 纯展示 | — | 按 verification_level 渲染四种文案之一（色彩协议） | 无层级不渲染 |
-| 报名窗口区块（★ 新增） | 纯展示 | — | 有 `application_opens_at` 或 `deadline` 或 `application_info` 或公告级条目时展示：报名开始、报名截止、报名方式（application_info），原「截止日期」「申请方式与材料」独立区块并入本区块；事业单位公告随区块标注「事业单位公开招聘」 | 原文无时间信息则不显示时间行，不编造 |
-| 「即将截止」标识（★ 新增） | 纯展示 | — | deadline ≤7 天且招聘中：标题旁红色徽标 | 同列表页规则 |
+| 报名窗口区块 | 纯展示 | — | 有 `application_opens_at` 或 `deadline` 或 `application_info` 或公告级条目时展示：报名开始、报名截止、报名方式（application_info），原「截止日期」「申请方式与材料」独立区块并入本区块；事业单位公告随区块标注「事业单位公开招聘」 | 原文无时间信息则不显示时间行，不编造 |
+| 「即将截止」标识 | 纯展示 | — | deadline ≤7 天且招聘中：标题旁红色徽标 | 同列表页规则 |
 | 公告级提示条 | 纯展示 | — | 公告/项目形态显示「本条是 XX 级线索」 | — |
 | 原页核验锚点列表 | 纯展示 | — | source_evidence 逐条引号展示 | 无证据不渲染 |
 | 「前往来源页面」按钮 | 点击 | — | 新标签页打开 source_url | URL 无效由浏览器处理 |
-| 收藏按钮 | 点击 | — | 同列表页 | 同列表页 |
+| 收藏按钮（FavoriteButton 组件） | 点击 | — | 心形切换，文案「收藏/已收藏」，与列表页共用 localStorage 键 | localStorage 不可用时静默失败 |
 | 截止日期/信息卡 | 纯展示 | — | 学历/地点/类型/发布/截止/薪资逐行渲染 | 字段缺失不渲染对应行 |
 
 # 8. 交叉方向页（/directions）与收藏页（/favorites）
@@ -104,7 +103,7 @@
 # 9. 实习岗位页（/internships）
 
 - 顶部 7 张方向导航卡（计数、锚点）；正文按方向分组渲染线索卡（标题、单位、地点、待遇、学历、批次、摘要、来源外链）；顶部固定「实习岗位正在逐条回源复核」说明条。
-- 本轮清理后：失效线索移除，各方向计数如实更新。
+- 失效线索已按复核结论移除，各方向计数如实反映当前数据。
 
 # 10. 方向分析页（/analysis）与市场页（/market、/market/robotics）
 
@@ -118,10 +117,10 @@
 | --- | --- | --- | --- |
 | `npm run audit:jobs` | 无参数 | `Audited {N} public jobs ({x} field-level, {y} source-level, {z} key-field) against source pages.` | 逐条错误行到 stderr，退出码 1 |
 | `npm run audit:jobs:offline` | 无参数 | 同上，结尾 `(schema only)`，不发网络请求 | 同上（仅结构类错误） |
-| `npm run add:jobs -- <json路径> --batch <批次名>`（★ 新增） | JSON 文件（记录数组）+ 批次名（kebab-case） | 逐条写入结果 + `Added {N} jobs to {批次文件}` + 自动执行的 offline 审计计数 | 校验失败逐条列出原因（缺证据字段、日期格式非法、职能/枚举非法等）并拒绝整批写入，退出码 1；批次名非法拒绝 |
-| `npm run recheck:legacy -- [--offline] [--ids id1,id2] [--limit N]`（★ 新增） | 可选过滤参数 | 分类统计 + 报告路径 `workspace/legacy-recheck/report.md`；逐条标注可升级/需人工复核/建议下架 | 网络异常逐条记为「需人工复核（访问失败：原因）」，不中断整批；离线模式全量标「未核验」 |
+| `npm run add:jobs -- <json路径> --batch <批次名>` | JSON 文件（记录数组）+ 批次名（kebab-case） | 逐条写入结果 + `Added {N} jobs to {批次文件}` + 自动执行的 offline 审计计数 | 校验失败逐条列出原因（缺证据字段、日期格式非法、职能/枚举非法等）并拒绝整批写入，退出码 1；批次名非法拒绝 |
+| `npm run recheck:legacy -- [--offline] [--ids id1,id2] [--limit N]` | 可选过滤参数 | 分类统计 + 报告路径 `workspace/legacy-recheck/report.md`；逐条标注可升级/需人工复核/建议下架 | 网络异常逐条记为「需人工复核（访问失败：原因）」，不中断整批；离线模式全量标「未核验」 |
 | `npm run collect:robotics [--offline]` | 无参数 | `Generated {N} jobs from {M} public source URLs.` + 来源检查 + 输出路径 | 脚本异常退出码 1 |
-| `npm run test`（★ 新增） | 无参数 | 聚合运行 `scripts/tests/` 全部断言脚本，输出各套件通过/失败 | 任一断言失败退出码 1 并列出失败断言 |
+| `npm run test` | 无参数 | 聚合运行 `scripts/tests/` 全部断言脚本，输出各套件通过/失败 | 任一断言失败退出码 1 并列出失败断言 |
 | `npm run build` | 无参数 | 构建成功，产物 `out/` | prebuild 审计失败时构建中止 |
 | `npm run dev` | 无参数 | http://localhost:3000 | — |
 
@@ -133,7 +132,7 @@
 
 维护者路径（★ 规范化后）：采集来源页并整理 JSON（含证据字段）→ `npm run add:jobs`（校验+自动 ID+写入批次+offline 审计）→ 本地提交 → `npm run audit:jobs`（在线回源）→ `::push` 推送 → Render 自动构建 → 站点更新。
 
-清理路径（★）：`npm run recheck:legacy` → 阅读报告 → 确认处置 → 存活记录经 add:jobs 迁入、失效记录随遗留文件移除 → `npm run audit:jobs` 确认 → 提交。
+清理路径：`npm run recheck:legacy` → 阅读报告 → 确认处置 → 存活记录经 add:jobs 迁入、失效记录随遗留文件移除 → `npm run audit:jobs` 确认 → 提交。
 
 # 13. 交互验收口径
 

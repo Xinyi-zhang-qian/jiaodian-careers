@@ -13,6 +13,14 @@ function verificationLabel(level?: string) {
   return level;
 }
 
+// 核验徽标按层级分色（docs/interaction.md §3 色彩协议：逐字段绿、来源蓝、关键字段琥珀、待核实黄）。
+function verificationBadgeClass(level?: string) {
+  if (level === '来源核验') return 'bg-sky-50 text-sky-700';
+  if (level === '关键字段核验') return 'bg-amber-50 text-amber-700';
+  if (level === '待核实') return 'bg-yellow-100 text-yellow-800';
+  return 'bg-emerald-50 text-emerald-700';
+}
+
 export default function JobCard({ job }: { job: Job }) {
   const { isFavorited, toggleFavorite } = useFavorites();
   const favorited = isFavorited(job.id);
@@ -36,8 +44,8 @@ export default function JobCard({ job }: { job: Job }) {
             {listingKind !== '具体岗位' && (
               <span className="rounded-md bg-accent/10 px-2 py-0.5 text-xs font-medium text-accent">{listingKind}</span>
             )}
-            {job.verification_level && verificationLabel(job.verification_level) && (
-              <span className={`rounded-md px-2 py-0.5 text-xs font-medium ${job.verification_level === '待核实' ? 'bg-yellow-100 text-yellow-800' : 'bg-emerald-50 text-emerald-700'}`}>{verificationLabel(job.verification_level)}</span>
+            {job.verification_level && (
+              <span className={`rounded-md px-2 py-0.5 text-xs font-medium ${verificationBadgeClass(job.verification_level)}`}>{verificationLabel(job.verification_level)}</span>
             )}
           </div>
           <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-text-secondary">

@@ -13,7 +13,7 @@
 ```text
 scripts/recheck-legacy.ts    # npm run recheck:legacy（命令行入口：加载清单、调度复核、写产物）
 scripts/lib/recheck-core.ts  # 纯函数：normalizeHtml、classifySource（fetch 可注入）、markUnverified、mergeDetails、buildReport
-src/data/jobs/legacy-recheck-{日期}.ts  # 处置产出（仅可升级记录，本轮不生成）
+src/data/jobs/（既有批次文件）    # 处置落地位置：可升级记录固化进对应批次（详见 §3）
 workspace/legacy-recheck/
 ├── report.md                # 分类摘要 + 处置建议（验收依据）
 └── details.json             # 逐条明细（记录 id、来源、分类、证据命中情况）
@@ -28,7 +28,7 @@ workspace/legacy-recheck/
 
 recheck:legacy（在线模式）：加载清单（leads → real-jobs → platform-sources 顺序入队）→ 按参数筛出本次待复核条目（`--ids` 命中的条目无论状态一律重跑；未带 `--ids` 时跳过 details.json 中已有非「未核验」结论的条目，`--limit` 取剩余队列前 N 条）→ 逐条 GET source_url（带 UA `JiaodianCareersSourceAudit/1.0`、超时 15s；同一 URL 单次运行内共享一次抓取结果）→ 规范化 HTML → 分类判定：可访问 且 source_title（无 source_title 时标题，平台快照为 title+organization）命中 → 「可升级」；可访问但锚点不命中/页面疑似非招聘页 → 「需人工复核」；404/域名失效/反爬拦截 → 「建议下架」（注明原因）；网络异常/超时 → 「需人工复核」（note 含原因）→ 合并写 details.json（同 id 覆盖）+ 重建 report.md。离线模式不发网络请求，全量标「未核验」。单条失败不中断整批。
 
-处置执行（本模块内、报告生成后）：「可升级」记录按证据充分度定层级（默认「来源核验」，证据片段齐全可判「逐字段核验」的须在报告中标明依据）写入 `legacy-recheck-{日期}.ts`；「建议下架」确认后：删除 `real-jobs.ts`（其可升级部分已固化进批次）、移除 `platform-sources.ts` 快照段；`expanded-source-leads.ts` 若仍存在则删除（批次内对应记录按复核结果改层级或移除——若批次文件属 data-foundation 产出，移除动作改在本模块批次文件中做排除说明，不改他人文件，冲突在 ::mergelocal 裁决）。index.ts 增加新批次一行（合并时并集处理）。
+处置执行（首轮于 2026-11-04 ::mergelocal 阶段由主 Agent 依据报告落地）：已发布批次的处置直接落在对应批次文件内——leads-2026-09 批次移除 36 条过期提示页线索、保留 27 条可升级；restored-2026-10 批次中 11 条关键字段核验记录经在线复核升级为「来源核验」并更新 last_verified（13 条本就为来源核验的记录维持）；「建议下架」确认后 real-jobs.ts、expanded-source-leads.ts 删除，platform-sources.ts 未核验快照段移除（处置注释记录在各批次文件头与 platform-sources.ts 头部）。index.ts 增加新批次一行（合并时并集处理）。
 
 # 4. 内部数据结构
 

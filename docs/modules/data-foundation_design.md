@@ -4,7 +4,7 @@
 
 # 1. 模块职责与边界
 
-- 职责：建立规范化岗位数据源 `src/data/jobs/`（index 聚合 + 批次文件），把现存前台 200 条记录迁移入批次文件；扩展 `Job` 类型（`application_opens_at`、`job_functions`）与职能枚举；提供增补录入命令 `add:jobs`；把核验脚本 `audit-verified-jobs.ts` 切换到同源数据并扩展新字段校验。
+- 职责：建立规范化岗位数据源 `src/data/jobs/`（index 聚合 + 批次文件），把迁移时点的前台记录迁入批次文件（迁移 200 条，处置后当前目录 194 条）；扩展 `Job` 类型（`application_opens_at`、`job_functions`）与职能枚举；提供增补录入命令 `add:jobs`；把核验脚本 `audit-verified-jobs.ts` 切换到同源数据并扩展新字段校验。
 - 数据所有权：`src/data/jobs/` 全部文件、`scripts/add-jobs.ts`、`scripts/audit-verified-jobs.ts`、`src/lib/types.ts`、`src/lib/utils.ts`（职能枚举部分）。
 - 不负责：查询/筛选逻辑（`src/lib/data.ts` 归 jobs-ui）、页面、遗留数据处置（legacy-cleanup）、新岗位内容采集（data-acquisition）。
 
@@ -15,8 +15,8 @@ src/data/jobs/
 ├── index.ts                 # 显式 import 全部批次并聚合导出 jobsCatalog: Job[]
 ├── core-verified.ts         # 迁移自 verified-jobs.ts 的 13 条逐字段核验记录
 ├── shlab-2026.ts            # 迁移自 additional-verified-jobs.ts 的 15 条
-├── restored-2026-10.ts      # 迁移自 restored-jobs.ts 的 109 条（层级原样）
-└── leads-2026-09.ts         # 迁移自 expanded-source-leads.ts 的 63 条（层级原样）
+├── restored-2026-10.ts      # 迁移自 restored-jobs.ts 的 109 条（处置后：11 条升级为来源核验，其余层级原样）
+└── leads-2026-09.ts         # 迁移自 expanded-source-leads.ts 的 63 条线索（处置后保留 27 条，36 条过期线索移除）
 scripts/add-jobs.ts          # npm run add:jobs -- <json> --batch <名称>
 scripts/audit-verified-jobs.ts  # 同源化 + 新字段校验
 scripts/tests/data-foundation.test.ts  # 本模块断言测试（node:assert + tsx，无测试框架）

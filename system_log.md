@@ -33,3 +33,8 @@
 - 合并分支: [dev/data-foundation, dev/data-acquisition, dev/legacy-cleanup, dev/jobs-ui, dev/site-design] | 冲突: 9 处（自动裁决 9 / 请示用户 0） | worktree 清理: 5 个（剩余 1） | 进入阶段: 代码检查
 - 冲突裁决记录: docs/test.md 四处 add/add 取并集（五模块小节齐全）；types.ts/utils.ts/index.ts 桩冲突以 data-foundation 版本为准；README 取 site-design 重写版并并集 legacy-cleanup 的 recheck:legacy 用法
 - 整合动作: index 聚合 7 批次 194 条（13 核心逐字段 + 27 线索 + 15 上海AI实验室 + 109 历史 + 30 新增京沪跨学科）；遗留处置落地——线索批次移除 36 条过期线索、restored 批次 11 条升级来源核验、5 个旧数据文件删除、platform-sources 移除未核验快照段；数据基建测试期望同步 194（58/51/85）
+
+## [2026-11-04 20:20:00] ::lint（第 1 轮，普通模式）
+- 代码: 多余功能 1 | 旧代码 7 | 防御性 0 | 死代码 5 | 文档: 矛盾 3 | 冗余 1 | 残留 5 | 过时表述 12 | 命令一致性 0 | 文档同步 6 | 设计一致性 0 | 中断残留 0 | 子Agent: 派发7/成功7
+- 修复执行: 代码 10 项（page=1 守卫缺陷、页码钳制、types.ts 五个无引用旧类型、未用导入、REGIONS 常量化、恒真条件、recheck-core 导出与文案、详情页补收藏按钮 FavoriteButton、卡片核验徽标按层级分色）；文档 6 组（docs/test.md 整体重写清除三组冲突标记与重复小节、design/interaction/requirements/modules 过时表述与计数修正、plans 状态行）；详情页「为什么与你的背景相关」区块保留（无规格依据属多余功能，删除属可见功能变更，留待用户决策）；site-design 测试断言理由更新
+- 回归验证: npm run test 5/5 套件通过，tsc --noEmit 无错误，audit:jobs:offline 通过（194 条 58/51/85）

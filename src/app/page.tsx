@@ -44,7 +44,7 @@ export default function HomePage() {
   const sourceVerifiedCount = publishedJobs.filter((job) => job.verification_level === '来源核验').length;
   const keyFieldVerifiedCount = publishedJobs.filter((job) => job.verification_level === '关键字段核验').length;
 
-  // 跨学科职能入口：全量记录本地统计（不调用 getJobs 的 job_function 过滤参数，合并前该参数不存在）
+  // 跨学科职能入口：取全量记录后按平台职能标签本地统计（与 /jobs 的职能筛选同一语义）
   const functionEntries = getJobFunctionEntries(publishedJobs);
 
   const disciplinesWithCount = disciplines.map((d) => ({

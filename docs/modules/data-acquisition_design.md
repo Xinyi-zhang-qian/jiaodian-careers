@@ -5,7 +5,7 @@
 # 1. 模块职责与边界
 
 - 职责：按需求 §16 采集并录入新岗位——北京、上海各 ≥10 条经核验记录；项目管理、产品经理、AI 伦理等跨学科岗位合计 ≥10 条；其中事业单位招聘公告重点覆盖并录入报名窗口信息。
-- 数据所有权：本模块新建的批次文件（`src/data/jobs/{采集批次名}.ts`，命名如 `beijing-2026-11.ts`、`shanghai-2026-11.ts`、`cross-disciplinary-2026-11.ts`）。
+- 数据所有权：本模块新建的批次文件 `src/data/jobs/beijing-2026-11.ts`、`shanghai-2026-11.ts`、`cross-disciplinary-2026-11.ts`（各 10 条，已并入 jobsCatalog）。
 - 不负责：修改 index.ts（新批次行在 ::mergelocal 合并时并入，本模块在完成信号中列出待并入清单）、修改任何管线与页面代码。
 
 # 2. 内部结构
@@ -27,7 +27,7 @@ workspace/acquisition/      # 采集工作底稿：来源清单、原文摘录�
 
 # 4. 内部数据结构
 
-批次文件记录完全遵循 `Job` 类型（data-foundation 扩展后）；本模块 worktree 内以本地扩展类型 `JobWithWindow = Job & { application_opens_at?: string; job_functions?: string[] }` 声明记录（桩策略：合并时以 data-foundation 的 Job 定义为准，结构一致无冲突）。
+批次文件记录遵循 `Job` 类型（含 `application_opens_at`、`job_functions` 扩展字段）；批次文件内以类型别名 `JobWithWindow = Job & { application_opens_at?: string; job_functions?: string[] }` 声明记录数组，与合并后的 Job 定义字段一致。
 
 - 记录 id 使用 2001 起的手工段（2001、2002…），三批互不重复（合并时以 data-foundation 的 ID 契约校验唯一性）。
 - `fetched_at` 与 `last_verified` 均为采集当日（本轮为 2026-11-04）。

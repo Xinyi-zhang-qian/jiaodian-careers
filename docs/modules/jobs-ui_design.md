@@ -6,16 +6,16 @@
 
 - 职责：查询层同源化与扩展（职能筛选、即将截止计算）；列表页职能筛选控件与「即将截止」徽标；详情页「报名窗口」区块（合并原「申请方式与材料」「截止日期」两个独立区块）；列表与详情页视觉层级优化。
 - 数据所有权：`src/lib/data.ts`、`src/lib/use-favorites.ts`、`src/app/jobs/**`、`src/components/jobs/job-card.tsx`。
-- 不负责：`src/lib/types.ts`/`src/lib/utils.ts`（data-foundation 所有；本模块只追加桩成员使编译通过，合并时以 data-foundation 版本为准，冲突按并集解决）、规范数据源实体文件（`src/data/jobs/` 批次文件归 jobs-dataset；本 worktree 内只创建最小聚合桩 `src/data/jobs/index.ts`，合并时被 data-foundation 的真实版本整体替换）、首页（site-design）、globals.css（site-design）。
+- 不负责：`src/lib/types.ts`/`src/lib/utils.ts`（data-foundation 所有，本模块只读取）、规范数据源实体文件（`src/data/jobs/` 批次文件归 data-foundation）、首页（site-design）、globals.css（site-design）。
 
 # 2. 内部结构
 
 ```text
-src/lib/types.ts                   # 桩：Job 接口追加 application_opens_at?、job_functions?（与 data-foundation 定义一致）
-src/lib/utils.ts                   # 桩：追加 JOB_FUNCTIONS 职能枚举常量（契约 12）
+src/lib/types.ts                   # Job 接口的 application_opens_at?、job_functions? 字段（data-foundation 定义，本模块只读取）
+src/lib/utils.ts                   # JOB_FUNCTIONS 职能枚举常量（契约 12，data-foundation 定义）
 src/lib/data.ts                    # filterJobs（纯筛选排序）、getJobs（分页包装）与既有查询；
                                    # deadlineDaysLeft / deadlineBadgeLabel / applicationWindow 纯判定函数
-src/data/jobs/index.ts             # 桩：聚合既有三个数据文件导出 jobsCatalog（合并时整体替换）
+src/data/jobs/index.ts             # 规范数据源唯一聚合入口（data-foundation 维护，本模块只读取）
 src/app/jobs/page.tsx              # 新增「岗位职能」下拉（位于岗位类型与学历之间）；URL 参数 function
 src/app/jobs/[id]/page.tsx         # 新增「报名窗口」区块与标题旁「即将截止」徽标
 src/components/jobs/job-card.tsx   # 「即将截止」红色徽标；标题与徽标排布调整

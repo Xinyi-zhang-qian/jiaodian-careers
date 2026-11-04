@@ -40,6 +40,6 @@
 # 5. 处置验收断言（处置执行时适用，本轮不触发）
 
 1. 处置完成后仓库内不存在 `src/data/real-jobs.ts`；`platform-sources.ts` 不含 QUARANTINED 快照段。
-2. `legacy-recheck-{日期}.ts` 中每条记录 verification_level 与报告「可升级」清单一致，且全部带 source_evidence。
+2. 报告「可升级」清单中的记录已按层级固化进规范数据源批次文件（首轮落地于 leads-2026-09 与 restored-2026-10 批次，见各文件头处置注释），每条带 source_evidence。
 3. `npm run audit:jobs:offline` 通过（新批次纳入 jobsCatalog 后）。
 4. 前台不展示任何「建议下架」清单中的记录。

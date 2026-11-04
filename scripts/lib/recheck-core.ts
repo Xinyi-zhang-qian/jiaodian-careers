@@ -28,14 +28,14 @@ export interface RecheckItem {
   note: string;
 }
 
-export const RECHECK_UA = 'JiaodianCareersSourceAudit/1.0';
-export const DEFAULT_TIMEOUT_MS = 15_000;
+const RECHECK_UA = 'JiaodianCareersSourceAudit/1.0';
+const DEFAULT_TIMEOUT_MS = 15_000;
 
 /** 招聘相关关键词：页面规范化文本命中其一才视为招聘页。 */
 const RECRUIT_KEYWORDS = ['招聘', '岗位', '职位', '报名', '简历', 'recruit', 'hiring', 'career', 'job'];
 
 /** 分类口径 9 条，与 classifySource 的判定分支一一对应。 */
-export const CLASSIFY_RULES: readonly string[] = [
+const CLASSIFY_RULES: readonly string[] = [
   'URL 缺失或非 http(s) →「建议下架」，note「URL 非法」',
   'DNS 解析失败（ENOTFOUND / EAI_AGAIN）→「建议下架」，note 含「域名失效」与原因',
   '其余网络异常或超时 →「需人工复核」，note 含「访问失败：」与原因',
@@ -355,7 +355,7 @@ export function buildReport(details: RecheckItem[], meta: ReportMeta): string {
     lines.push('（无）');
   } else {
     groupIds(upgraded).forEach((line) => lines.push(`- ${line}`));
-    lines.push('- 处置动作：real-jobs 与 platform-sources 来源的条目经 `npm run add:jobs` 迁入 `src/data/jobs/legacy-recheck-{日期}.ts`，默认层级「来源核验」；expanded-source-leads 来源的条目已随 verified-jobs.ts 发布，维持现状，是否升级层级由维护者按证据决定。');
+    lines.push('- 处置动作：可升级条目按证据定层级后迁入规范数据源批次文件（首轮处置已于 2026-11-04 落地：leads 27 条保留于 leads-2026-09 批次，real-jobs 可升级且未发布的 11 条已升级为来源核验并入 restored-2026-10 批次）；是否进一步逐字段核验由维护者按证据决定。');
   }
 
   lines.push('', `### 需人工复核（${manual.length} 条）`, '');
@@ -371,7 +371,7 @@ export function buildReport(details: RecheckItem[], meta: ReportMeta): string {
     lines.push('（无）');
   } else {
     groupIds(removed).forEach((line) => lines.push(`- ${line}`));
-    lines.push('- 处置动作：real-jobs 条目从 src/data/real-jobs.ts 移除（该文件同时被 restored-jobs.ts 派生引用，移除后需同步其发布集）；expanded-source-leads 条目从 src/data/expanded-source-leads.ts 移除（该文件被 verified-jobs.ts 引用，需同步发布集）；platform-sources 条目从 platform-sources.ts 的 QUARANTINED 快照段移除。物理删除由主 Agent 在合并阶段执行。');
+    lines.push('- 处置动作：建议下架条目自其所在遗留清单移除（首轮处置后 real-jobs.ts、expanded-source-leads.ts 与 platform-sources.ts 未核验快照段均已移除；后续新增的隔离清单按同一流程处置）。');
   }
 
   const unverified = byVerdict('未核验');

@@ -99,7 +99,7 @@ function makeJob(id: number, jobFunctions?: string[]): Job {
   );
   ok(
     !/getJobs\(\{[^}]*job_function/.test(pageSource),
-    '不得调用 getJobs 的 job_function 过滤参数（合并前该参数不存在）',
+    '首页计数采用全量本地统计的现行实现（不依赖 getJobs 的 job_function 过滤参数）',
   );
 
   console.log('通过：首页职能入口渲染接线');

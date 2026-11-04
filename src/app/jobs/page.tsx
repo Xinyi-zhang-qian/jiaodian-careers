@@ -2,10 +2,10 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { Filter, X } from 'lucide-react';
+import { Filter } from 'lucide-react';
 import { getJobs, getDistinctCities } from '@/lib/data';
 import JobCard from '@/components/jobs/job-card';
-import { ORG_TYPES, JOB_TYPES, EDUCATION_LEVELS, JOB_STATUSES, DISCIPLINES, JOB_FUNCTIONS } from '@/lib/utils';
+import { REGIONS, ORG_TYPES, JOB_TYPES, EDUCATION_LEVELS, JOB_STATUSES, DISCIPLINES, JOB_FUNCTIONS } from '@/lib/utils';
 
 function JobsContent() {
   const searchParams = useSearchParams();
@@ -42,7 +42,7 @@ function JobsContent() {
     Object.entries(filters).forEach(([key, value]) => {
       // 状态键 job_function 对应 URL 参数 function，其余键与 URL 参数同名；空值不写入。
       const urlKey = key === 'job_function' ? 'function' : key;
-      if (value && value !== 'newest' && value !== '1') {
+      if (value && value !== 'newest' && value !== 1) {
         params.set(urlKey, String(value));
       }
     });
@@ -128,7 +128,7 @@ function JobsContent() {
                 className="w-full px-3 py-2 rounded-lg border border-border text-sm focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand bg-surface"
               >
                 <option value="">全部</option>
-                {['北京', '上海', '天津', '广东', '浙江', '江苏', '其他地区'].map((r) => (
+                {REGIONS.map((r) => (
                   <option key={r} value={r}>{r}</option>
                 ))}
               </select>

@@ -69,8 +69,8 @@
 │  next build（output: export）→ out/ ──► Render 静态托管         │
 └────────────────────────────────────────────────────────────────┘
 ┌─ 维护期（命令行，新增）────────────────────────────────────────┐
-│  add:jobs（增补录入） recheck:legacy（遗留复核） audit:jobs（核验）│
-│       └────────── 全部读写 src/data/jobs/ ──────────┘           │
+│  add:jobs（增补录入） audit:jobs（核验）── 读写 src/data/jobs/   │
+│  recheck:legacy（遗留复核）── 读写 workspace/legacy-recheck/     │
 └────────────────────────────────────────────────────────────────┘
 ┌─ 运行期（浏览器）──────────────────────────────────────────────┐
 │  筛选/搜索：URL 参数 ↔ getJobs() 内存过滤（新增职能维度）        │
@@ -87,7 +87,7 @@
 1. **前台数据白名单契约**：前台岗位目录唯一数据入口为规范数据源聚合结果 `jobsCatalog`（本轮起唯一定义于 `src/data/jobs/index.ts`）；`src/lib/data.ts` 与 `scripts/audit-verified-jobs.ts` 同源引用，不再各自拼接文件清单。
 2. **核验层级契约**：每条前台岗位必须带 `verification_level`；「待核实」不得携带任何未核验条件字段；「逐字段核验」来源必须 HTTPS；前台禁止 `is_demo: true`。规则集中在 `scripts/audit-verified-jobs.ts`。
 3. **证据可复核契约**：`source_evidence` 片段与 `source_title` 在在线核验中必须能在来源页 HTML 规范化后逐字命中。
-4. **数据隔离契约**：未核验历史数据（`real-jobs.ts`、`platform-sources.ts` 快照段）不进入前台；本轮清理完成后遗留文件移除，隔离机制由 recheck:legacy 的报告-确认流程取代。
+4. **数据隔离契约**：未核验历史数据不进入前台；遗留数据的复核与处置以 recheck:legacy 的报告-确认流程为准（首轮全量复核与处置已于 2026-11-04 完成，遗留清单文件已移除）。
 5. **分析标签与原文分离契约**：`platform_disciplines`、`required_skills`、`job_functions` 为平台标签；`original_major_requirements`、`source_title`、`source_evidence` 为公告原文引用，只能来自来源页。
 6. **ID 契约**：`Job.id` 全目录唯一，由 add:jobs 自动分配（现有最大值 +1 递增），人工不得手填。
 7. **状态枚举契约**：`status` 三枚举「招聘中/已截止/状态待核实」。
@@ -102,7 +102,7 @@
 13. **批次文件契约**：`src/data/jobs/{批次名}.ts` 每文件导出 `Job[]`，文件头注释注明采集日期与来源范围；批次文件只增改记录，不承载逻辑；`index.ts` 显式列出全部批次并聚合，禁止目录扫描式动态导入（保证构建期静态可分析）。
 14. **增补入口契约**：新增岗位一律经 `npm run add:jobs` 录入（输入 JSON → 校验 → 自动 ID → 写入批次文件 → 自动 offline 审计）；直接手工编辑批次文件不被禁止，但必须通过同一 audit 门禁。
 15. **遗留复核契约**：遗留数据的复核与处置以 `recheck:legacy` 报告为唯一依据，报告归档于 `workspace/legacy-recheck/`（本地工作产物，不入库）；处置动作（迁入/删除）体现在 git 历史中。
-16. **推送通道契约**：移除 `update.sh`；一切远程同步经命令系统的 `::push`（用户手动触发）。
+16. **推送通道契约**：一切远程同步经命令系统的 `::push`（用户手动触发），不设其他推送脚本。
 
 # 5. 模块划分与职责边界
 
@@ -148,7 +148,7 @@
   - 职责：保持现状（分类、标准化、统计、生成）。
   - 边界：不读写岗位目录。
 - **site-design**（横切治理工作，无独立源码目录）
-  - 职责：首页/列表/详情视觉层级优化、核验徽标体系统一、README 与 docs 规范化维护。
+  - 职责：首页/列表/详情视觉层级优化、核验徽标体系统一、README 与 docs 规范化维护；首页职能入口计数纯函数 `src/lib/job-function-stats.ts` 归其所有。
   - 边界：不改变交互逻辑与数据语义。
 
 源码布局（本轮目标状态）：
@@ -163,7 +163,7 @@ jiaodian-careers/
 │   │   │   ├── index.ts        #   聚合导出 jobsCatalog
 │   │   │   └── {批次名}.ts     #   按批次组织（迁移 + 新增）
 │   │   ├── internship-listings.ts  verified-internship-additions.ts
-│   │   ├── robotics-ai-analysis.ts platform-sources.ts（清理后移除快照段）
+│   │   ├── robotics-ai-analysis.ts  platform-sources.ts
 │   │   └── generated/robotics-market.json
 │   └── lib/                    # types.ts（扩展字段）data.ts utils.ts（职能枚举）
 ├── scripts/
@@ -173,8 +173,7 @@ jiaodian-careers/
 │   ├── collect-robotics-market.ts
 │   └── tests/                  # ★ 模块测试断言脚本
 ├── public/data/                # 可下载数据
-├── docs/  plans/               # 文档体系（本轮规范化对象）
-└── real-jobs.ts / expanded-source-leads.ts  # 清理完成后移除
+└── docs/  plans/               # 文档体系
 ```
 
 # 6. 模块间行为与数据流
@@ -183,7 +182,7 @@ jiaodian-careers/
 
 主要数据链（本轮变化加 ★）：
 
-1. **岗位目录链**：`src/data/jobs/*` → `index.ts` 聚合 `jobsCatalog` → `data.ts getJobs()` 过滤/排序/分页（★ 新增职能过滤、即将截止计算）→ 列表页与首页卡片。
+1. **岗位目录链**：`src/data/jobs/*` → `index.ts` 聚合 `jobsCatalog` → `data.ts getJobs()` 过滤/排序/分页（含职能过滤与即将截止计算）→ 列表页与首页卡片。
 2. **岗位详情链**：`getJobIds()` → `generateStaticParams` → 每页 `getJob(id)` 渲染（★ 报名窗口区块）。
 3. **增补链 ★**：data-acquisition 采集整理 → JSON 文件 → `add:jobs`（校验/自动 ID/写入批次）→ `audit:jobs:offline` 通过 → 本地提交 → `audit:jobs`（在线）复核 → `::push` 部署。
 4. **清理链 ★**：`recheck:legacy` 遍历遗留清单（支持分批 `--ids`/`--limit`）→ 在线回源分类 → `workspace/legacy-recheck/` 报告 → 维护者确认 → 存活记录经 `add:jobs` 迁入（层级如实）→ 遗留文件移除 → `audit:jobs` 确认前台纯净。
@@ -196,7 +195,7 @@ jiaodian-careers/
 # 7. 生命周期与状态机
 
 - **Job.status**：`招聘中 → 已截止`（维护者更新；recheck 报告中「建议下架」≠「已截止」——下架是移除，截止是保留展示）。`状态待核实` 为不确定态，迁移目标只有「升级」或「下架」。
-- **verification_level 提升路径**：`待核实 → 关键字段核验 → 来源核验 → 逐字段核验`；★ 新增降级出口：recheck 判定来源失效 → 从前台移除（不再是降级保留）。
+- **verification_level 提升路径**：`待核实 → 关键字段核验 → 来源核验 → 逐字段核验`；降级出口：recheck 判定来源失效 → 从前台移除。
 - **★ 记录生命周期**：采集（data-acquisition）→ 录入（add:jobs，初始层级按证据充分度）→ 在线核验 → 发布 → 复核（recheck/audit）→ 升级/修正/下架。
 - 状态可观察性：audit 输出各层级计数；recheck 输出分类计数；列表页核验摘要。
 

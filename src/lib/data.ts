@@ -84,9 +84,10 @@ export function getJobs(filters: JobFilters & { page?: number; limit?: number } 
   const result = filterJobs(allJobs, filters);
 
   const total = result.length;
-  const page = filters.page || 1;
   const limit = filters.limit || 12;
   const totalPages = Math.ceil(total / limit);
+  // 非法页码（负数、越界）按第 1 页处理（docs/interaction.md §6）。
+  const page = Math.max(1, Math.min(filters.page || 1, totalPages || 1));
   const start = (page - 1) * limit;
   const pagedJobs = result.slice(start, start + limit);
 

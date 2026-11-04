@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ExternalLink, MapPin, Building2, Calendar, GraduationCap, ArrowLeft } from 'lucide-react';
 import { getJob, getJobIds, deadlineBadgeLabel, applicationWindow } from '@/lib/data';
 import { getListingKind } from '@/lib/utils';
+import FavoriteButton from '@/components/jobs/favorite-button';
 
 function verificationLabel(level?: string) {
   if (level === '逐字段核验') return '已核验（逐字段）';
@@ -222,6 +223,8 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
             <a href={job.source_url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-brand text-white font-medium hover:bg-brand-dark transition-colors">
               前往来源页面 <ExternalLink className="w-4 h-4" />
             </a>
+
+            <FavoriteButton jobId={job.id} />
 
             <div className="space-y-3 text-sm">
               {job.education && <InfoRow icon={<GraduationCap className="w-4 h-4" />} label="学历" value={job.education} />}
