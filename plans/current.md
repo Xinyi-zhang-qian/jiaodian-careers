@@ -46,6 +46,7 @@
 - 既有批次文件：充实字段、刷新来源、删除失效、状态修正（data-refresh）
 - `src/lib/data.ts`：过期判定辅助；`src/components/jobs/job-card.tsx`、`src/app/jobs/[id]/page.tsx`：展示强化
 - `scripts/tests/`：各模块测试与 integration 扩展
+- `src/data/jobs/enterprise-bigtech-2026-11.ts`、`src/data/jobs/public-sector-bjsh-2026-11.ts`（模块开发阶段新增批次）
 
 ### 文档
 - `docs/modules/` 四模块文档（本轮已更新）
@@ -57,6 +58,7 @@
 
 - [x] source-tools：extract:fields（scan/apply）+ refresh:sources + 抽取规则库 + 模块测试
 - [ ] data-refresh：全量分类 → 充实 ≥60 条 → 失效刷新或删除 → 状态修正 → 处置留痕 → 在线审计通过
-- [x] data-acquisition：三类单位 ≥20 条（事业单位 ≥8 条含报名安排）+ schema 自查与在线回源
+- [x] data-acquisition：三类单位 ≥20 条（事业单位 ≥8 条含报名安排）+ schema 自查与在线回源（第一批已交付 22 条）
+- [ ] data-acquisition 增量（模块开发阶段新增需求）：大厂综合岗位 ≥12 条（腾讯/小米/华为/字节，覆盖项目经理、产品经理、AI/机器人、AI4S、AI 伦理）+ 京沪事业单位增补 ≥6 条
 - [x] jobs-catalog：报名已截止标识 + 条件见来源收敛 + 详情分区优化 + 模块测试
 - [ ] 模块间级和整库级的整合测试

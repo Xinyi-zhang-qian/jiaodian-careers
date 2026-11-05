@@ -60,3 +60,7 @@
 ## [2026-11-05 11:50:00] ::dev（第 2 轮第一批完成）
 - 批次完成 | 模块: [source-tools×1（dev/source-tools）, data-acquisition×1（dev/data-acquisition）, jobs-catalog×1（dev/jobs-catalog）] | 测试 11/11 + 17/17 + 34/34 | worktree: [.worktrees/source-tools, .worktrees/data-acquisition, .worktrees/jobs-catalog]
 - 备注: 新采集 22 条（事业单位 9、科研院所与新型研究机构 13，全部逐字段核验且在线回源命中；京沪占比 86%）；jobs-catalog 顺带补齐 interaction.md §3/§6 报名已截止条目；source-tools 修正模块文档三分类映射矛盾
+
+## [2026-11-05 12:20:00] ::req（第 2 轮模块开发阶段增量）+ ::design 增量更新
+- 需求文档更新为 V3.1（新增大厂综合岗位 ≥12 条建议、京沪事业单位加量 ≥6 条建议）；design.md 更新为 V2.2（AC-18、AC-19、关联表与交付物同步）；data-acquisition 模块文档与开发计划同步扩展
+- 打断判定: 需求为执行范围扩展（data-acquisition 新建批次文件），不改架构契约与模块边界，不构成整体设计改变——不触发打断归档；data-refresh 模块（后台执行中）不受影响
