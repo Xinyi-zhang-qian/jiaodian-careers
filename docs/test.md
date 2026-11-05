@@ -112,7 +112,19 @@
 
 ### 即将截止徽标判定
 - 如何运行：`npx tsx scripts/tests/jobs-ui.test.ts`
-- 测试内容：依据 docs/interaction.md §6「JobCard 即将截止徽标」、§7「即将截止标识」与 §13 断言 4、docs/modules/jobs-ui_interaction.md §4，断言：剩余 3 天且「招聘中」返回「3 天后截止」；当天返回「今天截止」；剩余 7 天仍在边界内；剩余 8 天、已过期、「已截止」「状态待核实」、无 deadline 均返回 null。
+- 测试内容：依据 docs/interaction.md §6「JobCard 即将截止徽标」、§7「即将截止标识」与 §13 断言 4、docs/modules/jobs-ui_interaction.md §2，断言：剩余 3 天且「招聘中」返回「3 天后截止」；当天返回「今天截止」；剩余 7 天仍在边界内；剩余 8 天、「已截止」「状态待核实」、无 deadline 均返回 null。（第 2 轮规格变更：原「已过期日期不显示徽标」断言与 docs/design.md §4 契约 19 冲突，已按新规格改为返回「报名已截止」，移入「报名已截止过期标识判定」条目。）
+
+### 报名已截止过期标识判定
+- 如何运行：`npx tsx scripts/tests/jobs-ui.test.ts`
+- 测试内容：依据 docs/design.md §4 契约 19、docs/interaction.md §3 色彩协议（「报名已截止」=中性灰）、§6「JobCard 报名已截止徽标」、§7「报名已截止标识」与 docs/modules/jobs-ui_interaction.md §2，断言：deadline 早于当日且「招聘中」返回「报名已截止」；status「已截止」即使 deadline 已过也返回 null（不与既有「已截止」状态徽标重复）；无 deadline 返回 null；正 1–7 天维持「x 天后截止」、当天「今天截止」红色语义不变；对同一记录「即将截止」与「报名已截止」互斥——遍历负天数、0、正天数、超 7 天与无 deadline 各情形，两文案不可能同时成立。
+
+### 「条件见来源」收敛判定（hasConditionInfo）
+- 如何运行：`npx tsx scripts/tests/jobs-ui.test.ts`
+- 测试内容：依据 docs/design.md §4 契约 19 与 docs/modules/jobs-ui_interaction.md §3，断言：原公告资格条件、学历、薪资、职责、报名方式五个条件字段全空（空串/null）时 `hasConditionInfo` 返回 false（界面据此显示统一提示「条件信息请见来源公告」且仅一次）；任一字段非空时返回 true（不显示该提示，按字段渲染）。
+
+### 卡片与详情页展示接线
+- 如何运行：`npx tsx scripts/tests/jobs-ui.test.ts`
+- 测试内容：依据 docs/modules/jobs-ui_interaction.md §4 界面断言 1、2、5，对 src/components/jobs/job-card.tsx 与 src/app/jobs/[id]/page.tsx 源码做结构断言：两文件各自恰好出现一次「条件信息请见来源公告」且不再含零散「条件见来源」兜底文案；两文件均经 `hasConditionInfo` 判定提示条显隐；「报名已截止」徽标使用中性灰样式类，与红色「即将截止」徽标类、既有灰色「已截止」状态徽标类互不相同。
 
 ### 报名窗口渲染判定
 - 如何运行：`npx tsx scripts/tests/jobs-ui.test.ts`
@@ -152,6 +164,7 @@
   - 抽样验证：可升级条目（南开 117635/116865、猎聘 ps-4 前身）来源页实际内容与锚点命中逐一核对；猎聘 ps-4 因页面标注「该职位已暂停招聘」由可升级改判需人工复核，据此在口径第 8/9 条补充停招例外。
   - 处置建议（逐条 id）见 `workspace/legacy-recheck/report.md` 处置建议节；物理删除与迁入由主 Agent 在合并阶段执行。
 - 2026-11-04 | 模块 jobs-ui | 通过 27/共 27 | 无失败（`npx tsx scripts/tests/jobs-ui.test.ts` 全部通过；`npx tsc --noEmit` 无类型错误）。
+- 2026-11-05 | 模块 jobs-catalog（第 2 轮展示强化，分支 dev/jobs-catalog，worktree .worktrees/jobs-catalog）| 通过 34/共 34 | 无失败。运行命令：`npx tsx scripts/tests/jobs-ui.test.ts`（既有 27 个断言保留，其中「已过期日期不显示徽标」按 docs/design.md §4 契约 19 更新为「报名已截止」；新增报名已截止过期标识与互斥、「条件见来源」收敛、卡片与详情页展示接线共 8 个用例）；`npx tsc --noEmit` 无类型错误。
 - 2026-11-04 | 范围：模块 site-design（分支 dev/site-design，worktree .worktrees/site-design）| 通过 4/4，失败 0 | 无失败明细。运行命令：`npx tsx scripts/tests/site-design.test.ts`（职能入口计数逻辑、首页职能入口渲染接线、README 数据增补指引与命令一致性、徽标语义色变量登记四套件全通过）与 `npx tsc --noEmit`（通过）。说明：README 命令一致性断言对 add:jobs、recheck:legacy、test 三个命令按模块交互文档 §3.3 采用跨模块桩例外集合（其 package.json 登记由 data-foundation 与 legacy-cleanup 分支交付，合并后一致）。
 - 2026-11-05 | 范围：整库（::ci）| 通过：npm run test 6/6 套件（含新增 integration.test.ts）；npm run build 成功（prebuild 离线审计通过）；npm run audit:jobs 在线审计通过（188 条，46 逐字段/57 来源/85 关键字段，全部证据回源命中）；out/ 详情页 188 个与目录一致、抽样内容核对通过
 - 2026-11-05 | 范围：整库在线审计失配处置 | 处置 6 条：617（南开转载页过期）、1101/1102/1108/1109/1110（实验室岗位改版后存储标题失配）删除；1106/1111 及其他发布日期不可复核记录降级为「来源核验」；实验室全部记录移除失效地址证据片段；204/205/211 证据锚点改为 UnitreeRobotics；处置后 188 条全量在线审计通过

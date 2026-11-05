@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ExternalLink, MapPin, Building2, Calendar, GraduationCap, ArrowLeft } from 'lucide-react';
-import { getJob, getJobIds, deadlineBadgeLabel, applicationWindow } from '@/lib/data';
+import { getJob, getJobIds, deadlineBadgeLabel, hasConditionInfo, applicationWindow } from '@/lib/data';
 import { getListingKind } from '@/lib/utils';
 import FavoriteButton from '@/components/jobs/favorite-button';
 
@@ -37,6 +37,14 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
   if (!job) notFound();
   const listingKind = getListingKind(job.title);
   const deadlineBadge = deadlineBadgeLabel(job);
+  // 「报名已截止」用中性灰徽标（docs/design.md §4 契约 19），与红色「即将截止」、
+  // 既有状态徽标（bg-text-secondary/10）在视觉上区分。
+  const isExpiredBadge = deadlineBadge === '报名已截止';
+  const deadlineBadgeClass = isExpiredBadge
+    ? 'rounded-md border border-border bg-muted px-2 py-0.5 text-xs font-medium text-text-secondary'
+    : 'rounded-md bg-red-600 px-2 py-0.5 text-xs font-medium text-white';
+  // 五个条件字段（原公告资格条件、学历、薪资、职责、报名方式）全空时在正文顶部显示统一提示条。
+  const showConditionNotice = !hasConditionInfo(job);
   const appWindow = applicationWindow(job, listingKind);
 
   return (
@@ -56,7 +64,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
             <div className="flex flex-wrap items-center gap-3">
               <h1 className="text-2xl lg:text-[32px] font-semibold text-text-primary">{job.title}</h1>
               {deadlineBadge && (
-                <span className="rounded-md bg-red-600 px-2 py-0.5 text-xs font-medium text-white">{deadlineBadge}</span>
+                <span className={deadlineBadgeClass}>{deadlineBadge}</span>
               )}
             </div>
             <div className="mt-3 flex flex-wrap items-center gap-4 text-sm text-text-secondary">
@@ -78,18 +86,30 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
             </div>
           </div>
 
+          {/* 五个条件字段全空时的统一提示条（契约 19）：正文顶部唯一兜底文案 */}
+          {showConditionNotice && (
+            <section className="rounded-2xl border border-border bg-muted p-4 text-sm leading-6 text-text-secondary">
+              条件信息请见来源公告
+            </section>
+          )}
+
           {listingKind !== '具体岗位' && (
             <section className="rounded-2xl border border-accent/20 bg-accent/5 p-4 text-sm leading-6 text-text-secondary">
               本条是{listingKind}级线索，不代表一个单独职位。具体岗位名称、名额和申请条件请以来源页的职位表或投递系统为准。
             </section>
           )}
 
+          {/* 核验层级提示条按记录性质成组置于条件区块之前（docs/interaction.md §3 色彩协议） */}
           {job.verification_level === '逐字段核验' && (
             <section className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm leading-6 text-emerald-900">
               本条已按来源全文逐字段核验，标注为“原公告”的内容来自源页；平台标签仅用于检索和归类，不代表招聘单位原文。
             </section>
           )}
+          {job.verification_level === '来源核验' && <section className="rounded-2xl border border-sky-200 bg-sky-50 p-4 text-sm leading-6 text-sky-900">本条已核对来源页面中的岗位名称与单位，标注为“已核验（来源）”；薪资、学历、专业、职责和招聘状态请以原公告为准。</section>}
+          {job.verification_level === '关键字段核验' && <section className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-amber-900">本条已公开岗位名称、单位、地区和来源链接等关键字段，标注为“已核验（关键字段）”；薪资、学历、专业、职责和当前招聘状态未在本站作完整转述，请以原公告为准。</section>}
+          {job.verification_level === '待核实' && <section className="rounded-2xl border border-yellow-200 bg-yellow-50 p-4 text-sm leading-6 text-yellow-900">历史招聘线索，尚未核对来源页面。岗位名称、单位及链接也可能有误；本页不展示未经核实的条件信息，请打开来源自行确认。</section>}
 
+          {/* 条件信息分区：原公告资格条件 → 原公告岗位职责 → 技能与方向标签 → 报名窗口 → 原页核验锚点 → 本站说明 */}
           {job.verification_level === '逐字段核验' && <section className="p-5 rounded-2xl border border-brand/20 bg-brand/5">
             <h2 className="text-lg font-semibold text-brand-dark mb-3">原公告资格条件</h2>
             <div className="space-y-3 text-sm">
@@ -110,31 +130,6 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
             </div>
           </section>}
 
-          {job.verification_level === '来源核验' && <section className="rounded-2xl border border-sky-200 bg-sky-50 p-4 text-sm leading-6 text-sky-900">本条已核对来源页面中的岗位名称与单位，标注为“已核验（来源）”；薪资、学历、专业、职责和招聘状态请以原公告为准。</section>}
-          {job.verification_level === '关键字段核验' && <section className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-amber-900">本条已公开岗位名称、单位、地区和来源链接等关键字段，标注为“已核验（关键字段）”；薪资、学历、专业、职责和当前招聘状态未在本站作完整转述，请以原公告为准。</section>}
-          {job.verification_level === '待核实' && <section className="rounded-2xl border border-yellow-200 bg-yellow-50 p-4 text-sm leading-6 text-yellow-900">历史招聘线索，尚未核对来源页面。岗位名称、单位及链接也可能有误；本页不展示未经核实的条件信息，请打开来源自行确认。</section>}
-
-          {job.source_evidence && job.source_evidence.length > 0 && (
-            <section>
-              <h2 className="text-lg font-semibold text-text-primary mb-3">原页核验锚点</h2>
-              <p className="mb-3 text-xs leading-5 text-text-secondary">以下是校验脚本必须能在来源页找到的原文片段；任一片段缺失，构建将失败。</p>
-              <ul className="space-y-2 text-sm leading-6 text-text-secondary">
-                {job.source_evidence.map((evidence) => (
-                  <li key={evidence} className="rounded-xl border border-border bg-muted px-4 py-3">“{evidence}”</li>
-                ))}
-              </ul>
-            </section>
-          )}
-
-          {job.platform_disciplines.length > 0 && <section>
-            <h2 className="text-lg font-semibold text-text-primary mb-3">方向标签</h2>
-            <div className="flex flex-wrap gap-2">
-              {job.platform_disciplines.map((d) => (
-                <span key={d} className="px-3 py-1.5 rounded-lg text-sm bg-brand/10 text-brand-dark font-medium">{d}</span>
-              ))}
-            </div>
-          </section>}
-
           {job.responsibilities && (
             <section>
               <h2 className="text-lg font-semibold text-text-primary mb-3">原公告岗位职责（按原文列项）</h2>
@@ -142,30 +137,42 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
             </section>
           )}
 
-          {job.required_skills.length > 0 && <section>
-            <h2 className="text-lg font-semibold text-text-primary mb-3">技能标签</h2>
-            <div className="flex flex-wrap gap-2">
-              {job.required_skills.map((s) => (
-                <span key={s} className="px-3 py-1.5 rounded-lg text-sm bg-secondary/10 text-secondary font-medium">{s}</span>
-              ))}
-            </div>
-          </section>}
-
-          {job.preferred_skills.length > 0 && (
+          {/* 方向、技能与优先条件合并为一个分区，子组标题区分来源与性质 */}
+          {(job.platform_disciplines.length > 0 || job.required_skills.length > 0 || job.preferred_skills.length > 0) && (
             <section>
-              <h2 className="text-lg font-semibold text-text-primary mb-3">优先条件</h2>
-              <div className="flex flex-wrap gap-2">
-                {job.preferred_skills.map((s) => (
-                  <span key={s} className="px-3 py-1.5 rounded-lg text-sm bg-accent/10 text-accent font-medium">{s}</span>
-                ))}
+              <h2 className="text-lg font-semibold text-text-primary mb-3">技能与方向标签</h2>
+              <div className="space-y-3">
+                {job.platform_disciplines.length > 0 && (
+                  <div>
+                    <p className="mb-1.5 text-xs font-medium text-text-secondary/70">方向标签（平台归类，非公告原文）</p>
+                    <div className="flex flex-wrap gap-2">
+                      {job.platform_disciplines.map((d) => (
+                        <span key={d} className="px-3 py-1.5 rounded-lg text-sm bg-brand/10 text-brand-dark font-medium">{d}</span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {job.required_skills.length > 0 && (
+                  <div>
+                    <p className="mb-1.5 text-xs font-medium text-text-secondary/70">技能标签</p>
+                    <div className="flex flex-wrap gap-2">
+                      {job.required_skills.map((s) => (
+                        <span key={s} className="px-3 py-1.5 rounded-lg text-sm bg-secondary/10 text-secondary font-medium">{s}</span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {job.preferred_skills.length > 0 && (
+                  <div>
+                    <p className="mb-1.5 text-xs font-medium text-text-secondary/70">优先条件</p>
+                    <div className="flex flex-wrap gap-2">
+                      {job.preferred_skills.map((s) => (
+                        <span key={s} className="px-3 py-1.5 rounded-lg text-sm bg-accent/10 text-accent font-medium">{s}</span>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
-            </section>
-          )}
-
-          {job.description && (
-            <section>
-              <h2 className="text-lg font-semibold text-text-primary mb-3">本站说明（非公告原文）</h2>
-              <p className="text-sm text-text-secondary leading-relaxed whitespace-pre-wrap">{job.description}</p>
             </section>
           )}
 
@@ -200,6 +207,25 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
                   <p className="text-text-secondary">报名安排详见来源公告。</p>
                 )}
               </div>
+            </section>
+          )}
+
+          {job.source_evidence && job.source_evidence.length > 0 && (
+            <section>
+              <h2 className="text-lg font-semibold text-text-primary mb-3">原页核验锚点</h2>
+              <p className="mb-3 text-xs leading-5 text-text-secondary">以下是校验脚本必须能在来源页找到的原文片段；任一片段缺失，构建将失败。</p>
+              <ul className="space-y-2 text-sm leading-6 text-text-secondary">
+                {job.source_evidence.map((evidence) => (
+                  <li key={evidence} className="rounded-xl border border-border bg-muted px-4 py-3">“{evidence}”</li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {job.description && (
+            <section>
+              <h2 className="text-lg font-semibold text-text-primary mb-3">本站说明（非公告原文）</h2>
+              <p className="text-sm text-text-secondary leading-relaxed whitespace-pre-wrap">{job.description}</p>
             </section>
           )}
 
