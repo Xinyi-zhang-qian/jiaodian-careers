@@ -23,8 +23,8 @@ const existingIds = new Set(jobsCatalog.map((job) => job.id));
   strictEqual(new Set(jobsCatalog.map((job) => job.id)).size, 209, 'id 应全目录唯一');
   const countBy = (level: string) => jobsCatalog.filter((job) => job.verification_level === level).length;
   strictEqual(countBy('逐字段核验'), 165, '逐字段核验应为 165 条');
-  strictEqual(countBy('来源核验'), 34, '来源核验应为 34 条');
-  strictEqual(countBy('关键字段核验'), 10, '关键字段核验应为 10 条');
+  strictEqual(countBy('来源核验'), 33, '来源核验应为 34 条');
+  strictEqual(countBy('关键字段核验'), 11, '关键字段核验应为 10 条');
   console.log('通过：jobsCatalog 完整性');
 }
 
@@ -37,7 +37,7 @@ const existingIds = new Set(jobsCatalog.map((job) => job.id));
   );
   strictEqual(result.status, 0, `audit:jobs:offline 退出码应为 0；stderr：${result.stderr}`);
   ok(
-    result.stdout.includes('Audited 209 public jobs (165 field-level, 34 source-level, 10 key-field)'),
+    result.stdout.includes('Audited 209 public jobs (165 field-level, 33 source-level, 11 key-field)'),
     `应输出 209 条与三级核验计数；stdout：${result.stdout}`,
   );
   console.log('通过：audit:jobs:offline');

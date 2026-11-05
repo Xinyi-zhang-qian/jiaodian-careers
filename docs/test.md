@@ -268,3 +268,5 @@
   - 工具链限制记录：GBK 编码站点（qgsydw/zgsydw）与 JS 渲染壳来源经 audit 工具链无法在线核验，相关记录（401-403、476、439、214、444、579-582、602 等）层级按可核验性收敛并如实标注。
 - 2026-11-05 | 范围：模块 data-acquisition（增量执行，分支 dev/data-acquisition-2）| 运行 `npx tsx scripts/tests/data-acquisition.test.ts`：通过 16 组断言 / 失败 0，覆盖 49 条记录（北京 10、上海 10、跨学科 10、大厂综合 12、京沪事业单位增补 7；其中事业单位 22 条）；`npx tsc --noEmit` 通过（0 错误）。
 - 补充核验（增量执行）：一次性底稿脚本（normalize 口径与 scripts/audit-verified-jobs.ts 一致，提交前已删除）对新增 19 条记录（大厂综合 12 条、京沪事业单位增补 7 条）逐条在线回源，source_title、published_at（逐字段核验级）与全部 source_evidence 片段逐字命中，全量通过；来源清单与放弃记录原因见 workspace/acquisition/sources-2.md（本地产物，不入库）。
+- 2026-11-05 | 范围：整库（::ci 第 2 轮）| 通过：npm run test 7/7 套件；npm run build 成功（209 个详情页与目录一致）；npm run audit:jobs 在线审计 209 条全量回源命中（165 逐字段/33 来源/11 关键字段）；处置 2 条——589 证据锚点改为静态可命中片段（原长句证据来自页面 JS 渲染岗位卡）、588（清华 AIR）来源站点本环境持续不可达收敛为关键字段核验并留痕
+- 2026-11-05 | 范围：GUI 视觉验收（::ci 第 2 轮）| 通过：13 张截图复拍判读，verdict overall=pass（1 warn：notfound 环境限制）；列表页确认 209 条计数与新批次完整条件字段展示
