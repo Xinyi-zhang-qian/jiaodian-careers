@@ -76,4 +76,4 @@
 - [x] legacy-cleanup：recheck:legacy 脚本 + 遗留数据复核报告 + 处置（迁入/删除）+ 模块测试
 - [x] data-acquisition：北京 ≥10、上海 ≥10、跨学科 ≥10 条采集录入（事业单位含报名窗口）+ schema 自查测试
 - [x] site-design：首页职能入口与视觉优化 + 徽标色彩统一 + README 重写 + 删除 update.sh + 模块测试
-- [ ] 模块间级和整库级的整合测试
+- [x] 模块间级和整库级的整合测试

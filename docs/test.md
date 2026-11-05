@@ -6,17 +6,23 @@
 
 ## 全局测试
 
-（暂无条目：库级集成、端到端与视觉验收测试由 `::ci` 阶段依据 docs/interaction.md 的交互验收口径与 docs/design.md 架构验收标准聚合执行，执行结果记录于「最近一轮结果」。）
+### 整库构建与静态导出
+- 如何运行：`npm run build`（prebuild 自动执行 audit:jobs:offline 门禁）
+- 测试内容：依据 docs/design.md 架构验收标准 AC-2 与 docs/interaction.md §11 `npm run build` 行，验证整库构建成功且 prebuild 离线审计通过，静态站点导出到 `out/`（含首页、404 页与每岗位独立详情页）。
+
+### 构建产物与数据链一致性
+- 如何运行：`npm run test`（scripts/tests/integration.test.ts，out/ 缺失时自动先执行整库构建）
+- 测试内容：依据 docs/design.md §6 岗位目录链与岗位详情链，验证 out/ 下详情页数量与 jobsCatalog 条数一致，并抽样核对详情页 HTML 含岗位标题、来源链接与核验锚点片段，404 页存在（AC-2、AC-4 的构建期断言）。
 
 ## 模块 data-foundation 测试
 
 ### jobsCatalog 完整性
 - 如何运行：`npm run test`（scripts/tests/data-foundation.test.ts）
-- 测试内容：依据 docs/modules/data-foundation_design.md §2 批次聚合结构与 §4 迁移验收断言 1，验证 `src/data/jobs/index.ts` 聚合出的 jobsCatalog 共 194 条、id 全目录唯一，核验层级分布为逐字段核验 58 条、来源核验 51 条、关键字段核验 85 条（迁移 200 条 + 新增 30 条 − 线索处置移除 36 条；11 条关键字段记录经复核升级为来源核验，七批次齐全）。
+- 测试内容：依据 docs/modules/data-foundation_design.md §2 批次聚合结构与 §4 迁移验收断言 1，验证 `src/data/jobs/index.ts` 聚合出的 jobsCatalog 共 188 条、id 全目录唯一，核验层级分布为逐字段核验 46 条、来源核验 57 条、关键字段核验 85 条（迁移 200 条 + 新增 30 条 − 线索处置移除 36 条 − ::ci 在线审计失配处置 6 条；11 条关键字段记录经复核升级为来源核验、实验室失配记录降级，七批次齐全）。
 
 ### audit:jobs:offline 通过
 - 如何运行：`npm run test`（scripts/tests/data-foundation.test.ts，内部以子进程运行 `npx tsx scripts/audit-verified-jobs.ts --offline`）
-- 测试内容：依据 docs/interaction.md §11 `audit:jobs:offline` 行与 docs/modules/data-foundation_interaction.md §2 规则全集，验证离线审计不发网络请求、退出码为 0，并输出 `Audited 194 public jobs (58 field-level, 51 source-level, 85 key-field)` 计数行。
+- 测试内容：依据 docs/interaction.md §11 `audit:jobs:offline` 行与 docs/modules/data-foundation_interaction.md §2 规则全集，验证离线审计不发网络请求、退出码为 0，并输出 `Audited 188 public jobs (46 field-level, 57 source-level, 85 key-field)` 计数行。
 
 ### add:jobs 校验矩阵（validateJobRecord）
 - 如何运行：`npm run test`（scripts/tests/data-foundation.test.ts）
@@ -147,3 +153,6 @@
   - 处置建议（逐条 id）见 `workspace/legacy-recheck/report.md` 处置建议节；物理删除与迁入由主 Agent 在合并阶段执行。
 - 2026-11-04 | 模块 jobs-ui | 通过 27/共 27 | 无失败（`npx tsx scripts/tests/jobs-ui.test.ts` 全部通过；`npx tsc --noEmit` 无类型错误）。
 - 2026-11-04 | 范围：模块 site-design（分支 dev/site-design，worktree .worktrees/site-design）| 通过 4/4，失败 0 | 无失败明细。运行命令：`npx tsx scripts/tests/site-design.test.ts`（职能入口计数逻辑、首页职能入口渲染接线、README 数据增补指引与命令一致性、徽标语义色变量登记四套件全通过）与 `npx tsc --noEmit`（通过）。说明：README 命令一致性断言对 add:jobs、recheck:legacy、test 三个命令按模块交互文档 §3.3 采用跨模块桩例外集合（其 package.json 登记由 data-foundation 与 legacy-cleanup 分支交付，合并后一致）。
+- 2026-11-05 | 范围：整库（::ci）| 通过：npm run test 6/6 套件（含新增 integration.test.ts）；npm run build 成功（prebuild 离线审计通过）；npm run audit:jobs 在线审计通过（188 条，46 逐字段/57 来源/85 关键字段，全部证据回源命中）；out/ 详情页 188 个与目录一致、抽样内容核对通过
+- 2026-11-05 | 范围：整库在线审计失配处置 | 处置 6 条：617（南开转载页过期）、1101/1102/1108/1109/1110（实验室岗位改版后存储标题失配）删除；1106/1111 及其他发布日期不可复核记录降级为「来源核验」；实验室全部记录移除失效地址证据片段；204/205/211 证据锚点改为 UnitreeRobotics；处置后 188 条全量在线审计通过
+- 2026-11-05 | 范围：GUI 视觉验收（::ci）| 通过：13 张截图（11 页面 + 2 流程镜头）逐张判读，13 pass / 1 warn（notfound 截图为本地测试服务器原始 404 响应，站点 404.html 存在已由集成测试断言，属环境限制）；机器门控通过（文件存在且 >20KB、颜色多样性充分）；verdict overall=pass；console 错误未采集（chrome headless 命令行限制，如实记录），经渲染结果判读兜底
