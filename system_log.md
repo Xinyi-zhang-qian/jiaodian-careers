@@ -56,3 +56,7 @@
 ## [2026-11-05 11:00:00] ::devplan（第 2 轮）
 - 开发计划写入 plans/current.md | 涉及模块: [source-tools, data-refresh, data-acquisition, jobs-catalog] | 旧计划归档至 plans/2026-11-04.md | 中断续接: 无 | 状态: 等待批准
 - 备注: 四个模块文档已按第 2 轮目标更新；批次修改与新批次文件不相交，可并行
+
+## [2026-11-05 11:50:00] ::dev（第 2 轮第一批完成）
+- 批次完成 | 模块: [source-tools×1（dev/source-tools）, data-acquisition×1（dev/data-acquisition）, jobs-catalog×1（dev/jobs-catalog）] | 测试 11/11 + 17/17 + 34/34 | worktree: [.worktrees/source-tools, .worktrees/data-acquisition, .worktrees/jobs-catalog]
+- 备注: 新采集 22 条（事业单位 9、科研院所与新型研究机构 13，全部逐字段核验且在线回源命中；京沪占比 86%）；jobs-catalog 顺带补齐 interaction.md §3/§6 报名已截止条目；source-tools 修正模块文档三分类映射矛盾

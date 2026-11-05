@@ -55,8 +55,8 @@
 
 ## Checklist
 
-- [ ] source-tools：extract:fields（scan/apply）+ refresh:sources + 抽取规则库 + 模块测试
+- [x] source-tools：extract:fields（scan/apply）+ refresh:sources + 抽取规则库 + 模块测试
 - [ ] data-refresh：全量分类 → 充实 ≥60 条 → 失效刷新或删除 → 状态修正 → 处置留痕 → 在线审计通过
-- [ ] data-acquisition：三类单位 ≥20 条（事业单位 ≥8 条含报名安排）+ schema 自查与在线回源
-- [ ] jobs-catalog：报名已截止标识 + 条件见来源收敛 + 详情分区优化 + 模块测试
+- [x] data-acquisition：三类单位 ≥20 条（事业单位 ≥8 条含报名安排）+ schema 自查与在线回源
+- [x] jobs-catalog：报名已截止标识 + 条件见来源收敛 + 详情分区优化 + 模块测试
 - [ ] 模块间级和整库级的整合测试
