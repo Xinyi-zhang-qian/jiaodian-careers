@@ -132,7 +132,7 @@ function maskCodeStructure(text: string): string {
 }
 
 /** 在批次文件中定位 id 对应记录对象：镜像文本上找 id 字段标记，回溯最近的花括号开头并前向配对闭合。 */
-function locateRecordSpan(text: string, masked: string, id: number): RecordSpan | null {
+function locateRecordSpan(masked: string, id: number): RecordSpan | null {
   const marker = new RegExp(`(?:"id"\\s*:\\s*|(?<![\\w])id\\s*:\\s*)${id}(?![0-9])`, 'g');
   for (const match of masked.matchAll(marker)) {
     const braceStart = masked.lastIndexOf('{', match.index ?? 0);
@@ -339,7 +339,7 @@ interface ApplyEdit extends RecordSpan {
 
 function locateInBatchFiles(batchFiles: BatchFileState[], id: number): { file: BatchFileState; span: RecordSpan } | null {
   for (const file of batchFiles) {
-    const span = locateRecordSpan(file.text, file.masked, id);
+    const span = locateRecordSpan(file.masked, id);
     if (span !== null) return { file, span };
   }
   return null;

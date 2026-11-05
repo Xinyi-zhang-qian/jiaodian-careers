@@ -48,8 +48,8 @@
 | 需求 §11 信息源与提取流程优化 | source-tools | 脚本 extract:fields 两阶段 | AC-14 |
 | 需求 §12 信息展示优化 | jobs-catalog | 页面 /jobs、/jobs/[id] | AC-16 |
 | 需求 §13 三类单位岗位补充 | data-acquisition | 规范化增补流程 | AC-17 |
-| 需求 V3.1 §17 大厂综合岗位 | data-acquisition | 规范化增补流程 | AC-18 |
-| 需求 V3.1 §18 京沪事业单位加量 | data-acquisition | 规范化增补流程 | AC-19 |
+| 需求 §13（大厂综合岗位，功能清单第 17 项） | data-acquisition | 规范化增补流程 | AC-18 |
+| 需求 §13（京沪事业单位加量，功能清单第 18 项） | data-acquisition | 规范化增补流程 | AC-19 |
 | 既有：内容页、市场、收藏、交叉方向 | site-shell、content-datasets、robotics-market | 对应页面与脚本 | AC-5、AC-8 |
 | 既有：核验管线与数据增补 | verification-pipeline、jobs-dataset | 脚本 audit:jobs、add:jobs | AC-1、AC-9 |
 | 既有：遗留复核与静态部署 | legacy-cleanup、site-shell | 脚本 recheck:legacy、render.yaml | AC-10、AC-13 |
@@ -139,7 +139,7 @@
   - 职责：对三块遗留数据（real-jobs、platform-sources 快照、expanded-source-leads）逐条回源复核，产出分类报告（可升级/需人工复核/建议下架）。
   - 边界：只产出报告与建议，不直接改前台数据；处置由维护者确认后经 add:jobs/删除完成。
 - **data-acquisition**（内容工作，无独立源码）
-  - 职责：按需求 §16 采集北京、上海近期岗位（重点事业单位公告含报名窗口）与企业跨学科岗位（项目管理、产品经理、AI 伦理），整理为符合模式定义的 JSON，经 add:jobs 录入。
+  - 职责：按需求 §13 采集事业单位、科研院所、新型研究机构、大厂综合岗位与京沪事业单位增补，整理为符合模式定义的记录，经批次文件或 add:jobs 录入。
   - 边界：只产出记录与证据；不修改管线与展示代码。
 - **jobs-catalog**（`src/lib/data.ts`、`src/lib/types.ts`、`src/lib/use-favorites.ts`、`src/app/jobs/**`、`src/components/jobs/job-card.tsx`）
   - 职责：从 `jobsCatalog` 提供筛选/排序/分页查询（新增职能筛选与即将截止标识）；岗位详情静态生成；收藏。
@@ -179,13 +179,16 @@ jiaodian-careers/
 │   │   ├── internship-listings.ts  verified-internship-additions.ts
 │   │   ├── robotics-ai-analysis.ts  platform-sources.ts
 │   │   └── generated/robotics-market.json
-│   └── lib/                    # types.ts（扩展字段）data.ts utils.ts（职能枚举）
+│   └── lib/                    # types.ts（扩展字段）data.ts utils.ts（职能枚举）job-function-stats.ts use-favorites.ts robotics-market.ts
 ├── scripts/
-│   ├── audit-verified-jobs.ts  # 同源改造 + 新字段校验
-│   ├── add-jobs.ts             # ★ 增补录入
-│   ├── recheck-legacy.ts       # ★ 遗留复核
+│   ├── audit-verified-jobs.ts  # 核验管线（结构 + 在线回源）
+│   ├── add-jobs.ts             # 增补录入
+│   ├── extract-fields.ts       # 字段提取辅助（scan/apply）
+│   ├── refresh-sources.ts      # 来源刷新分类
+│   ├── recheck-legacy.ts       # 遗留复核
 │   ├── collect-robotics-market.ts
-│   └── tests/                  # ★ 模块测试断言脚本
+│   ├── lib/                    # recheck-core.ts、extract-core.ts
+│   └── tests/                  # 模块与集成测试断言脚本
 ├── public/data/                # 可下载数据
 └── docs/  plans/               # 文档体系
 ```
@@ -223,8 +226,8 @@ jiaodian-careers/
 
 本项目规划共 2 轮完整 loop。第 1 轮已交付（提交 f6beda9）：规范化数据源、京沪跨学科 30 条、遗留清理、职能筛选与报名窗口、页面优化。
 
-**第 2 轮（当前轮，需求 V3.0）**：
-- **轮次目标**：信息充实（≥60 条空白记录完成字段提取升级）、失效来源刷新与清理（无僵尸记录）、信息源与提取流程优化、展示优化、三类单位岗位 ≥20 条（事业单位 ≥8 条）。
+**第 2 轮（当前轮，需求 V3.1）**：
+- **轮次目标**：信息充实（≥60 条空白记录完成字段提取升级）、失效来源刷新与清理（无僵尸记录）、信息源与提取流程优化、展示优化、三类单位岗位 ≥20 条（事业单位 ≥8 条）、大厂综合岗位 ≥12 条与京沪事业单位增补 ≥6 条。
 - **功能范围（最小完整链路优先）**：先建 source-tools 两条命令（刷新分类 + 提取辅助），再并行执行 data-refresh（充实+刷新+清理）、三类单位采集、展示优化，最后全量回归。
 - **交付物**：extract:fields / refresh:sources 脚本、充实的批次数据（≥60 条带证据字段）、刷新后的前台数据（无失效来源）、三类单位新批次（≥20 条）、大厂综合岗位批次（≥12 条）、京沪事业单位增补（≥6 条）、优化后的展示、同步的文档与测试注册表。
 - **模块开发阶段增量**（2026-11-05）：用户新增大厂综合岗位与京沪事业单位加量需求——属 data-acquisition 执行范围扩展（新建批次文件，不改架构契约与模块边界），经判定不构成整体设计改变、不触发打断归档；data-refresh 模块工作不受影响。
@@ -237,7 +240,7 @@ jiaodian-careers/
 
 测试分层：①模块测试（tsx 断言脚本，`scripts/tests/`，随模块开发编写，只跑本模块）；②数据核验（audit:jobs offline/online，既是门禁也是测试）；③整库回归（`::ci` 按 docs/test.md 清单逐条执行）；④GUI 视觉验收（::ci 内截图 + rubric 判读，页面优化模块适用）。测试框架不引入新依赖，用 `tsx` 直接运行断言脚本，`npm run test` 聚合入口。
 
-模块测试责任映射：jobs-dataset→增补/ID/校验；verification-pipeline→审计规则；legacy-cleanup→报告分类；jobs-catalog→筛选/排序/分页/收藏；site-shell→枚举与首页统计；robotics-market→分类与薪资标准化。全部测试依据 `docs/interaction.md` 与模块交互文档设计，逐条注册于 `docs/test.md`（格式见 `system/commands/dev.md`「测试文档规范」）。本章只定义预期行为与验证方法；实际结果只写入 `docs/test.md`。
+模块测试责任映射：jobs-dataset→增补/ID/校验；verification-pipeline→审计规则；legacy-cleanup→报告分类；jobs-catalog→筛选/排序/分页/收藏与展示判定；site-shell→枚举与首页（首页职能计数纯函数归 site-design）；robotics-market→分类与薪资标准化；source-tools→提取与分类规则；data-refresh→处置留痕断言；data-acquisition→批次 schema 与数量断言。全部测试依据 `docs/interaction.md` 与模块交互文档设计，逐条注册于 `docs/test.md`（格式见 `system/commands/dev.md`「测试文档规范」）。本章只定义预期行为与验证方法；实际结果只写入 `docs/test.md`。
 
 # 12. 架构验收标准
 

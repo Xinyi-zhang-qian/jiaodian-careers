@@ -4,7 +4,7 @@
 
 # 1. 交互面总览
 
-- 用户交互（引用 docs/interaction.md）：首页职能快捷入口卡（新增）、核验摘要卡（强化）、Header/Footer（经核对与 docs/interaction.md §4 一致，保持不动）。
+- 用户交互（引用 docs/interaction.md）：首页职能快捷入口卡（新增）、核验摘要卡（强化）、Header/Footer（经核对与 docs/interaction.md §4 一致，无变化）。
 - 内部关键接口：`getJobFunctionEntries(jobs)`（本模块 src/lib/job-function-stats.ts，供首页调用）；首页对 `getJobs` 的只读调用（jobs-ui 所有）。
 
 # 2. 首页职能入口规格

@@ -5,11 +5,11 @@ import { getJob, getJobIds, deadlineBadgeLabel, hasConditionInfo, applicationWin
 import { getListingKind } from '@/lib/utils';
 import FavoriteButton from '@/components/jobs/favorite-button';
 
-function verificationLabel(level?: string) {
+function verificationLabel(level: string) {
   if (level === '逐字段核验') return '已核验（逐字段）';
   if (level === '来源核验') return '已核验（来源）';
   if (level === '关键字段核验') return '已核验（关键字段）';
-  return level ?? '';
+  return level;
 }
 
 // 本地解析 YYYY-MM-DD 日期并格式化，避免 Date 直接按 UTC 解析字符串导致的日期偏移。

@@ -69,3 +69,10 @@
 - 合并分支: [dev/source-tools, dev/data-acquisition, dev/data-refresh, dev/jobs-catalog, dev/data-acquisition-2] | 冲突: 5 处（自动裁决 5 / 请示用户 0） | worktree 清理: 5 个（剩余 1） | 进入阶段: 代码检查
 - 冲突裁决: docs/test.md 三处冲突按策略保留主线、终版由五分支小节统一重组（0 冲突标记，5 模块小节 + 增量条目齐全）；data-acquisition.test.ts 两分支扩展做三方并集（24 组断言覆盖 71 条）
 - 整合动作: index.ts 接入 4 个新批次（共 11 批次）；批次去重——增补批次 3102（上海市委党校）与第一批 3004 同源，删除并留痕；data-foundation 测试期望校准为 209 条（165 逐字段/34 来源/10 关键字段）；整库重建 209 个详情页、7/7 套件通过
+
+## [2026-11-05 15:00:00] ::lint（第 2 轮，普通模式）
+- 代码: 多余功能 0 | 旧代码 0 | 防御性 1 | 死代码 2 | 文档: 矛盾 5 | 冗余 0 | 残留 4 | 过时表述 6 | 命令一致性 0 | 文档同步 14 | 设计一致性 0 | 中断残留 0 | 子Agent: 派发4/成功4
+- 权威重算（git 历史逐字段比对）: data-refresh 实际处置 = 充实 108（leads 27 + restored 81）、纯来源/证据刷新 13（restored 3 + shlab 10）、状态改已截止 40（restored 39 + shanghai 1）、删除 19（restored）；文档与批次头注释按此统一（core-verified 头注释误列 restored 明细已勘误归位；shlab 实为充实/换锚点 10 条其中 6 条升级逐字段）
+- 修复执行: 代码 3 项（FETCH_UA 未引用常量、locateRecordSpan 未用参数、verificationLabel 不可达兜底）；文档 20 余项（test.md 补 source-tools 11 条与 jobs-catalog 第 2 轮 8 条登记、209 口径统一、design 引用与布局与责任映射补全、requirements 编号重排、机构范围按实际改写、tmp 脚本与桩表述当前化、legacy-cleanup 口径清理、plans 勾选）
+- 回归验证: npm run test 7/7 套件通过，tsc --noEmit 无错误
+- 待用户决策: 大厂批次无腾讯集团与华为岗位（智联反爬、官网校招页已结束等，worker 按宁缺毋滥放弃并留痕）——补采或接受现状待用户指示

@@ -5,7 +5,7 @@
 # 1. 模块职责与边界
 
 - 职责：对三块遗留数据逐条回源复核并产出分类报告；执行处置——可升级记录迁入规范数据源新批次文件、确认失效的遗留文件移除。
-- 数据所有权：`scripts/recheck-legacy.ts`、`workspace/legacy-recheck/`（报告，本地产物）、处置动作产生的新批次文件 `src/data/jobs/legacy-recheck-{YYYY-MM-DD}.ts`、删除 `real-jobs.ts`、`platform-sources.ts` 快照段清理。
+- 数据所有权：`scripts/recheck-legacy.ts`、`workspace/legacy-recheck/`（报告，本地产物）；处置落地于既有批次文件（首轮处置已完成，无独立新批次文件）。
 - 不负责：规范数据源结构（data-foundation）、实习/分析内容数据（本轮实习线索已核验，平台快照段清理仅限未核验部分）。
 
 # 2. 内部结构
@@ -21,14 +21,14 @@ workspace/legacy-recheck/
 
 复核对象清单（脚本内置，写明依据；三份文件一律动态 import + try/catch 读取，任一文件在合并阶段被删除时对应清单记 0 条并在控制台提示，脚本不崩溃）：
 1. `src/data/real-jobs.ts` 全量（228 条未发布候选，id 401–604，default 导出）；
-2. `src/data/platform-sources.ts` 中 QUARANTINED 平台快照段 `unverifiedPlatformListings`（4 条；该 const 原未导出，本模块为其补加 export 关键字，platform-sources.ts 的快照段归本模块管辖）；
+2. `src/data/platform-sources.ts` 中 QUARANTINED 平台快照段 `unverifiedPlatformListings`（4 条；该数组已随快照段移除，platform-sources.ts 的快照段归本模块管辖）；
 3. `src/data/expanded-source-leads.ts`（63 条已发布线索，id 1001–1063，default 导出；data-foundation 迁移后该文件若仍在则照常复核）。
 
 # 3. 内部数据流
 
 recheck:legacy（在线模式）：加载清单（leads → real-jobs → platform-sources 顺序入队）→ 按参数筛出本次待复核条目（`--ids` 命中的条目无论状态一律重跑；未带 `--ids` 时跳过 details.json 中已有非「未核验」结论的条目，`--limit` 取剩余队列前 N 条）→ 逐条 GET source_url（带 UA `JiaodianCareersSourceAudit/1.0`、超时 15s；同一 URL 单次运行内共享一次抓取结果）→ 规范化 HTML → 分类判定：可访问 且 source_title（无 source_title 时标题，平台快照为 title+organization）命中 → 「可升级」；可访问但锚点不命中/页面疑似非招聘页 → 「需人工复核」；404/域名失效/反爬拦截 → 「建议下架」（注明原因）；网络异常/超时 → 「需人工复核」（note 含原因）→ 合并写 details.json（同 id 覆盖）+ 重建 report.md。离线模式不发网络请求，全量标「未核验」。单条失败不中断整批。
 
-处置执行（首轮于 2026-11-04 ::mergelocal 阶段由主 Agent 依据报告落地）：已发布批次的处置直接落在对应批次文件内——leads-2026-09 批次移除 36 条过期提示页线索、保留 27 条可升级；restored-2026-10 批次中 11 条关键字段核验记录经在线复核升级为「来源核验」并更新 last_verified（13 条本就为来源核验的记录维持）；「建议下架」确认后 real-jobs.ts、expanded-source-leads.ts 删除，platform-sources.ts 未核验快照段移除（处置注释记录在各批次文件头与 platform-sources.ts 头部）。index.ts 增加新批次一行（合并时并集处理）。
+处置执行（首轮于 2026-11-04 ::mergelocal 阶段由主 Agent 依据报告落地）：已发布批次的处置直接落在对应批次文件内——leads-2026-09 批次移除 36 条过期提示页线索、保留 27 条可升级；restored-2026-10 批次中 11 条关键字段核验记录经在线复核升级为「来源核验」并更新 last_verified（13 条本就为来源核验的记录维持）；「建议下架」确认后 real-jobs.ts、expanded-source-leads.ts 删除，platform-sources.ts 未核验快照段移除（处置注释记录在各批次文件头与 platform-sources.ts 头部）。处置落地于既有批次文件，index.ts 不新增批次行。
 
 # 4. 内部数据结构
 

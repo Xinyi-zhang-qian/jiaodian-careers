@@ -83,7 +83,7 @@ npm run test
 - `src/data/jobs/`：规范岗位数据源，按批次组织，`index.ts` 聚合导出 `jobsCatalog`（前台唯一数据入口）
 - `src/lib/`：类型定义、岗位查询与枚举常量
 - `src/app/`、`src/components/`：页面路由与界面组件
-- `scripts/`：数据审计（audit-verified-jobs）、增补录入（add-jobs）、遗留复核（recheck-legacy）、机器人市场采集（collect-robotics-market）与模块测试（tests/）
+- `scripts/`：数据审计（audit-verified-jobs）、增补录入（add-jobs）、字段提取辅助（extract-fields）、来源刷新分类（refresh-sources）、遗留复核（recheck-legacy）、机器人市场采集（collect-robotics-market）、公共逻辑（lib/）与模块测试（tests/）
 - `public/data/`：机器人市场可下载数据（JSON、CSV）
 - `docs/`：需求、设计、交互与测试文档体系
 

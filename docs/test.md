@@ -160,6 +160,85 @@
 - 如何运行：`npx tsx scripts/tests/site-design.test.ts`
 - 测试内容：依据 docs/interaction.md §3 核验徽标色彩协议，src/app/globals.css 的 @theme 中登记逐字段核验（绿）、来源核验（蓝）、关键字段核验（琥珀）、待核实（黄）、即将截止（红）五组语义色变量及其浅底色变量，且既有主题变量的取值保持不变。
 
+## 模块 source-tools 测试
+
+### extractCandidates：标签分区抽取候选字段且证据可命中
+- 如何运行：`npm run test`（scripts/tests/source-tools.test.ts）
+- 测试内容：依据 docs/modules/source-tools_interaction.md §2，验证「标签＋冒号」分区启发式对夹具来源页正确抽取候选字段，且每个证据片段在规范化文本中逐字命中。
+
+### extractCandidates：空页面返回 inaccessible，无标签页面返回空候选
+- 如何运行：`npm run test`（scripts/tests/source-tools.test.ts）
+- 测试内容：依据模块交互文档 §2 边界检查，验证规范化文本为空时返回 inaccessible 含原因、无标签分区时返回空候选（宁可少提取不提取假证据）。
+
+### extractCandidates：已有值的可写入字段跳过抽取
+- 如何运行：`npm run test`（scripts/tests/source-tools.test.ts）
+- 测试内容：依据模块设计文档 §3 scan 流程，验证记录已有值的可写入字段不重复抽取。
+
+### applyConfirmed：记录不存在拒绝且不写库
+- 如何运行：`npm run test`（scripts/tests/source-tools.test.ts）
+- 测试内容：依据模块交互文档 §3 边界检查，验证记录 id 不存在时整条拒绝且批次目录无任何写入。
+
+### applyConfirmed：证据不命中整条拒绝且不写库
+- 如何运行：`npm run test`（scripts/tests/source-tools.test.ts）
+- 测试内容：依据契约 17 与模块交互文档 §3，验证字段值对应证据片段在线复核不命中时整条拒绝（不做部分写入）。
+
+### applyConfirmed：允许清单外字段与缺证据片段拒绝
+- 如何运行：`npm run test`（scripts/tests/source-tools.test.ts）
+- 测试内容：依据模块交互文档 §3 预期输入，验证候选字段允许清单之外的字段与缺证据片段的确认被拒绝。
+
+### applyConfirmed：_level 非升级请求（同级与降级）拒绝
+- 如何运行：`npm run test`（scripts/tests/source-tools.test.ts）
+- 测试内容：依据契约 17 层级只升不降，验证同级与降级请求被拒绝。
+
+### applyConfirmed：合法确认写入批次（待核实自动升级 + 字段值/证据/last_verified）
+- 如何运行：`npm run test`（scripts/tests/source-tools.test.ts）
+- 测试内容：依据模块交互文档 §3 预期输出，验证合法确认写入批次文件：字段值、证据追加、待核实记录自动升「关键字段核验」、last_verified 更新。
+
+### applyConfirmed：_level 升级写入层级并追加证据
+- 如何运行：`npm run test`（scripts/tests/source-tools.test.ts）
+- 测试内容：依据契约 17，验证显式升级请求经证据校验后写入新层级并追加证据。
+
+### classifyRefresh：夹具分类（现行有效/来源过期/内容失配）
+- 如何运行：`npm run test`（scripts/tests/source-tools.test.ts）
+- 测试内容：依据契约 18 与 docs/interaction.md §11，验证锚点命中+招聘关键词→现行有效、「该信息已过期」类跳转→来源过期、锚点不命中→内容失配。
+
+### 缺省目标筛选口径（selectScanTargets / selectRefreshTargets）
+- 如何运行：`npm run test`（scripts/tests/source-tools.test.ts）
+- 测试内容：依据 docs/interaction.md §11，验证 scan 缺省目标为全部无条件字段记录、refresh 缺省目标为全部「状态待核实」与来源/关键字段核验记录。
+
+
+### 已过期且招聘中显示报名已截止
+- 如何运行：`npm run test`（scripts/tests/jobs-ui.test.ts）
+- 测试内容：依据 docs/design.md 契约 19，验证 deadline 早于当日且状态「招聘中」时 deadlineBadgeLabel 返回「报名已截止」（第 2 轮规格，替代第 1 轮「已过期不显示徽标」口径）。
+
+### 已截止状态即使 deadline 已过也不显示报名已截止
+- 如何运行：`npm run test`（scripts/tests/jobs-ui.test.ts）
+- 测试内容：依据契约 19 与 docs/interaction.md §3，验证 status「已截止」时不返回「报名已截止」（不与既有「已截止」状态徽标重复）。
+
+### 报名已截止与即将截止互斥且各情形文案唯一
+- 如何运行：`npm run test`（scripts/tests/jobs-ui.test.ts）
+- 测试内容：依据契约 19，验证负天数→「报名已截止」、0→「今天截止」、1–7 天→「x 天后截止」两两互斥且同一记录同一时刻只落入一种语义。
+
+### 条件字段全空判定为无条件信息
+- 如何运行：`npm run test`（scripts/tests/jobs-ui.test.ts）
+- 测试内容：依据 docs/modules/jobs-ui_interaction.md §3，验证 hasConditionInfo 对五条件字段全空（空串与 null）返回 false。
+
+### 任一条件字段非空判定为有条件信息
+- 如何运行：`npm run test`（scripts/tests/jobs-ui.test.ts）
+- 测试内容：依据同上规格，验证任一条件字段非空时返回 true。
+
+### 统一提示在卡片与详情页各出现一次且无零散兜底
+- 如何运行：`npm run test`（scripts/tests/jobs-ui.test.ts）
+- 测试内容：依据 docs/interaction.md §6/§7 收敛规则，验证「条件信息请见来源公告」提示在卡片与详情页各仅出现一次、零散「条件见来源」兜底文案不再出现。
+
+### 卡片与详情页经 hasConditionInfo 判定提示条显隐
+- 如何运行：`npm run test`（scripts/tests/jobs-ui.test.ts）
+- 测试内容：依据收敛规则，验证卡片与详情页源码均经 hasConditionInfo 决定提示条渲染。
+
+### 报名已截止徽标样式区别于红色即将截止与灰色已截止徽标
+- 如何运行：`npm run test`（scripts/tests/jobs-ui.test.ts）
+- 测试内容：依据 docs/interaction.md §3 色彩协议，验证三种徽标样式类互不混用。
+
 ## 最近一轮结果
 
 - 2026-11-04 | 范围：模块 data-foundation | 通过 6/6（jobsCatalog 完整性、audit offline、add:jobs 校验矩阵、合法批次写入与 ID 自动分配、整批拒绝无写入、批次名校验）；worktree 内首轮以迁移后 200 条口径通过，::mergelocal 处置后按 194 条（58/51/85）期望复跑全部通过；类型检查 tsc --noEmit 无错误

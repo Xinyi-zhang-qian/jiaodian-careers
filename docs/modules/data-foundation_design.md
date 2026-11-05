@@ -4,7 +4,7 @@
 
 # 1. 模块职责与边界
 
-- 职责：建立规范化岗位数据源 `src/data/jobs/`（index 聚合 + 批次文件），把迁移时点的前台记录迁入批次文件（迁移 200 条，处置后当前目录 194 条）；扩展 `Job` 类型（`application_opens_at`、`job_functions`）与职能枚举；提供增补录入命令 `add:jobs`；把核验脚本 `audit-verified-jobs.ts` 切换到同源数据并扩展新字段校验。
+- 职责：建立规范化岗位数据源 `src/data/jobs/`（index 聚合 + 批次文件）；第 1 轮迁移 200 条，经第 2 轮处置与四批次并入后当前目录 209 条（11 批次）；扩展 `Job` 类型（`application_opens_at`、`job_functions`）与职能枚举；提供增补录入命令 `add:jobs`；把核验脚本 `audit-verified-jobs.ts` 切换到同源数据并扩展新字段校验。
 - 数据所有权：`src/data/jobs/` 全部文件、`scripts/add-jobs.ts`、`scripts/audit-verified-jobs.ts`、`src/lib/types.ts`、`src/lib/utils.ts`（职能枚举部分）。
 - 不负责：查询/筛选逻辑（`src/lib/data.ts` 归 jobs-ui）、页面、遗留数据处置（legacy-cleanup）、新岗位内容采集（data-acquisition）。
 
@@ -31,7 +31,7 @@ src/lib/utils.ts             # 新增 JOB_FUNCTIONS 枚举
 
 add:jobs：读 JSON 文件 → 逐条按「模块交互文档 §3」校验 → 任一失败则整批拒绝（无半写入）→ 全部通过：与现有 jobsCatalog 的 `title+organization+source_url` 重复者跳过 → ID 自动分配（现有 jobsCatalog 最大 id + 1 顺序递增）→ 生成批次 TS 文件（若已存在则追加记录）→ 更新 index.ts 追加 import 与聚合行 → 自动执行 `audit:jobs:offline` 并回显计数。校验另有两条配套语义：输入对象只允许携带 Job 模式已知字段（`id` 由脚本自动分配，输入携带即拒绝；未知字段同样拒绝，保证批次文件满足 Job 类型）；维护者未提供的结构字段由写入层按空值语义缺省填充（详见模块交互文档 §3），缺省填充不视作内容补写。批次输出目录可用 `--jobs-dir <目录>` 覆盖（默认 `src/data/jobs`），仅供模块测试隔离写入。
 
-迁移（一次性，本模块内执行）：旧数据文件 → 批次文件 + index.ts → 切换 data.ts 前置校验（由 jobs-ui 同步改造，本模块只保证 index 正确）→ 删除 `verified-jobs.ts`、`additional-verified-jobs.ts`、`restored-jobs.ts`、`expanded-source-leads.ts`（`real-jobs.ts` 保留，归 legacy-cleanup 处置）。
+迁移（一次性，本模块内执行）：旧数据文件 → 批次文件 + index.ts → 切换 data.ts 前置校验（由 jobs-ui 同步改造，本模块只保证 index 正确）→ 删除 `verified-jobs.ts`、`additional-verified-jobs.ts`、`restored-jobs.ts`、`expanded-source-leads.ts`（real-jobs.ts 已于首轮清理中删除）。
 
 audit 同源化：import 从三个旧文件改为 `src/data/jobs/index`；新增校验规则（见模块交互文档 §2）。
 

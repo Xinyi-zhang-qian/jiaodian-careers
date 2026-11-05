@@ -37,7 +37,7 @@
 - `mergeDetails(old: RecheckItem[], fresh: RecheckItem[]): RecheckItem[]`：按 `origin + '#' + id` 去重，fresh 覆盖 old 中同键条目，old 独有条目保留，输出顺序保持 old 原序、新条目追加在后；调用方：recheck-legacy.ts 增量写入。
 - 清单加载（recheck-legacy.ts 内部）：三份遗留文件一律 `await import()` + try/catch，失败时该来源记 0 条并向 stderr 输出提示行，进程继续。
 
-# 5. 处置验收断言（处置执行时适用，本轮不触发）
+# 5. 处置验收断言（首轮处置已于 2026-11-04 执行完毕；后续新增隔离数据复用同口径）
 
 1. 处置完成后仓库内不存在 `src/data/real-jobs.ts`；`platform-sources.ts` 不含 QUARANTINED 快照段。
 2. 报告「可升级」清单中的记录已按层级固化进规范数据源批次文件（首轮落地于 leads-2026-09 与 restored-2026-10 批次，见各文件头处置注释），每条带 source_evidence。

@@ -13,7 +13,6 @@ import { classifySource } from './lib/recheck-core';
 import type { LegacyRecord } from './lib/recheck-core';
 
 const OUT_DIR = path.resolve('workspace/source-refresh');
-const FETCH_UA = 'JiaodianCareersSourceAudit/1.0';
 const FETCH_TIMEOUT_MS = 15_000;
 
 /** 刷新分类条目（模块设计文档 §4）。 */

@@ -14,7 +14,7 @@
 src/app/page.tsx                 # 首页：职能快捷入口卡、核验摘要强化、布局层次
 src/lib/job-function-stats.ts    # 职能入口计数纯函数（本模块新增，只依赖 utils 枚举与 Job 类型）
 src/app/globals.css              # 主题变量微调（徽标色彩统一所需的语义色，不改动既有变量取值）
-src/components/layout/*          # 导航与页脚（经核对与 docs/interaction.md §4 一致，本轮不改）
+src/components/layout/*          # 导航与页脚（与 docs/interaction.md §4 一致）
 README.md                        # 面向使用者：简介、运行、数据增补指引、目录结构、部署
 ```
 
