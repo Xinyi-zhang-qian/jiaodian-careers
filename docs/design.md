@@ -41,18 +41,16 @@
 
 | 需求章节 | 模块 | 用户入口 | 验收条目 |
 | --- | --- | --- | --- |
-| 需求 §7 岗位目录与筛选（强化） | jobs-catalog | 页面 /jobs | AC-3、AC-6 |
-| 需求 §8 岗位详情（强化） | jobs-catalog | 页面 /jobs/[id] | AC-2、AC-4、AC-7 |
-| 需求 §9 首页 | site-shell | 页面 / | AC-3 |
-| 需求 §10 交叉方向与收藏 | site-shell、jobs-catalog | /directions、/favorites | AC-5 |
-| 需求 §11 内容页 | content-datasets | /internships、/analysis、/market、/market/robotics | AC-8 |
-| 需求 §12 核验管线（扩展） | verification-pipeline | 脚本 audit:jobs | AC-1 |
-| 需求 §13 数据规范化管理 | jobs-dataset | 脚本 add:jobs | AC-9 |
-| 需求 §14 虚假信息清理 | legacy-cleanup | 脚本 recheck:legacy | AC-10 |
-| 需求 §15 事业单位与截止时间 | jobs-dataset、jobs-catalog | 页面 /jobs、/jobs/[id] | AC-7 |
-| 需求 §16 数据增补 | data-acquisition | 规范化增补流程 | AC-11 |
-| 需求 §17 页面设计优化 | site-design | 页面 /、/jobs、/jobs/[id] | AC-12 |
-| 需求 §18 文档规范化 | site-design | README、docs/ | AC-13 |
+| 需求 §7 岗位目录与筛选（展示强化） | jobs-catalog | 页面 /jobs | AC-3、AC-6、AC-16 |
+| 需求 §8 岗位详情（信息充实） | jobs-catalog | 页面 /jobs/[id] | AC-2、AC-4、AC-7、AC-14 |
+| 需求 §9 岗位信息充实 | source-tools、data-refresh | 脚本 extract:fields | AC-14 |
+| 需求 §10 失效来源刷新与清理 | source-tools、data-refresh | 脚本 refresh:sources | AC-15 |
+| 需求 §11 信息源与提取流程优化 | source-tools | 脚本 extract:fields 两阶段 | AC-14 |
+| 需求 §12 信息展示优化 | jobs-catalog | 页面 /jobs、/jobs/[id] | AC-16 |
+| 需求 §13 三类单位岗位补充 | data-acquisition | 规范化增补流程 | AC-17 |
+| 既有：内容页、市场、收藏、交叉方向 | site-shell、content-datasets、robotics-market | 对应页面与脚本 | AC-5、AC-8 |
+| 既有：核验管线与数据增补 | verification-pipeline、jobs-dataset | 脚本 audit:jobs、add:jobs | AC-1、AC-9 |
+| 既有：遗留复核与静态部署 | legacy-cleanup、site-shell | 脚本 recheck:legacy、render.yaml | AC-10、AC-13 |
 
 # 3. 总体架构
 
@@ -253,3 +251,7 @@ jiaodian-careers/
 - AC-11：北京、上海各新增 ≥10 条经核验记录；跨学科岗位（项目管理/产品经理/AI伦理等）新增 ≥10 条；事业单位记录含报名窗口信息。
 - AC-12：页面视觉优化落地且既有交互逻辑不回归（交互验收口径全数通过）。
 - AC-13：README 与 docs/ 与代码同步，README 含数据增补指引。
+- AC-14：`npm run extract:fields --scan` 对指定记录产出候选字段与证据位置且不写库；`--apply` 写入批次并自动离线审计；至少 60 条来源/关键字段级记录完成字段提取并升级或补齐。
+- AC-15：`npm run refresh:sources` 产出全量分类清单；处置后前台无失效来源记录、无截止已过仍标「招聘中」的记录，处置留痕在批次头注释。
+- AC-16：deadline 早于当日仍标「招聘中」的记录显示灰色「报名已截止」标识；「条件见来源」仅用于无任何条件字段的记录。
+- AC-17：三类单位新增岗位合计 ≥20 条（事业单位 ≥8 条，含报名安排），全部带来源证据。
