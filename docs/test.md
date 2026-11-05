@@ -18,11 +18,11 @@
 
 ### jobsCatalog 完整性
 - 如何运行：`npm run test`（scripts/tests/data-foundation.test.ts）
-- 测试内容：依据 docs/modules/data-foundation_design.md §2 批次聚合结构与 §4 迁移验收断言 1，验证 `src/data/jobs/index.ts` 聚合出的 jobsCatalog 共 188 条、id 全目录唯一，核验层级分布为逐字段核验 46 条、来源核验 57 条、关键字段核验 85 条（迁移 200 条 + 新增 30 条 − 线索处置移除 36 条 − ::ci 在线审计失配处置 6 条；11 条关键字段记录经复核升级为来源核验、实验室失配记录降级，七批次齐全）。
+- 测试内容：依据 docs/modules/data-foundation_design.md §2 批次聚合结构与 §4 迁移验收断言 1，验证 `src/data/jobs/index.ts` 聚合出的 jobsCatalog 共 169 条、id 全目录唯一，核验层级分布为逐字段核验 128 条、来源核验 31 条、关键字段核验 10 条（迁移 188 条口径经 data-refresh 2026-11-05 全量来源分类与处置：删除 19 条 JS 渲染壳/404/反爬且重新检索无现行可核验来源的记录，充实 107 条并升级层级，439/214/444 按来源可核验性调整，七批次齐全）。
 
 ### audit:jobs:offline 通过
 - 如何运行：`npm run test`（scripts/tests/data-foundation.test.ts，内部以子进程运行 `npx tsx scripts/audit-verified-jobs.ts --offline`）
-- 测试内容：依据 docs/interaction.md §11 `audit:jobs:offline` 行与 docs/modules/data-foundation_interaction.md §2 规则全集，验证离线审计不发网络请求、退出码为 0，并输出 `Audited 188 public jobs (46 field-level, 57 source-level, 85 key-field)` 计数行。
+- 测试内容：依据 docs/interaction.md §11 `audit:jobs:offline` 行与 docs/modules/data-foundation_interaction.md §2 规则全集，验证离线审计不发网络请求、退出码为 0，并输出 `Audited 169 public jobs (128 field-level, 31 source-level, 10 key-field)` 计数行。
 
 ### add:jobs 校验矩阵（validateJobRecord）
 - 如何运行：`npm run test`（scripts/tests/data-foundation.test.ts）
@@ -49,6 +49,12 @@
 ### 跨学科批次职能标注断言
 - 如何运行：`npm run test`（scripts/tests/data-acquisition.test.ts）
 - 测试内容：依据 docs/design.md §4 契约 12 职能标签契约，验证跨学科批次每条记录的 job_functions 均已标注且取值全部在 JOB_FUNCTIONS 枚举内，聚焦岗位（项目管理、产品经理、AI 伦理等）未漏标。
+
+## 模块 data-refresh 测试
+
+### 处置验收断言（全量来源分类与处置）
+- 如何运行：`npm run audit:jobs`（在线）与 `npm run test`（scripts/tests/data-foundation.test.ts）
+- 测试内容：依据 docs/modules/data-refresh_interaction.md §2 处置规格与 §3 处置验收断言，验证处置后全量在线审计通过（来源页 HTML 规范化后 source_title 与全部证据片段逐字命中，退出码 0）、前台无截止已过仍标「招聘中」的记录、充实记录 ≥60 条且每条新填字段带可命中证据、层级只升不降、全部删除/刷新在批次头注释留痕（id、原因、日期可追溯）；离线计数期望随处置同步更新（数据测试 §1/§2 断言）。
 
 ## 模块 legacy-cleanup 测试
 
@@ -142,6 +148,13 @@
 
 ## 最近一轮结果
 
+- 2026-11-05 | 范围：模块 data-refresh（分支 dev/data-refresh，worktree .worktrees/data-refresh）| 全量来源分类与处置完成，处置后回归全部通过
+  - 分类统计（188 条全量在线访问来源页，一次性脚本复用 recheck-core 规范化并做字符集感知解码）：现行有效 105、内容失配 81、访问失败 2（485 反爬拦截、209 超时）；来源过期 0（404/域名失效类均以失效跳转/JS 壳形态归入内容失配处置）。
+  - 充实（A 类）107 条（目标 ≥60 达成）：平安科技 18 条与安克创新 9 条（校招公告统一字段）、上海人工智能实验室 11 条（页面卡片日期回填 published_at）、事业单位与科研院所公告 52 条（401-415、419-423、436-448、470-478、515-517、530、541、543-546、578、587、588、590-596、202-216、301-306、502 等）、企业岗位 17 条（206-208、416、449、480-484、494、496、204/205/211 宇树现行中文页、589 等）；每条新填字段附来源页可逐字命中证据片段，充实记录层级只升不降。
+  - 失效刷新（B 类）：同源换锚点刷新 52 条 + 换源刷新 4 条（474 上海博物馆换 rsj.sh 现行公告、502 中国航油换对外经贸大学就业网转载、306 上科大换中公转载、203 北京脑所同 URL 现行公告重锚）；删除 19 条（201、209、210、212、305、417、418、485、499、555、557、559、586、597、598、599、600、601、603——JS 渲染壳/404/反爬且经检索无现行可核验来源，逐条批次头留痕）。
+  - 状态修正（C 类）29 条改「已截止」（报名/申请窗口经原文确认已过，含 2016 同济口腔医院）；处置后无截止已过仍标「招聘中」的记录。
+  - 回归：`npx tsx scripts/audit-verified-jobs.ts --offline` 通过；`npm run audit:jobs` 在线审计通过（169 条：128 逐字段/31 来源/10 关键字段，全部证据回源命中，0 失败）；`npx tsc --noEmit` 通过（0 错误）；`npx tsx scripts/tests/data-foundation.test.ts` 通过 6/6（计数期望已同步 169 条口径）。处置中间产物（分类明细、检索候选、更新脚本）在 workspace/source-refresh/ 与 scripts/tmp-*（提交前删除），不入库。
+  - 工具链限制记录：GBK 编码站点（qgsydw/zgsydw）与 JS 渲染壳来源经 audit 工具链无法在线核验，相关记录（401-403、476、439、214、444、579-582、602 等）层级按可核验性收敛并如实标注。
 - 2026-11-04 | 范围：模块 data-foundation | 通过 6/6（jobsCatalog 完整性、audit offline、add:jobs 校验矩阵、合法批次写入与 ID 自动分配、整批拒绝无写入、批次名校验）；worktree 内首轮以迁移后 200 条口径通过，::mergelocal 处置后按 194 条（58/51/85）期望复跑全部通过；类型检查 tsc --noEmit 无错误
 - 2026-11-04 | 范围：模块 data-foundation（一次性迁移校验，仅本轮运行，不计入永久测试）| 通过：200/200 条按 id 逐字段等值（迁移脚本运行确认；脚本按其头部声明在提交前删除）
 - 2026-11-04 | 范围：data-acquisition 模块 | 运行 `npx tsx scripts/tests/data-acquisition.test.ts`：通过 9 组断言 / 失败 0，覆盖 30 条记录（北京 10、上海 10、跨学科 10；其中事业单位 15 条）；`npx tsc --noEmit` 通过（0 错误）。
