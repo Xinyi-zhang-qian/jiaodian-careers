@@ -140,6 +140,52 @@
 - 如何运行：`npx tsx scripts/tests/site-design.test.ts`
 - 测试内容：依据 docs/interaction.md §3 核验徽标色彩协议，src/app/globals.css 的 @theme 中登记逐字段核验（绿）、来源核验（蓝）、关键字段核验（琥珀）、待核实（黄）、即将截止（红）五组语义色变量及其浅底色变量，且既有主题变量的取值保持不变。
 
+## 模块 source-tools 测试
+
+### extractCandidates 标签分区抽取与证据命中
+- 如何运行：`npx tsx scripts/tests/source-tools.test.ts`
+- 测试内容：依据 docs/modules/source-tools_interaction.md §2 抽取规则第 1–5 条，对含「招聘岗位/招聘人数/学历要求/薪资待遇/岗位职责/专业要求/报名方式/报名时间/联系方式」标签分区的夹具 HTML 规范化文本断言：education、salary、responsibilities、original_major_requirements、application_info、recruit_count、application_schedule、contact 各键的 value 与夹具对应分区逐字一致（含 en dash 统一为 -），每个证据片段长度 ≥10 且能在规范化文本中 includes 命中，证据以标签起点开头。
+
+### extractCandidates 空页面与无标签页面
+- 如何运行：`npx tsx scripts/tests/source-tools.test.ts`
+- 测试内容：依据 docs/modules/source-tools_interaction.md §2 边界检查，断言规范化文本为空时返回 inaccessible「页面内容为空」且 candidates 为空对象；注入不含任何触发标签的普通通知页夹具时返回空 candidates 且不带 inaccessible（纯函数不抛异常）。
+
+### extractCandidates 已有值字段跳过
+- 如何运行：`npx tsx scripts/tests/source-tools.test.ts`
+- 测试内容：依据 docs/modules/source-tools_interaction.md §2 抽取规则第 5 条，对 education 已有非空值的记录断言 candidates 不含 education 而 salary 等其余可写入键照常抽取，保证 scan 服务于字段空白记录的充实。
+
+### applyConfirmed 记录不存在拒绝且不写库
+- 如何运行：`npx tsx scripts/tests/source-tools.test.ts`
+- 测试内容：依据 docs/modules/source-tools_interaction.md §3 校验第 1 条，向注入临时目录的夹具批次提交不存在的记录 id，断言该条被拒绝（reason 含「记录不存在」）、applied 为空、批次文件字节级保持不变。
+
+### applyConfirmed 证据不命中整条拒绝且不写库
+- 如何运行：`npx tsx scripts/tests/source-tools.test.ts`
+- 测试内容：依据 docs/modules/source-tools_interaction.md §3 校验第 7 条与设计文档 §3「单条失败整条拒绝且不产生该条任何写入」，注入返回不含该证据片段的来源页的 fetch 假实现（不发真实请求），断言该条被拒绝（reason 含「证据片段未在来源页命中」）、applied 为空、批次文件字节级保持不变。
+
+### applyConfirmed 允许清单外字段与缺证据拒绝
+- 如何运行：`npx tsx scripts/tests/source-tools.test.ts`
+- 测试内容：依据 docs/modules/source-tools_interaction.md §3 校验第 2、4 条，分别以允许清单外字段与缺少 _evidence 片段的确认输入驱动，断言两条均被拒绝且 reason 分别含「字段不在允许清单」与「证据片段」，批次文件不变。
+
+### applyConfirmed _level 非升级请求拒绝
+- 如何运行：`npx tsx scripts/tests/source-tools.test.ts`
+- 测试内容：依据 docs/modules/source-tools_interaction.md §3 校验第 5 条，对当前层级「关键字段核验」的记录请求「关键字段核验」（同级）与「待核实」（降级）断言均被拒绝且 reason 含「_level 非升级请求」，批次文件不变。
+
+### applyConfirmed 合法确认写入批次（待核实自动升级 + 字段值/证据/last_verified 落库）
+- 如何运行：`npx tsx scripts/tests/source-tools.test.ts`
+- 测试内容：依据 docs/modules/source-tools_interaction.md §3 校验第 6 条与写入规则，对「待核实」空白记录提交未声明 _level 的合法确认（字段值 + ≥10 字符证据，来源页夹具可命中），断言 applied 含该 id、批次文件内记录被替换为含新字段值、source_evidence 追加证据片段、verification_level 自动升为「关键字段核验」、last_verified 为注入日期的单行 JSON，且批次头注释与另一条记录原文保持不变。
+
+### applyConfirmed _level 升级写入层级
+- 如何运行：`npx tsx scripts/tests/source-tools.test.ts`
+- 测试内容：依据 docs/modules/source-tools_interaction.md §3 校验第 5 条与写入规则，对「关键字段核验」记录声明 _level「来源核验」的合法确认断言 applied 含该 id 且批次文件内 verification_level 更新为「来源核验」、新证据片段追加进 source_evidence。
+
+### classifyRefresh 夹具分类（现行有效/来源过期/内容失配）
+- 如何运行：`npx tsx scripts/tests/source-tools.test.ts`
+- 测试内容：依据 docs/modules/source-tools_interaction.md §4 映射口径，注入 fetch 假实现（不发真实请求）：锚点命中且含招聘关键词的来源页 → 现行有效；「该信息已过期」跳转页 → 来源过期且 note 含「过期提示页」；锚点不命中 → 内容失配；锚点命中但标注「该职位已暂停招聘」→ 内容失配；HTTP 404 → 来源过期；网络异常 → 内容失配且 note 含「访问失败：」。
+
+### 缺省目标筛选口径（selectScanTargets / selectRefreshTargets）
+- 如何运行：`npx tsx scripts/tests/source-tools.test.ts`
+- 测试内容：依据 docs/modules/source-tools_design.md §3 目标定义与 docs/interaction.md §11 缺省目标行，对混合夹具目录断言：selectScanTargets 只保留五项条件字段（original_major_requirements、education、salary、responsibilities、application_info）全为空的记录；selectRefreshTargets 只保留「状态待核实」或 verification_level 为「来源核验/关键字段核验」的记录，逐字段核验与「招聘中+逐字段核验」记录不入选。
+
 ## 最近一轮结果
 
 - 2026-11-04 | 范围：模块 data-foundation | 通过 6/6（jobsCatalog 完整性、audit offline、add:jobs 校验矩阵、合法批次写入与 ID 自动分配、整批拒绝无写入、批次名校验）；worktree 内首轮以迁移后 200 条口径通过，::mergelocal 处置后按 194 条（58/51/85）期望复跑全部通过；类型检查 tsc --noEmit 无错误
@@ -156,3 +202,4 @@
 - 2026-11-05 | 范围：整库（::ci）| 通过：npm run test 6/6 套件（含新增 integration.test.ts）；npm run build 成功（prebuild 离线审计通过）；npm run audit:jobs 在线审计通过（188 条，46 逐字段/57 来源/85 关键字段，全部证据回源命中）；out/ 详情页 188 个与目录一致、抽样内容核对通过
 - 2026-11-05 | 范围：整库在线审计失配处置 | 处置 6 条：617（南开转载页过期）、1101/1102/1108/1109/1110（实验室岗位改版后存储标题失配）删除；1106/1111 及其他发布日期不可复核记录降级为「来源核验」；实验室全部记录移除失效地址证据片段；204/205/211 证据锚点改为 UnitreeRobotics；处置后 188 条全量在线审计通过
 - 2026-11-05 | 范围：GUI 视觉验收（::ci）| 通过：13 张截图（11 页面 + 2 流程镜头）逐张判读，13 pass / 1 warn（notfound 截图为本地测试服务器原始 404 响应，站点 404.html 存在已由集成测试断言，属环境限制）；机器门控通过（文件存在且 >20KB、颜色多样性充分）；verdict overall=pass；console 错误未采集（chrome headless 命令行限制，如实记录），经渲染结果判读兜底
+- 2026-11-05 | 模块 source-tools（分支 dev/source-tools，worktree .worktrees/source-tools）| 通过 11/共 11，失败 0 | 运行命令：`npx tsx scripts/tests/source-tools.test.ts`（extractCandidates 抽取与证据命中/空页面与无标签页/已有值跳过，applyConfirmed 记录不存在/证据不命中整条拒绝不写库/允许清单外与缺证据拒绝/_level 非升级拒绝/合法确认写入含待核实自动升级与 _level 升级，classifyRefresh 六类夹具分类，selectScanTargets/selectRefreshTargets 缺省目标口径）；`npx tsc --noEmit` 无错误。全部网络行为为注入的 fetch 假实现，apply 写库经临时目录注入隔离，不发真实请求。CLI 接线冒烟（无参数用法提示、未知参数报错、空目标运行）通过；当前目录下 scan 缺省目标 136 条、refresh 缺省目标 142 条（合并后由 data-refresh 按 --ids/--limit 分批执行）。模块文档微调：过期提示页归类由「内容失配」修正为「来源过期」（依据 docs/interaction.md §11 失效跳转口径与设计文档 §3），applyConfirmed 增加 options 注入参数并在模块交互文档 §3 补记校验与写入细则
