@@ -1,14 +1,20 @@
 /**
- * jobs-ui 模块测试：覆盖 docs/modules/jobs-ui_interaction.md §2–§5 与
- * docs/interaction.md §6、§7、§13（断言 1–4）。
+ * jobs-ui 模块测试：覆盖 docs/modules/jobs-ui_interaction.md §2–§4 与
+ * docs/interaction.md §6、§7、§13（断言 1–4）、docs/design.md §4 契约 19。
+ * 第 2 轮新增：报名已截止过期标识（含与即将截止互斥）、「条件见来源」收敛（hasConditionInfo）、
+ * 卡片与详情页展示接线（源码结构断言）。
  * 运行：npx tsx scripts/tests/jobs-ui.test.ts
  */
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import {
   filterJobs,
   getJobs,
   deadlineDaysLeft,
   deadlineBadgeLabel,
+  hasConditionInfo,
   applicationWindow,
 } from '../../src/lib/data';
 import { JOB_FUNCTIONS } from '../../src/lib/utils';
@@ -169,8 +175,46 @@ test('剩余 8 天不显示徽标', () => {
   assert.equal(deadlineBadgeLabel(makeJob(1, { deadline: '2026-11-12' }), TODAY), null);
 });
 
-test('已过期日期不显示徽标', () => {
-  assert.equal(deadlineBadgeLabel(makeJob(1, { deadline: '2026-11-01' }), TODAY), null);
+test('已过期且招聘中显示报名已截止', () => {
+  // 第 2 轮规格变更：原断言「已过期日期不显示徽标」与 docs/design.md §4 契约 19 冲突，
+  // 按新规格 deadline 早于当日且「招聘中」时返回「报名已截止」（界面以中性灰徽标渲染）。
+  assert.equal(deadlineBadgeLabel(makeJob(1, { deadline: '2026-11-01' }), TODAY), '报名已截止');
+});
+
+test('已截止状态即使 deadline 已过也不显示报名已截止', () => {
+  // 「已截止」已有独立状态徽标，返回 null 避免重复；「状态待核实」维持不展示。
+  assert.equal(
+    deadlineBadgeLabel(makeJob(1, { deadline: '2026-11-01', status: '已截止' }), TODAY),
+    null
+  );
+  assert.equal(
+    deadlineBadgeLabel(makeJob(2, { deadline: '2026-11-01', status: '状态待核实' }), TODAY),
+    null
+  );
+});
+
+test('报名已截止与即将截止互斥且各情形文案唯一', () => {
+  const cases: Array<[string | null, string | null]> = [
+    ['2026-11-01', '报名已截止'], // -3 天
+    ['2026-11-03', '报名已截止'], // -1 天
+    ['2026-11-04', '今天截止'], // 0 天
+    ['2026-11-07', '3 天后截止'],
+    ['2026-11-11', '7 天后截止'],
+    ['2026-11-12', null], // 8 天
+    [null, null],
+  ];
+  for (const [deadline, expected] of cases) {
+    const label = deadlineBadgeLabel(makeJob(1, { deadline }), TODAY);
+    assert.equal(label, expected, `deadline=${deadline}`);
+    // 同一记录同一时刻只落入一种语义：要么灰色「报名已截止」，要么红色「即将截止」系文案。
+    if (label !== null) {
+      assert.notEqual(
+        label === '报名已截止',
+        /天后截止|今天截止/.test(label),
+        `deadline=${deadline} 的文案同时落入两种标识语义`
+      );
+    }
+  }
 });
 
 test('已截止与状态待核实不显示徽标', () => {
@@ -227,6 +271,75 @@ test('具体岗位且无任何报名字段不展示报名窗口', () => {
   const view = applicationWindow(makeJob(1), '具体岗位');
   assert.equal(view.visible, false);
   assert.equal(view.publicRecruitNotice, false);
+});
+
+// —— hasConditionInfo（「条件见来源」收敛，design.md 契约 19 / 模块交互文档 §3） ——
+
+test('条件字段全空判定为无条件信息', () => {
+  const empty = makeJob(1, {
+    original_major_requirements: '',
+    education: '',
+    salary: null,
+    responsibilities: '',
+    application_info: '',
+  });
+  assert.equal(hasConditionInfo(empty), false);
+});
+
+test('任一条件字段非空判定为有条件信息', () => {
+  const cases: Array<[string, Partial<Job>]> = [
+    ['原公告资格条件', { original_major_requirements: '哲学或相关人文社科专业' }],
+    ['学历', { education: '硕士及以上' }],
+    ['薪资', { salary: '年薪 30 万' }],
+    ['职责', { responsibilities: '负责交叉学科研究' }],
+    ['报名方式', { application_info: '请于报名窗口内在线提交' }],
+  ];
+  for (const [name, overrides] of cases) {
+    assert.equal(hasConditionInfo(makeJob(1, overrides)), true, `字段「${name}」非空应为有条件信息`);
+  }
+});
+
+// —— 卡片与详情页展示接线（模块交互文档 §4 界面断言 1/2/5，源码结构断言） ——
+
+const testDir = path.dirname(fileURLToPath(import.meta.url));
+const repoRoot = path.resolve(testDir, '../..');
+const cardSrc = readFileSync(path.join(repoRoot, 'src/components/jobs/job-card.tsx'), 'utf8');
+const detailSrc = readFileSync(path.join(repoRoot, 'src/app/jobs/[id]/page.tsx'), 'utf8');
+
+function countOccurrences(haystack: string, needle: string): number {
+  return haystack.split(needle).length - 1;
+}
+
+test('统一提示在卡片与详情页各出现一次且无零散兜底', () => {
+  assert.equal(countOccurrences(cardSrc, '条件信息请见来源公告'), 1, 'job-card.tsx 恰好一处');
+  assert.equal(countOccurrences(detailSrc, '条件信息请见来源公告'), 1, 'jobs/[id]/page.tsx 恰好一处');
+  assert.equal(cardSrc.includes('条件见来源'), false, '卡片不应再含零散「条件见来源」兜底文案');
+  assert.equal(detailSrc.includes('条件见来源'), false, '详情页不应含零散「条件见来源」兜底文案');
+});
+
+test('卡片与详情页经 hasConditionInfo 判定提示条显隐', () => {
+  assert.ok(cardSrc.includes('hasConditionInfo'), 'job-card.tsx 应引用 hasConditionInfo');
+  assert.ok(detailSrc.includes('hasConditionInfo'), '详情页应引用 hasConditionInfo');
+});
+
+test('报名已截止徽标样式区别于红色即将截止与灰色已截止徽标', () => {
+  const grayCard = cardSrc.match(/isExpiredBadge\s*\?\s*'([^']+)'/);
+  const grayDetail = detailSrc.match(/isExpiredBadge\s*\?\s*'([^']+)'/);
+  assert.ok(grayCard, '卡片应存在「报名已截止」灰样式分支');
+  assert.ok(grayDetail, '详情页应存在「报名已截止」灰样式分支');
+  for (const [name, gray, src] of [
+    ['job-card.tsx', grayCard![1], cardSrc],
+    ['jobs/[id]/page.tsx', grayDetail![1], detailSrc],
+  ] as Array<[string, string, string]>) {
+    assert.ok(gray.includes('bg-muted'), `${name} 灰徽标应使用中性灰底色`);
+    assert.ok(!gray.includes('bg-red-600'), `${name} 灰徽标不应复用红色「即将截止」底色`);
+    assert.ok(
+      !gray.includes('bg-text-secondary/10'),
+      `${name} 灰徽标不应复用既有「已截止」状态徽标底色`
+    );
+  }
+  assert.ok(cardSrc.includes('bg-red-600'), '卡片红色「即将截止」分支应保留');
+  assert.ok(detailSrc.includes('bg-red-600'), '详情页红色「即将截止」分支应保留');
 });
 
 // —— 职能枚举契约（design.md 契约 12） ———————————————————————

@@ -3,7 +3,7 @@ import { ExternalLink, Heart, MapPin, Building2, Calendar, Building } from 'luci
 import { Job } from '@/lib/types';
 import { useFavorites } from '@/lib/use-favorites';
 import { getListingKind } from '@/lib/utils';
-import { deadlineBadgeLabel } from '@/lib/data';
+import { deadlineBadgeLabel, hasConditionInfo } from '@/lib/data';
 
 function verificationLabel(level?: string) {
   if (level === '逐字段核验') return '已核验（逐字段）';
@@ -26,6 +26,16 @@ export default function JobCard({ job }: { job: Job }) {
   const favorited = isFavorited(job.id);
   const listingKind = getListingKind(job.title);
   const deadlineBadge = deadlineBadgeLabel(job);
+  // 「报名已截止」用中性灰徽标（docs/design.md §4 契约 19），与红色「即将截止」、
+  // 既有灰色「已截止」状态徽标（bg-text-secondary/10）在视觉上区分。
+  const isExpiredBadge = deadlineBadge === '报名已截止';
+  const deadlineBadgeClass = isExpiredBadge
+    ? 'rounded-md border border-border bg-muted px-2 py-0.5 text-xs font-medium text-text-secondary'
+    : 'rounded-md bg-red-600 px-2 py-0.5 text-xs font-medium text-white';
+  // 条件字段存在性（契约 19）：五字段全空时显示统一提示条，逐字段零散兜底一律不再出现。
+  const showConditionNotice = !hasConditionInfo(job);
+  const experienceLabel = job.experience && job.experience !== '不限' ? job.experience : '';
+  const educationLine = [job.education, experienceLabel].filter(Boolean).join(' · ');
 
   return (
     <article className="p-5 rounded-2xl border border-border bg-surface hover:shadow-lg hover:border-brand/30 transition-all group">
@@ -37,7 +47,7 @@ export default function JobCard({ job }: { job: Job }) {
               {job.title}
             </Link>
             {deadlineBadge && (
-              <span className="rounded-md bg-red-600 px-2 py-0.5 text-xs font-medium text-white">{deadlineBadge}</span>
+              <span className={deadlineBadgeClass}>{deadlineBadge}</span>
             )}
           </div>
           <div className="mt-1.5 flex flex-wrap items-center gap-2">
@@ -75,6 +85,13 @@ export default function JobCard({ job }: { job: Job }) {
         </button>
       </div>
 
+      {/* 无任何条件字段时的统一提示条（契约 19）：卡片内唯一的兜底文案 */}
+      {showConditionNotice && (
+        <div className="mt-4 rounded-xl border border-border bg-muted px-3 py-2 text-xs text-text-secondary">
+          条件信息请见来源公告
+        </div>
+      )}
+
       {/* Professional Requirements */}
       {!!(job.original_major_requirements || job.platform_disciplines.length || job.required_skills.length) && <div className="mt-4 p-3 rounded-xl bg-brand/5 border border-brand/20">
         <p className="text-sm text-text-primary">
@@ -98,15 +115,18 @@ export default function JobCard({ job }: { job: Job }) {
       {/* Footer info */}
       <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-sm">
         <div className="flex flex-wrap gap-4 text-text-secondary">
-          <span className="flex items-center gap-1">
-            <Calendar className="w-3.5 h-3.5" />
-            {job.education || '条件见来源'}
-            {job.experience && job.experience !== '不限' && ` · ${job.experience}`}
-          </span>
+          {/* 学历与经验按字段存在性渲染（契约 19），全空时不显示 */}
+          {educationLine && (
+            <span className="flex items-center gap-1">
+              <Calendar className="w-3.5 h-3.5" />
+              {educationLine}
+            </span>
+          )}
           {job.salary && (
             <span className="text-brand-dark font-medium">{job.salary}</span>
           )}
-          {!job.salary && <span className="text-text-secondary/60">{job.verification_level === '逐字段核验' ? '薪资未公开' : '薪资以原文为准'}</span>}
+          {/* 薪资说明仅在确有其他条件字段时保留；全空记录由统一提示条承接，避免第二个兜底 */}
+          {!job.salary && !showConditionNotice && <span className="text-text-secondary/60">{job.verification_level === '逐字段核验' ? '薪资未公开' : '薪资以原文为准'}</span>}
           {job.recruit_type && (
             <span className={`px-2 py-0.5 rounded text-xs font-medium ${
               job.recruit_type === '校招' ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700'

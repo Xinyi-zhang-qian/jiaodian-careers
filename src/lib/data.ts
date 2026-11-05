@@ -128,13 +128,28 @@ export function deadlineDaysLeft(job: Job, today: Date = new Date()): number | n
   return Math.round((deadlineDate.getTime() - todayStart.getTime()) / 86400000);
 }
 
-// 「即将截止」徽标文案：仅 status 为「招聘中」且剩余天数 0–7 时展示；当天为「今天截止」。
-// 已截止、无 deadline、已过期（负数）均不展示。
+// 「即将截止／报名已截止」徽标文案：仅 status 为「招聘中」时展示。
+// 剩余 0–7 天为红色「x 天后截止／今天截止」（docs/interaction.md §3 色彩协议）；
+// deadline 早于当日（负数）返回「报名已截止」，由界面以中性灰徽标渲染（docs/design.md §4 契约 19）；
+// status「已截止」已有独立状态徽标、无 deadline 均返回 null，避免重复标识。
 export function deadlineBadgeLabel(job: Job, today: Date = new Date()): string | null {
   if (job.status !== '招聘中') return null;
   const days = deadlineDaysLeft(job, today);
-  if (days === null || days < 0 || days > 7) return null;
+  if (days === null || days > 7) return null;
+  if (days < 0) return '报名已截止';
   return days === 0 ? '今天截止' : `${days} 天后截止`;
+}
+
+// 条件字段存在性判定（docs/design.md §4 契约 19）：原公告资格条件、学历、薪资、职责、报名方式
+// 任一非空即视为有条件信息；全空时界面显示统一提示条「条件信息请见来源公告」（卡片与详情页各一处）。
+export function hasConditionInfo(job: Job): boolean {
+  return Boolean(
+    job.original_major_requirements ||
+      job.education ||
+      job.salary ||
+      job.responsibilities ||
+      job.application_info
+  );
 }
 
 export interface ApplicationWindowView {
