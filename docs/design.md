@@ -2,8 +2,8 @@
 
 ## 软件总体设计说明书
 
-> 版本：V2.0（第 1 轮需求分析 ::design 生成，覆盖 V1 探索版）
-> 依据：docs/requirements.md V2.0（已批准）
+> 版本：V2.1（第 2 轮需求分析 ::design 更新）
+> 依据：docs/requirements.md V3.0（已批准）
 
 目标系统：面向人文、社会科学与理工科交叉人才的招聘信息静态网站。
 
@@ -103,6 +103,9 @@
 14. **增补入口契约**：新增岗位一律经 `npm run add:jobs` 录入（输入 JSON → 校验 → 自动 ID → 写入批次文件 → 自动 offline 审计）；直接手工编辑批次文件不被禁止，但必须通过同一 audit 门禁。
 15. **遗留复核契约**：遗留数据的复核与处置以 `recheck:legacy` 报告为唯一依据，报告归档于 `workspace/legacy-recheck/`（本地工作产物，不入库）；处置动作（迁入/删除）体现在 git 历史中。
 16. **推送通道契约**：一切远程同步经命令系统的 `::push`（用户手动触发），不设其他推送脚本。
+17. **提取辅助契约**：`npm run extract:fields` 两阶段——`--scan`（抓取指定记录的来源页，抽取候选条件字段与其证据片段位置，产出到 `workspace/extract/`，只读不写库）与 `--apply <json>`（把人工确认的字段与证据写入对应批次文件，同步更新核验层级与 last_verified）；apply 后必须通过 `audit:jobs:offline` 才能提交；提取出的字段必须能在来源页命中（在线审计保证），核对不到的字段留空。
+18. **来源刷新契约**：`npm run refresh:sources` 遍历前台记录在线访问来源页，分类「现行有效（证据命中）/ 内容失配（页面存在但锚点不命中）/ 来源过期（404、过期提示页、失效跳转）」，产出到 `workspace/source-refresh/`；对失效记录的处置（重新检索后刷新，或删除）由 data-refresh 执行并留痕（批次头注释处置记录）；状态修正随处置执行：截止已过仍标「招聘中」的记录改「已截止」或删除。
+19. **空字段展示契约**：界面按字段存在性渲染；「条件见来源」提示仅用于没有任何条件字段的记录；deadline 早于当日仍标「招聘中」的记录在卡片与详情页显示灰色「报名已截止」标识（此类记录应在刷新处置中收敛）。
 
 # 5. 模块划分与职责边界
 
@@ -119,6 +122,9 @@
 | content-datasets（内容数据集） | 页面 /internships、/analysis、/market |
 | robotics-market（机器人市场） | 页面 /market/robotics、脚本 collect:robotics |
 | site-design（页面与文档治理） | 页面视觉、README、docs/ 维护 |
+| source-tools（第 2 轮新增） | 脚本 extract:fields、refresh:sources |
+| data-refresh（第 2 轮执行单元） | 信息充实、来源刷新与清理的执行 |
+| jobs-catalog 第 2 轮强化 | 过期标识与展示优化 |
 
 各模块整体定义：
 
@@ -150,6 +156,14 @@
 - **site-design**（横切治理工作，无独立源码目录）
   - 职责：首页/列表/详情视觉层级优化、核验徽标体系统一、README 与 docs 规范化维护；首页职能入口计数纯函数 `src/lib/job-function-stats.ts` 归其所有。
   - 边界：不改变交互逻辑与数据语义。
+- **source-tools**（第 2 轮新增，`scripts/extract-fields.ts`、`scripts/refresh-sources.ts`、`scripts/lib/` 复用基建）
+  - 职责：提取辅助两阶段命令（scan 候选 / apply 写库）与来源刷新分类命令；复用 recheck-core 的抓取与规范化基建。
+  - 数据所有权：上述三个脚本；`workspace/extract/`、`workspace/source-refresh/`（本地产物）。
+  - 边界：scan 不写库；apply 写库后不自动提交（审计门禁 + 人工提交）；不做处置决策（归 data-refresh）。
+- **data-refresh**（第 2 轮执行模块，无新增源码）
+  - 职责：按 source-tools 产出的清单执行——对现行有效记录做字段充实（目标 ≥60 条升级或补齐）、对失配/过期记录重新检索现行来源后刷新、确认无现行来源的删除、状态修正；处置全部留痕。
+  - 边界：只改批次文件与 `docs/test.md` 本模块小节；不修改管线脚本与页面代码。
+- **jobs-catalog 第 2 轮强化**：过期标识（契约 19）、详情页条件信息分区与空提示优化。
 
 源码布局（本轮目标状态）：
 
@@ -189,6 +203,8 @@ jiaodian-careers/
 5. **核验链**：数据变更 → prebuild offline 门禁 → 构建；提交前在线核验。
 6. **市场链**：保持现状（collect → generated JSON → 市场页统计）。
 7. **收藏链**：保持现状（localStorage ↔ getJob）。
+8. **字段充实链（第 2 轮）**：`refresh:sources` 分类清单 → data-refresh 逐条处置：现行有效记录走 `extract:fields --scan` 出候选 → 人工确认 → `--apply` 写批次（层级按证据充分度升级）→ 离线审计 → 提交；失配/过期记录先重检索现行来源（单位官网、政府人事网站），检索到则刷新来源与证据，否则删除。
+9. **新增岗位链（第 2 轮）**：三类单位来源采集 → `extract:fields --scan` 辅助抽取 → `add:jobs` 录入 → 在线审计 → 提交。
 
 跨模块 DTO 清单：`Job`（jobs-dataset → jobs-catalog → site-shell 卡片）、`InternshipListing`、`RoboticsMarketDataset`、`Discipline`/`JobFunction`（site-shell → jobs-catalog 筛选参数）、`RecheckReport`（legacy-cleanup → 维护者）。字段级定义归拥有方模块文档。
 
@@ -205,13 +221,12 @@ jiaodian-careers/
 
 # 9. 开发轮次规划
 
-本轮（第 1 轮）覆盖需求 V2.0 全部新增需求，共 1 轮完整 loop：
+本项目规划共 2 轮完整 loop。第 1 轮已交付（提交 f6beda9）：规范化数据源、京沪跨学科 30 条、遗留清理、职能筛选与报名窗口、页面优化。
 
-- **轮次目标**：数据组织规范化（jobs-dataset + audit 扩展）、遗留数据复核清理、北京/上海/事业单位/跨学科岗位增补、筛选与详情展示强化、页面视觉优化、文档规范化。
-- **功能范围（最小完整链路优先）**：先打通「规范数据源 + 增补管线 + 审计门禁」，再并行做清理、增补与展示强化，最后做视觉与文档收尾。
-- **交付物**：`src/data/jobs/` 规范数据源、add:jobs / recheck:legacy 脚本、扩展后的 audit、清理后的前台数据（含新增 ≥30 条记录）、职能筛选与截止时间展示、优化后的页面、更新后的 README 与 docs、docs/test.md 测试注册表。
-
-后续轮次按需追加（如新数据源的持续更新流程独立成轮）。
+**第 2 轮（当前轮，需求 V3.0）**：
+- **轮次目标**：信息充实（≥60 条空白记录完成字段提取升级）、失效来源刷新与清理（无僵尸记录）、信息源与提取流程优化、展示优化、三类单位岗位 ≥20 条（事业单位 ≥8 条）。
+- **功能范围（最小完整链路优先）**：先建 source-tools 两条命令（刷新分类 + 提取辅助），再并行执行 data-refresh（充实+刷新+清理）、三类单位采集、展示优化，最后全量回归。
+- **交付物**：extract:fields / refresh:sources 脚本、充实的批次数据（≥60 条带证据字段）、刷新后的前台数据（无失效来源）、三类单位新批次（≥20 条）、优化后的展示、同步的文档与测试注册表。
 
 # 10. 承接被中断的上轮开发
 

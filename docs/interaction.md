@@ -2,8 +2,8 @@
 
 ## 用户交互设计说明书
 
-> 版本：V2.0（第 1 轮需求分析 ::design 生成）
-> 交互方式：求职者侧为 Web GUI（静态站点，浏览器访客直接操作页面）；维护者侧为 npm 脚本命令行（add:jobs、recheck:legacy、test 等）。
+> 版本：V2.1（第 2 轮需求分析 ::design 更新）
+> 交互方式：求职者侧为 Web GUI（静态站点，浏览器访客直接操作页面）；维护者侧为 npm 脚本命令行（add:jobs、recheck:legacy、extract:fields、refresh:sources、test 等）。
 
 # 1. 文档定位与边界
 
@@ -21,7 +21,7 @@
 入口清单：
 
 - Web 页面：`/`、`/jobs`、`/jobs/[id]`、`/directions`、`/favorites`、`/internships`、`/analysis`、`/market`、`/market/robotics`、`/404`。
-- npm 脚本：`dev`、`build`、`start`、`audit:jobs [--offline]`、`add:jobs <json> --batch <名称>`、`recheck:legacy [--offline] [--ids …] [--limit N]`、`collect:robotics [--offline]`、`test`（聚合测试入口）。
+- npm 脚本：`dev`、`build`、`start`、`audit:jobs [--offline]`、`add:jobs <json> --batch <名称>`、`recheck:legacy [--offline] [--ids …] [--limit N]`、`extract:fields --scan|--apply <json> [--ids …] [--limit N]`（第 2 轮新增）、`refresh:sources [--ids …] [--limit N]`（第 2 轮新增）、`collect:robotics [--offline]`、`test`（聚合测试入口）。
 
 # 3. 全局交互协议
 
@@ -89,6 +89,7 @@
 | 核验层级提示条 | 纯展示 | — | 按 verification_level 渲染四种文案之一（色彩协议） | 无层级不渲染 |
 | 报名窗口区块 | 纯展示 | — | 有 `application_opens_at` 或 `deadline` 或 `application_info` 或公告级条目时展示：报名开始、报名截止、报名方式（application_info），原「截止日期」「申请方式与材料」独立区块并入本区块；事业单位公告随区块标注「事业单位公开招聘」 | 原文无时间信息则不显示时间行，不编造 |
 | 「即将截止」标识 | 纯展示 | — | deadline ≤7 天且招聘中：标题旁红色徽标 | 同列表页规则 |
+| 「报名已截止」标识 | 纯展示 | — | deadline 早于当日且状态「招聘中」：标题旁灰色徽标 | 同列表页规则 |
 | 公告级提示条 | 纯展示 | — | 公告/项目形态显示「本条是 XX 级线索」 | — |
 | 原页核验锚点列表 | 纯展示 | — | source_evidence 逐条引号展示 | 无证据不渲染 |
 | 「前往来源页面」按钮 | 点击 | — | 新标签页打开 source_url | URL 无效由浏览器处理 |
@@ -119,7 +120,9 @@
 | `npm run audit:jobs:offline` | 无参数 | 同上，结尾 `(schema only)`，不发网络请求 | 同上（仅结构类错误） |
 | `npm run add:jobs -- <json路径> --batch <批次名>` | JSON 文件（记录数组）+ 批次名（kebab-case） | 逐条写入结果 + `Added {N} jobs to {批次文件}` + 自动执行的 offline 审计计数 | 校验失败逐条列出原因（缺证据字段、日期格式非法、职能/枚举非法等）并拒绝整批写入，退出码 1；批次名非法拒绝 |
 | `npm run recheck:legacy -- [--offline] [--ids id1,id2] [--limit N]` | 可选过滤参数 | 分类统计 + 报告路径 `workspace/legacy-recheck/report.md`；逐条标注可升级/需人工复核/建议下架 | 网络异常逐条记为「需人工复核（访问失败：原因）」，不中断整批；离线模式全量标「未核验」 |
-| `npm run collect:robotics [--offline]` | 无参数 | `Generated {N} jobs from {M} public source URLs.` + 来源检查 + 输出路径 | 脚本异常退出码 1 |
+| `npm run extract:fields -- --scan [--ids id1,id2] [--limit N]`（第 2 轮新增） | 目标记录清单（缺省取全部无条件字段的记录） | 逐条抓取来源页，产出候选字段（学历/薪资/专业要求/职责/招聘人数/报名安排/联系方式）与证据片段位置到 `workspace/extract/candidates-{时间戳}.json`；控制台输出逐条抽取摘要 | 单条抓取失败记「无法访问」并继续；不写任何库文件 |
+| `npm run extract:fields -- --apply <确认json>`（第 2 轮新增） | 人工确认后的字段与证据 JSON（记录 id → 字段值 + 证据片段） | 逐条写入对应批次文件（同步更新 verification_level 与 last_verified），末尾自动执行离线审计并回显计数 | 记录 id 不存在或字段含证据未命中的片段 → 该条拒绝；批次文件写入后审计失败 → 退出码 1（文件已写，需人工修正） |
+| `npm run refresh:sources [--ids id1,id2] [--limit N]`（第 2 轮新增） | 目标记录清单（缺省取全部「状态待核实」与来源核验/关键字段记录） | 在线访问来源页并分类「现行有效/内容失配/来源过期」，逐条含原因；产出到 `workspace/source-refresh/report-{时间戳}.json` | 单条失败记「访问失败」并继续；不写库文件 |
 | `npm run test` | 无参数 | 聚合运行 `scripts/tests/` 全部断言脚本，输出各套件通过/失败 | 任一断言失败退出码 1 并列出失败断言 |
 | `npm run build` | 无参数 | 构建成功，产物 `out/` | prebuild 审计失败时构建中止 |
 | `npm run dev` | 无参数 | http://localhost:3000 | — |
