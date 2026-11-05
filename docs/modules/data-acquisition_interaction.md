@@ -11,7 +11,7 @@
 
 - 签名：`const records: JobWithWindow[] = [...]; export default records;`（文件头注释：采集日期、来源范围、单位类型构成）。
 - 必填字段与证据要求与第 1 轮一致（title、organization、province、city、location、org_type、job_type、source_url、source_name、source_type、published_at、status、verification_level、source_title、source_evidence）。
-- 事业单位记录：org_type「事业单位」，application_opens_at 或 deadline 至少其一有值或 application_info 含报名方式原文；来源 source_type 优先「政府」或「官网」。
+- 事业单位记录：org_type「事业单位」，application_opens_at 或 deadline 至少其一有值或 application_info 含报名方式原文；报名起止时间原文有则必录，原文只写「长期有效」「招满为止」或未给出起止时间时不填 deadline，把原文写进 application_info；来源 source_type 优先「政府」或「官网」，官方渠道不可核验时改用转载来源（source_type「其他」、source_name 注明「转载」）。
 - 科研院所/新型研究机构：org_type「科研院所」；新型研究机构若无法归入既有五枚举，用「科研院所」并在 description 注明「新型研发机构」（平台标注）。
 - 城市具体到市；公告级条目 condition 字段留空并依赖层级提示；id 从 3001 起。
 

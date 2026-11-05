@@ -5,11 +5,15 @@
  *       docs/design.md §4 契约 11（报名窗口）与契约 12（职能标签）
  * 说明：校验逻辑实现为独立可复用函数（validateJobRecord / validateBatch /
  *       validateInstitutionalWindow），口径与 scripts/audit-verified-jobs.ts 的 audit 规则对齐。
+ *       第 2 轮新增事业单位批次（public-sector-2026-11，id 3001 起）与科研院所批次
+ *       （research-institutes-2026-11）的 schema、数量、报名窗口与京沪占比断言。
  */
 import assert from 'node:assert/strict';
 import beijingJobs from '../../src/data/jobs/beijing-2026-11';
 import shanghaiJobs from '../../src/data/jobs/shanghai-2026-11';
 import crossJobs from '../../src/data/jobs/cross-disciplinary-2026-11';
+import publicSectorJobs from '../../src/data/jobs/public-sector-2026-11';
+import researchJobs from '../../src/data/jobs/research-institutes-2026-11';
 
 // ---------- 校验常量（与 src/lib/utils.ts、docs/design.md 契约 2/11/12 一致） ----------
 
@@ -153,6 +157,8 @@ const batches = [
   { name: '北京批次', file: 'beijing-2026-11', records: beijingJobs as any[], minCount: 10 },
   { name: '上海批次', file: 'shanghai-2026-11', records: shanghaiJobs as any[], minCount: 10 },
   { name: '跨学科批次', file: 'cross-disciplinary-2026-11', records: crossJobs as any[], minCount: 10 },
+  { name: '事业单位批次', file: 'public-sector-2026-11', records: publicSectorJobs as any[], minCount: 8 },
+  { name: '科研院所批次', file: 'research-institutes-2026-11', records: researchJobs as any[], minCount: 12 },
 ];
 
 let checks = 0;
@@ -203,9 +209,56 @@ assert.deepEqual(
 );
 checks += 1;
 
+// ---------- 第 2 轮新增批次断言（需求 V3.0 §13，id 手工段 3001 起） ----------
+
+const publicSector = publicSectorJobs as any[];
+const research = researchJobs as any[];
+const round2Records = [...publicSector, ...research];
+
+// 6. 第 2 轮批次 id ≥3001、批次内无重复、与既有批次无冲突
+const round2Ids = round2Records.map((r) => r.id);
+const round2Duplicates = round2Ids.filter((id, i) => round2Ids.indexOf(id) !== i);
+assert.deepEqual(round2Duplicates, [], `第 2 轮批次内存在重复 id：${round2Duplicates.join('、')}`);
+assert.ok(
+  round2Ids.every((id) => Number.isInteger(id) && id >= 3001),
+  `第 2 轮存在不在 3001 手工段的 id：${round2Ids.filter((id) => !(Number.isInteger(id) && id >= 3001)).join('、')}`,
+);
+const priorIds = batches
+  .filter((b) => b.file !== 'public-sector-2026-11' && b.file !== 'research-institutes-2026-11')
+  .flatMap((b) => b.records.map((r) => r.id));
+const conflicts = round2Ids.filter((id) => priorIds.includes(id));
+assert.deepEqual(conflicts, [], `第 2 轮 id 与既有批次冲突：${conflicts.join('、')}`);
+checks += 1;
+
+// 7. 第 2 轮数量断言：两批合计 ≥20、事业单位 ≥8、科研院所 ≥12
+const round2Total = round2Records.length;
+assert.ok(round2Total >= 20, `第 2 轮两批次合计仅 ${round2Total} 条，未达 20 条目标`);
+const publicSectorCount = publicSector.filter((r) => r.org_type === '事业单位').length;
+assert.ok(publicSectorCount >= 8, `事业单位批次仅 ${publicSectorCount} 条（org_type 事业单位），未达 8 条目标`);
+const researchCount = research.filter((r) => r.org_type === '科研院所').length;
+assert.ok(researchCount >= 12, `科研院所批次仅 ${researchCount} 条（org_type 科研院所），未达 12 条目标`);
+checks += 1;
+
+// 8. 第 2 轮事业单位报名窗口断言（契约 11，覆盖第 2 轮新增批次）
+const round2InstitutionalErrors = round2Records.flatMap(validateInstitutionalWindow);
+assert.deepEqual(
+  round2InstitutionalErrors,
+  [],
+  `第 2 轮事业单位记录报名窗口校验发现 ${round2InstitutionalErrors.length} 项违规：\n${round2InstitutionalErrors.join('\n')}`,
+);
+checks += 1;
+
+// 9. 第 2 轮地域断言：北京 + 上海记录合计占比不低于一半（需求 V3.0 §13）
+const bjshCount = round2Records.filter((r) => r.province === '北京' || r.province === '上海').length;
+assert.ok(
+  bjshCount * 2 >= round2Total,
+  `第 2 轮北京+上海记录 ${bjshCount} 条，未达两批次合计 ${round2Total} 条的一半`,
+);
+checks += 1;
+
 // 汇总
 const total = batches.reduce((sum, b) => sum + b.records.length, 0);
 const institutional = batches.reduce((sum, b) => sum + b.records.filter((r) => r.org_type === '事业单位').length, 0);
 console.log(
-  `data-acquisition 测试通过：${checks} 组断言 / 覆盖 ${total} 条记录（北京 ${beijingJobs.length}、上海 ${shanghaiJobs.length}、跨学科 ${crossJobs.length}；其中事业单位 ${institutional} 条）。`,
+  `data-acquisition 测试通过：${checks} 组断言 / 覆盖 ${total} 条记录（北京 ${beijingJobs.length}、上海 ${shanghaiJobs.length}、跨学科 ${crossJobs.length}、事业单位 ${publicSectorJobs.length}、科研院所 ${researchJobs.length}；其中事业单位 ${institutional} 条）。`,
 );
