@@ -50,6 +50,22 @@
 - 如何运行：`npm run test`（scripts/tests/data-acquisition.test.ts）
 - 测试内容：依据 docs/design.md §4 契约 12 职能标签契约，验证跨学科批次每条记录的 job_functions 均已标注且取值全部在 JOB_FUNCTIONS 枚举内，聚焦岗位（项目管理、产品经理、AI 伦理等）未漏标。
 
+### 第 2 轮批次 schema 自查（事业单位与科研院所批次）
+- 如何运行：`npx tsx scripts/tests/data-acquisition.test.ts`
+- 测试内容：依据 `docs/modules/data-acquisition_interaction.md` §2 第 2 轮批次文件规格，导入 public-sector-2026-11 与 research-institutes-2026-11 两个批次文件逐条校验——必填字段齐全（title、organization、province、city、location、org_type、job_type、source_url、source_name、source_type、published_at、status、verification_level、source_title、source_evidence）、枚举合法（org_type/source_type/status/verification_level/job_functions）、日期字段为 YYYY-MM-DD、application_opens_at 不晚于 deadline、「待核实」记录不携带条件字段、「逐字段核验」记录 source_evidence ≥3 段且 source_url 为 HTTPS、is_demo 均为 false、城市不含模糊表述；并断言两批次 id 全部 ≥3001、批次内无重复且与既有批次（2001–2030 手工段及更早 id 段）无冲突，任一违规输出逐条错误行并断言失败。
+
+### 第 2 轮数量断言（两批合计 ≥20、事业单位 ≥8）
+- 如何运行：`npx tsx scripts/tests/data-acquisition.test.ts`
+- 测试内容：依据需求 V3.0 §13 采集目标与 docs/modules/data-acquisition_design.md §1 职责，断言 public-sector-2026-11 批次 org_type 为「事业单位」的记录数 ≥8、research-institutes-2026-11 批次 org_type 为「科研院所」的记录数 ≥12、两批次合计记录数 ≥20，未达标即断言失败并输出实际条数。
+
+### 第 2 轮事业单位报名窗口断言
+- 如何运行：`npx tsx scripts/tests/data-acquisition.test.ts`
+- 测试内容：依据 docs/design.md §4 契约 11（报名窗口契约）与模块交互文档 §2 事业单位记录规格，对第 2 轮每条 org_type 为「事业单位」的记录断言 application_opens_at 或 deadline 至少其一有值，或 application_info 含报名方式（时间或途径）原文说明，三者皆缺即断言失败；报名起止原文有则必录、原文只写「长期有效」或未给起止时间时不填 deadline 而把原文写入 application_info，保证事业单位公告的可执行报名信息不缺失。
+
+### 第 2 轮地域断言（京沪占比不低于一半）
+- 如何运行：`npx tsx scripts/tests/data-acquisition.test.ts`
+- 测试内容：依据需求 V3.0 §13 重点地域要求（北京、上海记录合计占比不低于一半），对第 2 轮两个批次合计记录断言 province 为「北京」或「上海」的记录数乘 2 不小于两批次总记录数，未达一半即断言失败并输出实际占比。
+
 ## 模块 legacy-cleanup 测试
 
 ### classifySource 分类判定（来源命中 → 可升级）
@@ -191,6 +207,8 @@
 - 2026-11-04 | 范围：模块 data-foundation | 通过 6/6（jobsCatalog 完整性、audit offline、add:jobs 校验矩阵、合法批次写入与 ID 自动分配、整批拒绝无写入、批次名校验）；worktree 内首轮以迁移后 200 条口径通过，::mergelocal 处置后按 194 条（58/51/85）期望复跑全部通过；类型检查 tsc --noEmit 无错误
 - 2026-11-04 | 范围：模块 data-foundation（一次性迁移校验，仅本轮运行，不计入永久测试）| 通过：200/200 条按 id 逐字段等值（迁移脚本运行确认；脚本按其头部声明在提交前删除）
 - 2026-11-04 | 范围：data-acquisition 模块 | 运行 `npx tsx scripts/tests/data-acquisition.test.ts`：通过 9 组断言 / 失败 0，覆盖 30 条记录（北京 10、上海 10、跨学科 10；其中事业单位 15 条）；`npx tsc --noEmit` 通过（0 错误）。
+- 2026-11-05 | 范围：data-acquisition 模块（第 2 轮，分支 dev/data-acquisition，worktree .worktrees/data-acquisition）| 运行 `npx tsx scripts/tests/data-acquisition.test.ts`：通过 17 组断言 / 失败 0，覆盖 52 条记录（北京 10、上海 10、跨学科 10、事业单位批次 9、科研院所批次 13；其中事业单位合计 24 条）；`npx tsc --noEmit` 通过（0 错误）。
+- 补充核验（第 2 轮新增 22 条）：本地底稿脚本（workspace/acquisition/verify-evidence.ts，normalize 口径与 scripts/audit-verified-jobs.ts 一致）对 public-sector-2026-11 与 research-institutes-2026-11 逐条在线回源，source_title、published_at（含中文日期变体）与全部 source_evidence 片段逐字命中，22/22 全量通过；事业单位批次中报名起止时间原文有则必录（3001/3002/3003/3004/3009/3014），原文未给出起止时间或长期有效的（3005 仅录页面标注截止日、3006/3007/3008 及科研院所各条）把报名方式原文写入 application_info，deadline 留空。采集底稿与来源访问记录见 workspace/acquisition/sources.md（本地工作产物，不入库）。
 - 补充核验：本地底稿脚本（workspace/acquisition/verify-evidence.ts，normalize 口径与 scripts/audit-verified-jobs.ts 一致）对 30 条记录逐条在线回源，source_title、published_at（含中文日期变体）与全部 source_evidence 片段逐字命中，全量通过。
 - 2026-11-04 | 模块 legacy-cleanup | 通过 18/18，失败 0 | 运行方式：`npx tsx scripts/tests/legacy-cleanup.test.ts`（聚合入口 `npm run test` 通过，1/1 套件）；`npx tsc --noEmit` 无错误。
   - 覆盖：classifySource 判定口径第 1–9 条（可升级/需人工复核/建议下架/未核验、过期提示页与已暂停招聘例外）、normalizeHtml、markUnverified、mergeDetails 同 id 覆盖、buildReport 三清单并集等于复核全集且无重复。
