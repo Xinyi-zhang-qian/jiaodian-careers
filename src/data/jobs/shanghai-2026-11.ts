@@ -9,6 +9,8 @@ import type { Job } from '../../lib/types';
  * 说明：记录为本轮采集的公告级条目，逐字段对照来源页原文核验；
  *       原文只写「招满即止」或未写明截止的公告不擅自补 deadline，报名方式原文写入 application_info；
  *       condition 类字段以附件为准的均留空，id 使用 2001 起手工段（本批次 2011-2020）。
+ * 处置记录（2026-11-05 data-refresh 第 2 轮）：2016（上海市同济口腔医院）报名截止 2026-11-04 已过且原文确认报名窗口结束，状态改「已截止」；
+ *   其余 9 条经在线复核锚点命中、截止未过，保持「招聘中」，last_verified 更新为 2026-11-05。
  */
 export type JobWithWindow = Job & { application_opens_at?: string; job_functions?: string[] };
 
@@ -180,7 +182,7 @@ const records: JobWithWindow[] = [
     published_at: '2026-10-27', deadline: '2026-11-04',
     source_name: '上海市人力资源和社会保障局', source_type: '政府',
     source_url: 'https://rsj.sh.gov.cn/tzpgg_17408/20261026/t0035_1444317.html',
-    fetched_at: '2026-11-04', last_verified: '2026-11-04', status: '招聘中', is_demo: false, recruit_type: '社招',
+    fetched_at: '2026-11-04', last_verified: '2026-11-05', status: '已截止', is_demo: false, recruit_type: '社招',
     verification_level: '逐字段核验',
     source_title: '上海市同济口腔医院（同济大学附属口腔医院）工作人员公开招聘公告',
     source_evidence: [
