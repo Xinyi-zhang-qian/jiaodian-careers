@@ -50,21 +50,25 @@
 - 如何运行：`npm run test`（scripts/tests/data-acquisition.test.ts）
 - 测试内容：依据 docs/design.md §4 契约 12 职能标签契约，验证跨学科批次每条记录的 job_functions 均已标注且取值全部在 JOB_FUNCTIONS 枚举内，聚焦岗位（项目管理、产品经理、AI 伦理等）未漏标。
 
-### 第 2 轮批次 schema 自查（事业单位与科研院所批次）
+### 增量批次 schema 自查（大厂与京沪事业单位）
 - 如何运行：`npx tsx scripts/tests/data-acquisition.test.ts`
-- 测试内容：依据 `docs/modules/data-acquisition_interaction.md` §2 第 2 轮批次文件规格，导入 public-sector-2026-11 与 research-institutes-2026-11 两个批次文件逐条校验——必填字段齐全（title、organization、province、city、location、org_type、job_type、source_url、source_name、source_type、published_at、status、verification_level、source_title、source_evidence）、枚举合法（org_type/source_type/status/verification_level/job_functions）、日期字段为 YYYY-MM-DD、application_opens_at 不晚于 deadline、「待核实」记录不携带条件字段、「逐字段核验」记录 source_evidence ≥3 段且 source_url 为 HTTPS、is_demo 均为 false、城市不含模糊表述；并断言两批次 id 全部 ≥3001、批次内无重复且与既有批次（2001–2030 手工段及更早 id 段）无冲突，任一违规输出逐条错误行并断言失败。
+- 测试内容：依据 `docs/modules/data-acquisition_interaction.md` §2a 增量批次规格，导入 enterprise-bigtech-2026-11 与 public-sector-bjsh-2026-11 两个增量批次文件逐条校验——必填字段齐全、枚举合法（org_type/source_type/status/verification_level/job_functions）、日期字段为 YYYY-MM-DD、application_opens_at 不晚于 deadline、「待核实」记录不携带条件字段、「逐字段核验」记录 source_evidence ≥3 段且 source_url 为 HTTPS、is_demo 均为 false、id ≥3101 且两增量批次间无重复；任一违规输出逐条错误行并断言失败。
 
-### 第 2 轮数量断言（两批合计 ≥20、事业单位 ≥8）
+### 增量批次数量断言
 - 如何运行：`npx tsx scripts/tests/data-acquisition.test.ts`
-- 测试内容：依据需求 V3.0 §13 采集目标与 docs/modules/data-acquisition_design.md §1 职责，断言 public-sector-2026-11 批次 org_type 为「事业单位」的记录数 ≥8、research-institutes-2026-11 批次 org_type 为「科研院所」的记录数 ≥12、两批次合计记录数 ≥20，未达标即断言失败并输出实际条数。
+- 测试内容：依据需求 V3.1 §17、§18 采集目标，断言大厂综合岗位批次记录数 ≥12、京沪事业单位增补批次记录数 ≥6，未达标即断言失败并输出实际条数。
 
-### 第 2 轮事业单位报名窗口断言
+### 大厂批次职能覆盖断言
 - 如何运行：`npx tsx scripts/tests/data-acquisition.test.ts`
-- 测试内容：依据 docs/design.md §4 契约 11（报名窗口契约）与模块交互文档 §2 事业单位记录规格，对第 2 轮每条 org_type 为「事业单位」的记录断言 application_opens_at 或 deadline 至少其一有值，或 application_info 含报名方式（时间或途径）原文说明，三者皆缺即断言失败；报名起止原文有则必录、原文只写「长期有效」或未给起止时间时不填 deadline 而把原文写入 application_info，保证事业单位公告的可执行报名信息不缺失。
+- 测试内容：依据需求 V3.1 §17 与模块交互文档 §2a，对大厂综合岗位批次按五类职能（项目经理类、产品经理类、AI／机器人类、AI4S 类、AI 伦理类）的判定谓词统计覆盖，断言至少四类各有至少一条记录命中，不足四类即断言失败并输出未覆盖类别清单。
 
-### 第 2 轮地域断言（京沪占比不低于一半）
+### 京沪事业单位增补批次报名窗口断言
 - 如何运行：`npx tsx scripts/tests/data-acquisition.test.ts`
-- 测试内容：依据需求 V3.0 §13 重点地域要求（北京、上海记录合计占比不低于一半），对第 2 轮两个批次合计记录断言 province 为「北京」或「上海」的记录数乘 2 不小于两批次总记录数，未达一半即断言失败并输出实际占比。
+- 测试内容：依据 docs/design.md §4 契约 11 报名窗口契约与模块交互文档 §2a，对京沪事业单位增补批次每条 org_type 为「事业单位」的记录断言 application_opens_at 或 deadline 至少其一有值，或 application_info 含报名方式原文说明，三者皆缺即断言失败。
+
+### 京沪事业单位增补批次地域断言
+- 如何运行：`npx tsx scripts/tests/data-acquisition.test.ts`
+- 测试内容：依据需求 V3.1 §18 地域要求，断言京沪事业单位增补批次全部记录的 province 均为「北京」或「上海」且 city 与省份一致（北京记录 city 为北京、上海记录 city 为上海），出现其他省份即断言失败并输出违规记录 id。
 
 ## 模块 legacy-cleanup 测试
 
@@ -128,19 +132,7 @@
 
 ### 即将截止徽标判定
 - 如何运行：`npx tsx scripts/tests/jobs-ui.test.ts`
-- 测试内容：依据 docs/interaction.md §6「JobCard 即将截止徽标」、§7「即将截止标识」与 §13 断言 4、docs/modules/jobs-ui_interaction.md §2，断言：剩余 3 天且「招聘中」返回「3 天后截止」；当天返回「今天截止」；剩余 7 天仍在边界内；剩余 8 天、「已截止」「状态待核实」、无 deadline 均返回 null。（第 2 轮规格变更：原「已过期日期不显示徽标」断言与 docs/design.md §4 契约 19 冲突，已按新规格改为返回「报名已截止」，移入「报名已截止过期标识判定」条目。）
-
-### 报名已截止过期标识判定
-- 如何运行：`npx tsx scripts/tests/jobs-ui.test.ts`
-- 测试内容：依据 docs/design.md §4 契约 19、docs/interaction.md §3 色彩协议（「报名已截止」=中性灰）、§6「JobCard 报名已截止徽标」、§7「报名已截止标识」与 docs/modules/jobs-ui_interaction.md §2，断言：deadline 早于当日且「招聘中」返回「报名已截止」；status「已截止」即使 deadline 已过也返回 null（不与既有「已截止」状态徽标重复）；无 deadline 返回 null；正 1–7 天维持「x 天后截止」、当天「今天截止」红色语义不变；对同一记录「即将截止」与「报名已截止」互斥——遍历负天数、0、正天数、超 7 天与无 deadline 各情形，两文案不可能同时成立。
-
-### 「条件见来源」收敛判定（hasConditionInfo）
-- 如何运行：`npx tsx scripts/tests/jobs-ui.test.ts`
-- 测试内容：依据 docs/design.md §4 契约 19 与 docs/modules/jobs-ui_interaction.md §3，断言：原公告资格条件、学历、薪资、职责、报名方式五个条件字段全空（空串/null）时 `hasConditionInfo` 返回 false（界面据此显示统一提示「条件信息请见来源公告」且仅一次）；任一字段非空时返回 true（不显示该提示，按字段渲染）。
-
-### 卡片与详情页展示接线
-- 如何运行：`npx tsx scripts/tests/jobs-ui.test.ts`
-- 测试内容：依据 docs/modules/jobs-ui_interaction.md §4 界面断言 1、2、5，对 src/components/jobs/job-card.tsx 与 src/app/jobs/[id]/page.tsx 源码做结构断言：两文件各自恰好出现一次「条件信息请见来源公告」且不再含零散「条件见来源」兜底文案；两文件均经 `hasConditionInfo` 判定提示条显隐；「报名已截止」徽标使用中性灰样式类，与红色「即将截止」徽标类、既有灰色「已截止」状态徽标类互不相同。
+- 测试内容：依据 docs/interaction.md §6「JobCard 即将截止徽标」、§7「即将截止标识」与 §13 断言 4、docs/modules/jobs-ui_interaction.md §4，断言：剩余 3 天且「招聘中」返回「3 天后截止」；当天返回「今天截止」；剩余 7 天仍在边界内；剩余 8 天、已过期、「已截止」「状态待核实」、无 deadline 均返回 null。
 
 ### 报名窗口渲染判定
 - 如何运行：`npx tsx scripts/tests/jobs-ui.test.ts`
@@ -168,52 +160,6 @@
 - 如何运行：`npx tsx scripts/tests/site-design.test.ts`
 - 测试内容：依据 docs/interaction.md §3 核验徽标色彩协议，src/app/globals.css 的 @theme 中登记逐字段核验（绿）、来源核验（蓝）、关键字段核验（琥珀）、待核实（黄）、即将截止（红）五组语义色变量及其浅底色变量，且既有主题变量的取值保持不变。
 
-## 模块 source-tools 测试
-
-### extractCandidates 标签分区抽取与证据命中
-- 如何运行：`npx tsx scripts/tests/source-tools.test.ts`
-- 测试内容：依据 docs/modules/source-tools_interaction.md §2 抽取规则第 1–5 条，对含「招聘岗位/招聘人数/学历要求/薪资待遇/岗位职责/专业要求/报名方式/报名时间/联系方式」标签分区的夹具 HTML 规范化文本断言：education、salary、responsibilities、original_major_requirements、application_info、recruit_count、application_schedule、contact 各键的 value 与夹具对应分区逐字一致（含 en dash 统一为 -），每个证据片段长度 ≥10 且能在规范化文本中 includes 命中，证据以标签起点开头。
-
-### extractCandidates 空页面与无标签页面
-- 如何运行：`npx tsx scripts/tests/source-tools.test.ts`
-- 测试内容：依据 docs/modules/source-tools_interaction.md §2 边界检查，断言规范化文本为空时返回 inaccessible「页面内容为空」且 candidates 为空对象；注入不含任何触发标签的普通通知页夹具时返回空 candidates 且不带 inaccessible（纯函数不抛异常）。
-
-### extractCandidates 已有值字段跳过
-- 如何运行：`npx tsx scripts/tests/source-tools.test.ts`
-- 测试内容：依据 docs/modules/source-tools_interaction.md §2 抽取规则第 5 条，对 education 已有非空值的记录断言 candidates 不含 education 而 salary 等其余可写入键照常抽取，保证 scan 服务于字段空白记录的充实。
-
-### applyConfirmed 记录不存在拒绝且不写库
-- 如何运行：`npx tsx scripts/tests/source-tools.test.ts`
-- 测试内容：依据 docs/modules/source-tools_interaction.md §3 校验第 1 条，向注入临时目录的夹具批次提交不存在的记录 id，断言该条被拒绝（reason 含「记录不存在」）、applied 为空、批次文件字节级保持不变。
-
-### applyConfirmed 证据不命中整条拒绝且不写库
-- 如何运行：`npx tsx scripts/tests/source-tools.test.ts`
-- 测试内容：依据 docs/modules/source-tools_interaction.md §3 校验第 7 条与设计文档 §3「单条失败整条拒绝且不产生该条任何写入」，注入返回不含该证据片段的来源页的 fetch 假实现（不发真实请求），断言该条被拒绝（reason 含「证据片段未在来源页命中」）、applied 为空、批次文件字节级保持不变。
-
-### applyConfirmed 允许清单外字段与缺证据拒绝
-- 如何运行：`npx tsx scripts/tests/source-tools.test.ts`
-- 测试内容：依据 docs/modules/source-tools_interaction.md §3 校验第 2、4 条，分别以允许清单外字段与缺少 _evidence 片段的确认输入驱动，断言两条均被拒绝且 reason 分别含「字段不在允许清单」与「证据片段」，批次文件不变。
-
-### applyConfirmed _level 非升级请求拒绝
-- 如何运行：`npx tsx scripts/tests/source-tools.test.ts`
-- 测试内容：依据 docs/modules/source-tools_interaction.md §3 校验第 5 条，对当前层级「关键字段核验」的记录请求「关键字段核验」（同级）与「待核实」（降级）断言均被拒绝且 reason 含「_level 非升级请求」，批次文件不变。
-
-### applyConfirmed 合法确认写入批次（待核实自动升级 + 字段值/证据/last_verified 落库）
-- 如何运行：`npx tsx scripts/tests/source-tools.test.ts`
-- 测试内容：依据 docs/modules/source-tools_interaction.md §3 校验第 6 条与写入规则，对「待核实」空白记录提交未声明 _level 的合法确认（字段值 + ≥10 字符证据，来源页夹具可命中），断言 applied 含该 id、批次文件内记录被替换为含新字段值、source_evidence 追加证据片段、verification_level 自动升为「关键字段核验」、last_verified 为注入日期的单行 JSON，且批次头注释与另一条记录原文保持不变。
-
-### applyConfirmed _level 升级写入层级
-- 如何运行：`npx tsx scripts/tests/source-tools.test.ts`
-- 测试内容：依据 docs/modules/source-tools_interaction.md §3 校验第 5 条与写入规则，对「关键字段核验」记录声明 _level「来源核验」的合法确认断言 applied 含该 id 且批次文件内 verification_level 更新为「来源核验」、新证据片段追加进 source_evidence。
-
-### classifyRefresh 夹具分类（现行有效/来源过期/内容失配）
-- 如何运行：`npx tsx scripts/tests/source-tools.test.ts`
-- 测试内容：依据 docs/modules/source-tools_interaction.md §4 映射口径，注入 fetch 假实现（不发真实请求）：锚点命中且含招聘关键词的来源页 → 现行有效；「该信息已过期」跳转页 → 来源过期且 note 含「过期提示页」；锚点不命中 → 内容失配；锚点命中但标注「该职位已暂停招聘」→ 内容失配；HTTP 404 → 来源过期；网络异常 → 内容失配且 note 含「访问失败：」。
-
-### 缺省目标筛选口径（selectScanTargets / selectRefreshTargets）
-- 如何运行：`npx tsx scripts/tests/source-tools.test.ts`
-- 测试内容：依据 docs/modules/source-tools_design.md §3 目标定义与 docs/interaction.md §11 缺省目标行，对混合夹具目录断言：selectScanTargets 只保留五项条件字段（original_major_requirements、education、salary、responsibilities、application_info）全为空的记录；selectRefreshTargets 只保留「状态待核实」或 verification_level 为「来源核验/关键字段核验」的记录，逐字段核验与「招聘中+逐字段核验」记录不入选。
-
 ## 最近一轮结果
 
 - 2026-11-04 | 范围：模块 data-foundation | 通过 6/6（jobsCatalog 完整性、audit offline、add:jobs 校验矩阵、合法批次写入与 ID 自动分配、整批拒绝无写入、批次名校验）；worktree 内首轮以迁移后 200 条口径通过，::mergelocal 处置后按 194 条（58/51/85）期望复跑全部通过；类型检查 tsc --noEmit 无错误
@@ -234,3 +180,12 @@
 - 2026-11-05 | 范围：整库在线审计失配处置 | 处置 6 条：617（南开转载页过期）、1101/1102/1108/1109/1110（实验室岗位改版后存储标题失配）删除；1106/1111 及其他发布日期不可复核记录降级为「来源核验」；实验室全部记录移除失效地址证据片段；204/205/211 证据锚点改为 UnitreeRobotics；处置后 188 条全量在线审计通过
 - 2026-11-05 | 范围：GUI 视觉验收（::ci）| 通过：13 张截图（11 页面 + 2 流程镜头）逐张判读，13 pass / 1 warn（notfound 截图为本地测试服务器原始 404 响应，站点 404.html 存在已由集成测试断言，属环境限制）；机器门控通过（文件存在且 >20KB、颜色多样性充分）；verdict overall=pass；console 错误未采集（chrome headless 命令行限制，如实记录），经渲染结果判读兜底
 - 2026-11-05 | 模块 source-tools（分支 dev/source-tools，worktree .worktrees/source-tools）| 通过 11/共 11，失败 0 | 运行命令：`npx tsx scripts/tests/source-tools.test.ts`（extractCandidates 抽取与证据命中/空页面与无标签页/已有值跳过，applyConfirmed 记录不存在/证据不命中整条拒绝不写库/允许清单外与缺证据拒绝/_level 非升级拒绝/合法确认写入含待核实自动升级与 _level 升级，classifyRefresh 六类夹具分类，selectScanTargets/selectRefreshTargets 缺省目标口径）；`npx tsc --noEmit` 无错误。全部网络行为为注入的 fetch 假实现，apply 写库经临时目录注入隔离，不发真实请求。CLI 接线冒烟（无参数用法提示、未知参数报错、空目标运行）通过；当前目录下 scan 缺省目标 136 条、refresh 缺省目标 142 条（合并后由 data-refresh 按 --ids/--limit 分批执行）。模块文档微调：过期提示页归类由「内容失配」修正为「来源过期」（依据 docs/interaction.md §11 失效跳转口径与设计文档 §3），applyConfirmed 增加 options 注入参数并在模块交互文档 §3 补记校验与写入细则
+- 2026-11-05 | 范围：模块 data-refresh（分支 dev/data-refresh，worktree .worktrees/data-refresh）| 全量来源分类与处置完成，处置后回归全部通过
+  - 分类统计（188 条全量在线访问来源页，一次性脚本复用 recheck-core 规范化并做字符集感知解码）：现行有效 105、内容失配 81、访问失败 2（485 反爬拦截、209 超时）；来源过期 0（404/域名失效类均以失效跳转/JS 壳形态归入内容失配处置）。
+  - 充实（A 类）107 条（目标 ≥60 达成）：平安科技 18 条与安克创新 9 条（校招公告统一字段）、上海人工智能实验室 11 条（页面卡片日期回填 published_at）、事业单位与科研院所公告 52 条（401-415、419-423、436-448、470-478、515-517、530、541、543-546、578、587、588、590-596、202-216、301-306、502 等）、企业岗位 17 条（206-208、416、449、480-484、494、496、204/205/211 宇树现行中文页、589 等）；每条新填字段附来源页可逐字命中证据片段，充实记录层级只升不降。
+  - 失效刷新（B 类）：同源换锚点刷新 52 条 + 换源刷新 4 条（474 上海博物馆换 rsj.sh 现行公告、502 中国航油换对外经贸大学就业网转载、306 上科大换中公转载、203 北京脑所同 URL 现行公告重锚）；删除 19 条（201、209、210、212、305、417、418、485、499、555、557、559、586、597、598、599、600、601、603——JS 渲染壳/404/反爬且经检索无现行可核验来源，逐条批次头留痕）。
+  - 状态修正（C 类）29 条改「已截止」（报名/申请窗口经原文确认已过，含 2016 同济口腔医院）；处置后无截止已过仍标「招聘中」的记录。
+  - 回归：`npx tsx scripts/audit-verified-jobs.ts --offline` 通过；`npm run audit:jobs` 在线审计通过（169 条：128 逐字段/31 来源/10 关键字段，全部证据回源命中，0 失败）；`npx tsc --noEmit` 通过（0 错误）；`npx tsx scripts/tests/data-foundation.test.ts` 通过 6/6（计数期望已同步 169 条口径）。处置中间产物（分类明细、检索候选、更新脚本）在 workspace/source-refresh/ 与 scripts/tmp-*（提交前删除），不入库。
+  - 工具链限制记录：GBK 编码站点（qgsydw/zgsydw）与 JS 渲染壳来源经 audit 工具链无法在线核验，相关记录（401-403、476、439、214、444、579-582、602 等）层级按可核验性收敛并如实标注。
+- 2026-11-05 | 范围：模块 data-acquisition（增量执行，分支 dev/data-acquisition-2）| 运行 `npx tsx scripts/tests/data-acquisition.test.ts`：通过 16 组断言 / 失败 0，覆盖 49 条记录（北京 10、上海 10、跨学科 10、大厂综合 12、京沪事业单位增补 7；其中事业单位 22 条）；`npx tsc --noEmit` 通过（0 错误）。
+- 补充核验（增量执行）：一次性底稿脚本（normalize 口径与 scripts/audit-verified-jobs.ts 一致，提交前已删除）对新增 19 条记录（大厂综合 12 条、京沪事业单位增补 7 条）逐条在线回源，source_title、published_at（逐字段核验级）与全部 source_evidence 片段逐字命中，全量通过；来源清单与放弃记录原因见 workspace/acquisition/sources-2.md（本地产物，不入库）。

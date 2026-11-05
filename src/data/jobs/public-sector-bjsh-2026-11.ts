@@ -1,3 +1,4 @@
+// 处置记录（2026-11-05 ::mergelocal）：id 3102（上海市委党校）与第一批 public-sector-2026-11 批次公告重复，按去重规则删除本条，保留第一批版本
 import type { Job } from '../../lib/types';
 
 /**
@@ -41,36 +42,6 @@ const records: JobWithWindow[] = [
       '报名2026年11月9日（周一）9:00至2026年11月16日（周一）17:00',
       '（三）报考人员须具有硕士研究生及以上学历，并取得相应学位',
       '进入“北京第二实验学校2026年公开招聘报名系统”',
-    ],
-  },
-  {
-    id: 3102,
-    title: '中共上海市委党校（上海行政学院）公开招聘高层次人才和应届博士毕业生公告',
-    organization: '中共上海市委党校（上海行政学院）',
-    province: '上海', city: '上海', location: '上海市',
-    org_type: '事业单位', job_type: '教学科研',
-    original_major_requirements: '',
-    platform_disciplines: ['哲学×社会科学'],
-    required_skills: [],
-    preferred_skills: [],
-    education: '',
-    experience: '',
-    salary: null,
-    description: '公告级条目：中共上海市委党校（上海行政学院）面向社会公开招聘马克思主义理论、哲学、理论经济学、应用经济学、中共党史党建学、政治学、公共管理学、社会学等人文与社会科学类学科高层次人才若干名、应届博士毕业生15名，岗位需求详见公告附件一览表；拟聘用人选在上海市人力资源和社会保障局网站公示。',
-    responsibilities: '',
-    application_info: '原公告：“报名时间自公告发布之日起至2026年12月4日，逾期不再受理。”报名材料统一打包发送至邮箱 shswdxbsh@163.com，邮件主题为“应聘高层次人才+本人姓名+应聘学科”，打包后的附件名称与邮件主题一致。',
-    application_opens_at: '2026-10-15',
-    published_at: '2026-10-15', deadline: '2026-12-04',
-    source_name: '上海市人力资源和社会保障局', source_type: '政府',
-    source_url: 'https://rsj.sh.gov.cn/tzpgg_17408/20261014/t0035_1444186.html',
-    fetched_at: '2026-11-05', last_verified: '2026-11-05', status: '招聘中', is_demo: false, recruit_type: '社招',
-    verification_level: '逐字段核验',
-    source_title: '中共上海市委党校（上海行政学院）公开招聘高层次人才和应届博士毕业生公告',
-    source_evidence: [
-      '报名时间自公告发布之日起至2026年12月4日，逾期不再受理',
-      '统一打包发送至邮箱shswdxbsh@163.com',
-      '高层次人才若干名、应届博士毕业生15名',
-      '拟聘用人选在上海市人力资源和社会保障局网站公示',
     ],
   },
   {
