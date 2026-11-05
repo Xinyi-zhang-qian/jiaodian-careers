@@ -48,6 +48,16 @@ npm run recheck:legacy
 
 脚本对隔离的历史数据清单逐条回源访问，按「可升级 / 需人工复核 / 建议下架 / 未核验」分类，报告与逐条明细写入 `workspace/legacy-recheck/`（本地工作产物，不入库）。2026-11-04 已完成首轮全量复核与处置（见批次文件头注释）；清单文件已清理完毕时脚本按 0 条处理并如实报告。支持 `--offline`、`--ids id1,id2` 与 `--limit N`。
 
+充实现有记录的条件字段或核实来源现状时运行：
+
+```bash
+npm run extract:fields -- --scan [--ids id1,id2] [--limit N]   # 抓取来源页，抽取候选条件字段与证据片段到 workspace/extract/（只读，不写库）
+npm run extract:fields -- --apply <确认json>                    # 把人工确认的字段与证据写入批次文件，末尾自动执行 offline 审计
+npm run refresh:sources [--ids id1,id2] [--limit N]             # 在线分类来源现状「现行有效/内容失配/来源过期」到 workspace/source-refresh/
+```
+
+scan 产出的候选字段供人工逐条确认后生成 apply 输入 JSON（记录 id → 字段值 + `_evidence` 证据片段，可选 `_level` 声明层级升级）；apply 逐条在线复核证据命中，未命中的记录整条拒绝、不做部分写入；「待核实」记录写入条件字段时自动升为「关键字段核验」。refresh:sources 的分类结果供后续处置（刷新来源或删除）参考，处置本身在批次文件中留痕。两类命令的本地产物均写入 `workspace/` 下，不入库。
+
 运行测试套件：
 
 ```bash
