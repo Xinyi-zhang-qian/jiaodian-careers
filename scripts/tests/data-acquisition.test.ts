@@ -10,6 +10,8 @@ import assert from 'node:assert/strict';
 import beijingJobs from '../../src/data/jobs/beijing-2026-11';
 import shanghaiJobs from '../../src/data/jobs/shanghai-2026-11';
 import crossJobs from '../../src/data/jobs/cross-disciplinary-2026-11';
+import bigtechJobs from '../../src/data/jobs/enterprise-bigtech-2026-11';
+import bjshJobs from '../../src/data/jobs/public-sector-bjsh-2026-11';
 
 // ---------- 校验常量（与 src/lib/utils.ts、docs/design.md 契约 2/11/12 一致） ----------
 
@@ -153,6 +155,8 @@ const batches = [
   { name: '北京批次', file: 'beijing-2026-11', records: beijingJobs as any[], minCount: 10 },
   { name: '上海批次', file: 'shanghai-2026-11', records: shanghaiJobs as any[], minCount: 10 },
   { name: '跨学科批次', file: 'cross-disciplinary-2026-11', records: crossJobs as any[], minCount: 10 },
+  { name: '大厂综合批次', file: 'enterprise-bigtech-2026-11', records: bigtechJobs as any[], minCount: 12 },
+  { name: '京沪事业单位增补批次', file: 'public-sector-bjsh-2026-11', records: bjshJobs as any[], minCount: 6 },
 ];
 
 let checks = 0;
@@ -203,9 +207,72 @@ assert.deepEqual(
 );
 checks += 1;
 
+// ---------- 第 2 轮增量批次断言（模块交互文档 §2a） ----------
+
+// 6. 增量批次 id 段断言：id ≥3101 且两增量批次间无重复
+const incrementalIds = [...bigtechJobs, ...bjshJobs].map((r) => (r as any).id);
+const duplicateIncrementalIds = incrementalIds.filter((id, i) => incrementalIds.indexOf(id) !== i);
+assert.deepEqual(duplicateIncrementalIds, [], `增量批次存在重复 id：${duplicateIncrementalIds.join('、')}`);
+const below3101 = incrementalIds.filter((id) => !(Number.isInteger(id) && id >= 3101));
+assert.deepEqual(below3101, [], `增量批次存在不在 3101 手工段的 id：${below3101.join('、')}`);
+checks += 1;
+
+// 7. 大厂批次职能覆盖断言（需求 V3.1 §17：项目经理、产品经理、AI／机器人、AI4S、AI 伦理五类中至少四类）
+const textOf = (job: any) => `${job.title} ${job.description} ${job.responsibilities ?? ''}`;
+const FUNCTION_COVERAGE = [
+  {
+    name: '项目经理类',
+    hit: (job: any) =>
+      (job.job_functions ?? []).includes('项目管理') || /项目经理|项目总监/.test(textOf(job)),
+  },
+  {
+    name: '产品经理类',
+    hit: (job: any) =>
+      (job.job_functions ?? []).includes('产品经理') || /产品经理/.test(textOf(job)),
+  },
+  {
+    name: 'AI／机器人类',
+    hit: (job: any) =>
+      /人工智能|机器学习|大模型|多模态|机器人|具身智能|LLM|NLP|计算机视觉/.test(textOf(job)) &&
+      (job.job_functions ?? []).some((f: string) => ['算法', '工程', '科研', '数据'].includes(f)),
+  },
+  {
+    name: 'AI4S 类',
+    hit: (job: any) =>
+      /AI ?for ?Science|AI4S|科学计算|医疗 ?AI|AI ?制药|生命科学.{0,8}(算法|AI)/i.test(textOf(job)),
+  },
+  {
+    name: 'AI 伦理类',
+    hit: (job: any) =>
+      (job.job_functions ?? []).includes('AI伦理') ||
+      /AI ?伦理|人工智能.{0,8}伦理|AI ?安全|可信 ?AI|Responsible AI|科技伦理/i.test(textOf(job)),
+  },
+];
+const uncovered = FUNCTION_COVERAGE.filter((c) => !bigtechJobs.some((job) => c.hit(job))).map((c) => c.name);
+assert.ok(
+  uncovered.length <= 1,
+  `大厂批次职能覆盖不足五类中的四类，未覆盖：${uncovered.join('、')}`,
+);
+checks += 1;
+
+// 8. 京沪事业单位增补批次地域断言（需求 V3.1 §18：全部为北京或上海）
+const regionViolations = (bjshJobs as any[]).filter(
+  (job) =>
+    !(
+      (job.province === '北京' && job.city === '北京') ||
+      (job.province === '上海' && job.city === '上海')
+    ),
+);
+assert.deepEqual(
+  regionViolations.map((j) => j.id),
+  [],
+  `京沪事业单位增补批次存在非北京/上海记录：${regionViolations.map((j) => j.id).join('、')}`,
+);
+checks += 1;
+
 // 汇总
 const total = batches.reduce((sum, b) => sum + b.records.length, 0);
 const institutional = batches.reduce((sum, b) => sum + b.records.filter((r) => r.org_type === '事业单位').length, 0);
 console.log(
-  `data-acquisition 测试通过：${checks} 组断言 / 覆盖 ${total} 条记录（北京 ${beijingJobs.length}、上海 ${shanghaiJobs.length}、跨学科 ${crossJobs.length}；其中事业单位 ${institutional} 条）。`,
+  `data-acquisition 测试通过：${checks} 组断言 / 覆盖 ${total} 条记录（北京 ${beijingJobs.length}、上海 ${shanghaiJobs.length}、跨学科 ${crossJobs.length}、大厂综合 ${bigtechJobs.length}、京沪事业单位增补 ${bjshJobs.length}；其中事业单位 ${institutional} 条）。`,
 );

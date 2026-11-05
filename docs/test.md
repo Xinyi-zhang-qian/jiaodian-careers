@@ -50,6 +50,26 @@
 - 如何运行：`npm run test`（scripts/tests/data-acquisition.test.ts）
 - 测试内容：依据 docs/design.md §4 契约 12 职能标签契约，验证跨学科批次每条记录的 job_functions 均已标注且取值全部在 JOB_FUNCTIONS 枚举内，聚焦岗位（项目管理、产品经理、AI 伦理等）未漏标。
 
+### 增量批次 schema 自查（大厂与京沪事业单位）
+- 如何运行：`npx tsx scripts/tests/data-acquisition.test.ts`
+- 测试内容：依据 `docs/modules/data-acquisition_interaction.md` §2a 增量批次规格，导入 enterprise-bigtech-2026-11 与 public-sector-bjsh-2026-11 两个增量批次文件逐条校验——必填字段齐全、枚举合法（org_type/source_type/status/verification_level/job_functions）、日期字段为 YYYY-MM-DD、application_opens_at 不晚于 deadline、「待核实」记录不携带条件字段、「逐字段核验」记录 source_evidence ≥3 段且 source_url 为 HTTPS、is_demo 均为 false、id ≥3101 且两增量批次间无重复；任一违规输出逐条错误行并断言失败。
+
+### 增量批次数量断言
+- 如何运行：`npx tsx scripts/tests/data-acquisition.test.ts`
+- 测试内容：依据需求 V3.1 §17、§18 采集目标，断言大厂综合岗位批次记录数 ≥12、京沪事业单位增补批次记录数 ≥6，未达标即断言失败并输出实际条数。
+
+### 大厂批次职能覆盖断言
+- 如何运行：`npx tsx scripts/tests/data-acquisition.test.ts`
+- 测试内容：依据需求 V3.1 §17 与模块交互文档 §2a，对大厂综合岗位批次按五类职能（项目经理类、产品经理类、AI／机器人类、AI4S 类、AI 伦理类）的判定谓词统计覆盖，断言至少四类各有至少一条记录命中，不足四类即断言失败并输出未覆盖类别清单。
+
+### 京沪事业单位增补批次报名窗口断言
+- 如何运行：`npx tsx scripts/tests/data-acquisition.test.ts`
+- 测试内容：依据 docs/design.md §4 契约 11 报名窗口契约与模块交互文档 §2a，对京沪事业单位增补批次每条 org_type 为「事业单位」的记录断言 application_opens_at 或 deadline 至少其一有值，或 application_info 含报名方式原文说明，三者皆缺即断言失败。
+
+### 京沪事业单位增补批次地域断言
+- 如何运行：`npx tsx scripts/tests/data-acquisition.test.ts`
+- 测试内容：依据需求 V3.1 §18 地域要求，断言京沪事业单位增补批次全部记录的 province 均为「北京」或「上海」且 city 与省份一致（北京记录 city 为北京、上海记录 city 为上海），出现其他省份即断言失败并输出违规记录 id。
+
 ## 模块 legacy-cleanup 测试
 
 ### classifySource 分类判定（来源命中 → 可升级）
@@ -145,6 +165,8 @@
 - 2026-11-04 | 范围：模块 data-foundation | 通过 6/6（jobsCatalog 完整性、audit offline、add:jobs 校验矩阵、合法批次写入与 ID 自动分配、整批拒绝无写入、批次名校验）；worktree 内首轮以迁移后 200 条口径通过，::mergelocal 处置后按 194 条（58/51/85）期望复跑全部通过；类型检查 tsc --noEmit 无错误
 - 2026-11-04 | 范围：模块 data-foundation（一次性迁移校验，仅本轮运行，不计入永久测试）| 通过：200/200 条按 id 逐字段等值（迁移脚本运行确认；脚本按其头部声明在提交前删除）
 - 2026-11-04 | 范围：data-acquisition 模块 | 运行 `npx tsx scripts/tests/data-acquisition.test.ts`：通过 9 组断言 / 失败 0，覆盖 30 条记录（北京 10、上海 10、跨学科 10；其中事业单位 15 条）；`npx tsc --noEmit` 通过（0 错误）。
+- 2026-11-05 | 范围：模块 data-acquisition（增量执行，分支 dev/data-acquisition-2）| 运行 `npx tsx scripts/tests/data-acquisition.test.ts`：通过 16 组断言 / 失败 0，覆盖 49 条记录（北京 10、上海 10、跨学科 10、大厂综合 12、京沪事业单位增补 7；其中事业单位 22 条）；`npx tsc --noEmit` 通过（0 错误）。
+- 补充核验（增量执行）：一次性底稿脚本（normalize 口径与 scripts/audit-verified-jobs.ts 一致，提交前已删除）对新增 19 条记录（大厂综合 12 条、京沪事业单位增补 7 条）逐条在线回源，source_title、published_at（逐字段核验级）与全部 source_evidence 片段逐字命中，全量通过；来源清单与放弃记录原因见 workspace/acquisition/sources-2.md（本地产物，不入库）。
 - 补充核验：本地底稿脚本（workspace/acquisition/verify-evidence.ts，normalize 口径与 scripts/audit-verified-jobs.ts 一致）对 30 条记录逐条在线回源，source_title、published_at（含中文日期变体）与全部 source_evidence 片段逐字命中，全量通过。
 - 2026-11-04 | 模块 legacy-cleanup | 通过 18/18，失败 0 | 运行方式：`npx tsx scripts/tests/legacy-cleanup.test.ts`（聚合入口 `npm run test` 通过，1/1 套件）；`npx tsc --noEmit` 无错误。
   - 覆盖：classifySource 判定口径第 1–9 条（可升级/需人工复核/建议下架/未核验、过期提示页与已暂停招聘例外）、normalizeHtml、markUnverified、mergeDetails 同 id 覆盖、buildReport 三清单并集等于复核全集且无重复。

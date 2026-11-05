@@ -5,7 +5,7 @@
 # 1. 交互面总览
 
 - 输入：来源网页（只读）；extract:fields --scan 候选 JSON（辅助）。
-- 输出：`src/data/jobs/public-sector-2026-11.ts`、`src/data/jobs/research-institutes-2026-11.ts`；workspace/acquisition/ 底稿。
+- 输出：`src/data/jobs/public-sector-2026-11.ts`、`src/data/jobs/research-institutes-2026-11.ts`（第 2 轮第一批）；`src/data/jobs/enterprise-bigtech-2026-11.ts`、`src/data/jobs/public-sector-bjsh-2026-11.ts`（第 2 轮增量批次）；workspace/acquisition/ 底稿。
 
 # 2. 批次文件规格
 
@@ -14,6 +14,20 @@
 - 事业单位记录：org_type「事业单位」，application_opens_at 或 deadline 至少其一有值或 application_info 含报名方式原文；来源 source_type 优先「政府」或「官网」。
 - 科研院所/新型研究机构：org_type「科研院所」；新型研究机构若无法归入既有五枚举，用「科研院所」并在 description 注明「新型研发机构」（平台标注）。
 - 城市具体到市；公告级条目 condition 字段留空并依赖层级提示；id 从 3001 起。
+
+# 2a. 增量批次规格（第 2 轮第二批：大厂综合岗位与京沪事业单位增补）
+
+- 签名与文件头注释要求与 §2 一致；id 从 3101 起手工段（3101、3102……），两批次互不重复、不与 2001/3001 段冲突；fetched_at 与 last_verified 取采集当日。
+- `src/data/jobs/enterprise-bigtech-2026-11.ts`（大厂综合岗位）：
+  - 数量 ≥12 条；org_type「企业」；来源为企业官网招聘系统或官方发布渠道，转载渠道（公众号、高校就业网等）注明 source_type「其他」；
+  - 机构范围：腾讯、小米、华为、字节跳动为主，可含阿里巴巴、美团、百度、京东等大厂补充；城市不限，北京、上海优先；
+  - 职能覆盖：项目经理、产品经理、AI／机器人、AI4S、AI 伦理五类中的至少四类（按 job_functions 标注；AI4S 岗位如「AI for Science／科学计算／医疗 AI 算法」，AI 伦理如「AI 伦理／治理／合规／安全」岗）；
+  - 核验层级：逐字段核验（source_evidence ≥3 段且 source_url 为 HTTPS）。
+- `src/data/jobs/public-sector-bjsh-2026-11.ts`（北京、上海事业单位增补）：
+  - 数量 ≥6 条；org_type「事业单位」；province/city 全部为北京或上海；
+  - 来源为人社局、区人社局、事业单位官网的现行公开招聘公告（source_type 优先「政府」或「官网」）；
+  - 每条含报名安排：application_opens_at / deadline 原文有则必录，报名方式写入 application_info（原文只写「长期有效」「招满为止」时不填 deadline，把原文写入 application_info）；
+  - 不得与第 1 轮已采集公告重复（合并时由主 Agent 做去重核对）。
 
 # 3. 自检断言（模块测试）
 
