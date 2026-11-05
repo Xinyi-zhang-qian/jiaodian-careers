@@ -52,3 +52,7 @@
 - 设计文档写入 [docs/design.md, docs/interaction.md] | 模块 12 个（本轮新增 source-tools、data-refresh） | 轮次: 第 2 轮 / 共 2 轮 | 打断归档: 无（上一轮已完成，非打断） | 一致性检查: 待执行 | 未决项: 0 | 状态: 等待批准
 - 备注: 新增契约 17-19（提取辅助两阶段、来源刷新分类、空字段展示与报名已截止标识）；命令行新增 extract:fields --scan/--apply 与 refresh:sources
 - 一致性检查补正: 需求—设计关联表更新为 V3.0 编号对应、AC-14~17 追加；机器核验通过（命令域全覆盖、章节落点齐全、报名已截止标识就位）
+
+## [2026-11-05 11:00:00] ::devplan（第 2 轮）
+- 开发计划写入 plans/current.md | 涉及模块: [source-tools, data-refresh, data-acquisition, jobs-catalog] | 旧计划归档至 plans/2026-11-04.md | 中断续接: 无 | 状态: 等待批准
+- 备注: 四个模块文档已按第 2 轮目标更新；批次修改与新批次文件不相交，可并行

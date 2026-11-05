@@ -1,39 +1,34 @@
-# data-acquisition 模块设计文档
+# data-acquisition 模块设计文档（第 2 轮执行）
 
-> 全局契约引用 docs/design.md §4（契约 2、3、5、11、12、14）、§5；本模块对应 design.md 的 data-acquisition（内容工作单元）。
+> 全局契约引用 docs/design.md §4（契约 2、3、5、11、12、14）、§5；本模块为第 2 轮三类单位岗位补充的执行单元（第 1 轮的京沪与跨学科批次已交付，本节按第 2 轮目标重写）。
 
 # 1. 模块职责与边界
 
-- 职责：按需求 §16 采集并录入新岗位——北京、上海各 ≥10 条经核验记录；项目管理、产品经理、AI 伦理等跨学科岗位合计 ≥10 条；其中事业单位招聘公告重点覆盖并录入报名窗口信息。
-- 数据所有权：本模块新建的批次文件 `src/data/jobs/beijing-2026-11.ts`、`shanghai-2026-11.ts`、`cross-disciplinary-2026-11.ts`（各 10 条，已并入 jobsCatalog）。
-- 不负责：修改 index.ts（新批次行在 ::mergelocal 合并时并入，本模块在完成信号中列出待并入清单）、修改任何管线与页面代码。
+- 职责：采集并录入事业单位、科研院所、新型研究机构岗位 ≥20 条（事业单位 ≥8 条，含报名安排），地域北京、上海重点兼顾全国；使用 extract:fields --scan 辅助字段抽取，人工确认后录入。
+- 数据所有权：本轮新建批次文件 `src/data/jobs/public-sector-2026-11.ts`（事业单位）、`src/data/jobs/research-institutes-2026-11.ts`（科研院所与新型研究机构，两类合并为一个批次，文件头注明构成）。
+- 不负责：修改既有批次（data-refresh 所有）、管线脚本（source-tools）、页面代码（jobs-catalog）。
 
 # 2. 内部结构
 
 ```text
-src/data/jobs/{批次名}.ts    # 每批次一个文件，const records: Job[] 形式
-workspace/acquisition/      # 采集工作底稿：来源清单、原文摘录（本地产物）
+src/data/jobs/public-sector-2026-11.ts       # 事业单位公开招聘（含报名安排）
+src/data/jobs/research-institutes-2026-11.ts # 科研院所与新型研究机构岗位
+workspace/acquisition/                        # 采集底稿（来源清单、原文摘录，本地产物）
 ```
 
 # 3. 内部数据流
 
-采集 → 核对 → 录入三步，顺序固定：
+采集 → 核对 → 录入三步固定顺序（与第 1 轮一致，新增 extract:fields 辅助）：
 
-1. **采集**：确定来源清单（优先级：招聘单位官网/官方招聘系统 > 政府人事部门网站 > 转载媒体），逐个访问来源页，摘录原文（标题、发布日期、专业要求、报名起止时间、报名方式、待遇）。
-2. **核对**：每条记录按目标层级准备证据——「逐字段核验」需 ≥3 段原文片段 + 来源页标题 + 发布日期；「来源核验」需标题与单位命中；核对不到的字段一律留空（不得按机构类型或常见要求补写）。
-3. **录入**：按 `Job` 类型（含扩展字段）写入批次文件；`job_functions` 按平台职能枚举标注；事业单位公告填 `application_opens_at` 与 `deadline`（原文未提供则不填）；状态按原文（未标明截止的公告不填 deadline）。
+1. **采集**：来源清单优先级——事业单位：北京市/上海市人社局、区人社局、各事业单位官网的现行公开招聘公告；科研院所：中科院各研究所、社科院系统、部委研究院所官网；新型研究机构：上海人工智能实验室、之江实验室、鹏城实验室、北京智源研究院等新型研发组织的官网招聘页。只采集截至采集日现行有效的公告。
+2. **核对**：按目标层级准备证据——「逐字段核验」≥3 段原文片段 + 来源页标题 + 发布日期；事业单位公告必须提取报名起止时间（application_opens_at / deadline，原文有则必录）与报名方式（application_info）。
+3. **录入**：`extract:fields --scan` 辅助抽取候选 → 人工确认 → 批次文件写入（或 add:jobs）；id 从 3001 起手工段；fetched_at/last_verified = 采集当日。
 
-失败点：来源页无法访问 → 该条放弃并记录原因，不得凭记忆补写；页面内容与预期不符 → 放弃。
+失败点：来源页无法访问 → 放弃该条并记录原因；内容与预期不符 → 放弃；禁止按机构类型或常见待遇推测补写。
 
 # 4. 内部数据结构
 
-批次文件记录遵循 `Job` 类型（含 `application_opens_at`、`job_functions` 扩展字段）；批次文件内以类型别名 `JobWithWindow = Job & { application_opens_at?: string; job_functions?: string[] }` 声明记录数组，与合并后的 Job 定义字段一致。
-
-- 记录 id 使用 2001 起的手工段（2001、2002…），三批互不重复（合并时以 data-foundation 的 ID 契约校验唯一性）。
-- `fetched_at` 与 `last_verified` 均为采集当日（本轮为 2026-11-04）。
-- `job_functions` 取值限于 `['项目管理','产品经理','AI伦理','算法','工程','数据','科研','编辑出版','综合管理','其他']`（与 utils.ts 枚举一致，合并后由 data-foundation 维护）。
-- 事业单位公告：`application_opens_at` / `deadline` 仅在公告原文给出报名起止时间时填写；原文只有「长期有效」「招满为止」等表述时不填 `deadline`，把原文写进 `application_info`。
-- `workspace/acquisition/` 为本地工作底稿（.gitignore 已排除），不入库。
+批次文件记录遵循 `Job` 类型（含扩展字段）；类型别名 `JobWithWindow` 保留（与既有采集批次一致）。
 
 # 5. 内部状态机
 
