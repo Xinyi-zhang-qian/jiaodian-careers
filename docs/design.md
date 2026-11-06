@@ -2,8 +2,8 @@
 
 ## 软件总体设计说明书
 
-> 版本：V2.2（第 2 轮需求分析 ::design 更新，含模块开发阶段增量需求）
-> 依据：docs/requirements.md V3.1（已批准）
+> 版本：V3.0（第 3 轮需求分析 ::design 更新）
+> 依据：docs/requirements.md V4.0（已批准）
 
 目标系统：面向人文、社会科学与理工科交叉人才的招聘信息静态网站。
 
@@ -106,6 +106,8 @@
 17. **提取辅助契约**：`npm run extract:fields` 两阶段——`--scan`（抓取指定记录的来源页，抽取候选条件字段与其证据片段位置，产出到 `workspace/extract/`，只读不写库）与 `--apply <json>`（把人工确认的字段与证据写入对应批次文件，同步更新核验层级与 last_verified）；apply 后必须通过 `audit:jobs:offline` 才能提交；提取出的字段必须能在来源页命中（在线审计保证），核对不到的字段留空。
 18. **来源刷新契约**：`npm run refresh:sources` 遍历前台记录在线访问来源页，分类「现行有效（证据命中）/ 内容失配（页面存在但锚点不命中）/ 来源过期（404、过期提示页、失效跳转）」，产出到 `workspace/source-refresh/`；对失效记录的处置（重新检索后刷新，或删除）由 data-refresh 执行并留痕（批次头注释处置记录）；状态修正随处置执行：截止已过仍标「招聘中」的记录改「已截止」或删除。
 19. **空字段展示契约**：界面按字段存在性渲染；「条件见来源」提示仅用于没有任何条件字段的记录；deadline 早于当日仍标「招聘中」的记录在卡片与详情页显示灰色「报名已截止」标识（此类记录应在刷新处置中收敛）。
+20. **用户画像存储契约**：画像存 localStorage 键 `jiaodian-profile`，结构 `{ education: [{ stage, major }], work: [{ title }], skills: [string] }`；全部读写与匹配计算在浏览器本地完成，不上传；解析失败按空画像处理。
+21. **匹配契约**：打分函数为纯函数，输入画像与 jobsCatalog，输出按分排序的 `MatchResult[]`（岗位 + 得分 + 理由列表）；打分只使用平台标签（platform_disciplines、job_functions、required_skills/preferred_skills）与已核验字段（title、original_major_requirements 原文包含匹配）；理由逐条可读（画像条目 ↔ 岗位字段）；权重集中定义可调。
 
 # 5. 模块划分与职责边界
 
@@ -125,6 +127,9 @@
 | source-tools（第 2 轮新增） | 脚本 extract:fields、refresh:sources |
 | data-refresh（第 2 轮执行单元） | 信息充实、来源刷新与清理的执行 |
 | jobs-catalog 第 2 轮强化 | 过期标识与展示优化 |
+| match-engine（第 3 轮新增） | 匹配打分与理由生成（src/lib/match.ts） |
+| match-ui（第 3 轮新增） | 页面 /match、画像编辑器与推荐列表（src/app/match/**、src/components/match/**、src/lib/use-profile.ts） |
+| detail-enrich（第 3 轮执行单元） | 详情页全量字段展示 + 稀疏记录补提取 |
 
 各模块整体定义：
 
@@ -156,6 +161,17 @@
 - **site-design**（横切治理工作，无独立源码目录）
   - 职责：首页/列表/详情视觉层级优化、核验徽标体系统一、README 与 docs 规范化维护；首页职能入口计数纯函数 `src/lib/job-function-stats.ts` 归其所有。
   - 边界：不改变交互逻辑与数据语义。
+- **match-engine**（第 3 轮新增，`src/lib/match.ts`）
+  - 职责：画像↔岗位匹配的打分纯函数与理由生成；权重集中定义。
+  - 数据所有权：匹配算法与权重配置。
+  - 边界：不做 UI；不读写存储（画像由 use-profile 提供）；不使用未核验字段。
+- **match-ui**（第 3 轮新增，`src/app/match/page.tsx`、`src/components/match/*`、`src/lib/use-profile.ts`）
+  - 职责：画像三组条目的增删编辑与本地持久化；调用 match-engine 渲染推荐列表（复用 JobCard）与理由；空画像引导态。
+  - 数据所有权：localStorage `jiaodian-profile` 的读写 hook。
+  - 边界：不含打分逻辑（归 match-engine）；不改变既有页面。
+- **detail-enrich**（第 3 轮执行模块）
+  - 职责：①详情页条件信息区按「字段存在性」渲染（替代层级门槛）：凡记录拥有学历/经验/专业要求/薪资等字段即展示（展示口径仍标核验层级）；②新增职能标签与招聘类型展示；③对 9 条稀疏记录与可补的关键字段记录执行补充提取（extract:fields --scan/--apply）。
+  - 边界：批次修改经审计门禁；不改匹配逻辑。
 - **source-tools**（第 2 轮新增，`scripts/extract-fields.ts`、`scripts/refresh-sources.ts`、`scripts/lib/` 复用基建）
   - 职责：提取辅助两阶段命令（scan 候选 / apply 写库）与来源刷新分类命令；复用 recheck-core 的抓取与规范化基建。
   - 数据所有权：上述三个脚本；`workspace/extract/`、`workspace/source-refresh/`（本地产物）。
@@ -208,6 +224,8 @@ jiaodian-careers/
 7. **收藏链**：保持现状（localStorage ↔ getJob）。
 8. **字段充实链（第 2 轮）**：`refresh:sources` 分类清单 → data-refresh 逐条处置：现行有效记录走 `extract:fields --scan` 出候选 → 人工确认 → `--apply` 写批次（层级按证据充分度升级）→ 离线审计 → 提交；失配/过期记录先重检索现行来源（单位官网、政府人事网站），检索到则刷新来源与证据，否则删除。
 9. **新增岗位链（第 2 轮）**：三类单位来源采集 → `extract:fields --scan` 辅助抽取 → `add:jobs` 录入 → 在线审计 → 提交。
+10. **匹配链（第 3 轮）**：用户编辑画像 → use-profile 写 localStorage → match-engine 纯函数打分 → /match 页渲染推荐与理由（输入即算，无网络请求）。
+11. **详情充实链（第 3 轮）**：extract:fields 补提取稀疏记录 → 确认写入批次 → 审计；详情页按字段存在性全量渲染。
 
 跨模块 DTO 清单：`Job`（jobs-dataset → jobs-catalog → site-shell 卡片）、`InternshipListing`、`RoboticsMarketDataset`、`Discipline`/`JobFunction`（site-shell → jobs-catalog 筛选参数）、`RecheckReport`（legacy-cleanup → 维护者）。字段级定义归拥有方模块文档。
 
@@ -226,7 +244,9 @@ jiaodian-careers/
 
 本项目规划共 2 轮完整 loop。第 1 轮已交付（提交 f6beda9）：规范化数据源、京沪跨学科 30 条、遗留清理、职能筛选与报名窗口、页面优化。
 
-**第 2 轮（当前轮，需求 V3.1）**：
+**第 2 轮（已交付，提交 683f945 与 d756545）**：信息充实 108 条、失效刷新与清理、四批次 41 条、工具与展示优化、腾讯华为补采 7 条（当前 216 条、12 批次，已部署）。
+
+**第 3 轮（当前轮，需求 V4.0）**：
 - **轮次目标**：信息充实（≥60 条空白记录完成字段提取升级）、失效来源刷新与清理（无僵尸记录）、信息源与提取流程优化、展示优化、三类单位岗位 ≥20 条（事业单位 ≥8 条）、大厂综合岗位 ≥12 条与京沪事业单位增补 ≥6 条。
 - **功能范围（最小完整链路优先）**：先建 source-tools 两条命令（刷新分类 + 提取辅助），再并行执行 data-refresh（充实+刷新+清理）、三类单位采集、展示优化，最后全量回归。
 - **交付物**：extract:fields / refresh:sources 脚本、充实的批次数据（≥60 条带证据字段）、刷新后的前台数据（无失效来源）、三类单位新批次（≥20 条）、大厂综合岗位批次（≥12 条）、京沪事业单位增补（≥6 条）、优化后的展示、同步的文档与测试注册表。
@@ -263,3 +283,7 @@ jiaodian-careers/
 - AC-17：三类单位新增岗位合计 ≥20 条（事业单位 ≥8 条，含报名安排），全部带来源证据。
 - AC-18：大厂综合岗位新增 ≥12 条（腾讯、小米、华为、字节等；覆盖项目经理、产品经理、AI／机器人、AI4S、AI 伦理职能），全部带来源证据且来源以官方渠道为准。
 - AC-19：北京、上海事业单位在既有基础上新增 ≥6 条（累计事业单位 ≥15 条），含报名安排。
+- AC-20：/match 页三类画像条目可增删（教育经历含自定义阶段），localStorage 键 `jiaodian-profile` 持久化，可一键清空。
+- AC-21：填写画像后推荐列表按分排序且每条带理由；打分只使用平台标签与 title/original_major_requirements；权重集中于 src/lib/match.ts。
+- AC-22：详情页条件信息区按字段存在性渲染（16 条来源核验与 3 条关键字段的已提取字段可见），新增职能标签与招聘类型展示；空区块不渲染。
+- AC-23：稀疏记录（9 条）完成补充提取或如实报告不可提取原因，新增字段审计通过。

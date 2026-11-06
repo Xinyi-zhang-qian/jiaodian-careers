@@ -2,7 +2,7 @@
 
 ## 用户交互设计说明书
 
-> 版本：V2.1（第 2 轮需求分析 ::design 更新）
+> 版本：V3.0（第 3 轮需求分析 ::design 更新）
 > 交互方式：求职者侧为 Web GUI（静态站点，浏览器访客直接操作页面）；维护者侧为 npm 脚本命令行（add:jobs、recheck:legacy、extract:fields、refresh:sources、test 等）。
 
 # 1. 文档定位与边界
@@ -20,13 +20,14 @@
 
 入口清单：
 
-- Web 页面：`/`、`/jobs`、`/jobs/[id]`、`/directions`、`/favorites`、`/internships`、`/analysis`、`/market`、`/market/robotics`、`/404`。
+- Web 页面：`/`、`/match`（第 3 轮新增）、`/jobs`、`/jobs/[id]`、`/directions`、`/favorites`、`/internships`、`/analysis`、`/market`、`/market/robotics`、`/404`。
 - npm 脚本：`dev`、`build`、`start`、`audit:jobs [--offline]`、`add:jobs <json> --batch <名称>`、`recheck:legacy [--offline] [--ids …] [--limit N]`、`extract:fields --scan|--apply <json> [--ids …] [--limit N]`（第 2 轮新增）、`refresh:sources [--ids …] [--limit N]`（第 2 轮新增）、`collect:robotics [--offline]`、`test`（聚合测试入口）。
 
 # 3. 全局交互协议
 
 - **URL 参数协议**（/jobs 页）：`q`（关键词）、`region`（地区）、`city`（城市）、`org_type`（单位类型）、`job_type`（岗位类型）、`education`（学历）、`discipline`（主学科）、`secondary_discipline`（第二学科/技能）、`function`（岗位职能，取职能枚举值）、`status`（招聘状态）、`sort`（newest/verified/deadline，缺省 newest）、`page`（页码，缺省 1）。筛选变化经 `router.replace` 同步到 URL（`scroll: false`）；空值与缺省值不写入。
 - **收藏存储协议**：localStorage 键 `jiaodian-favorites`，JSON 数字数组；解析失败按空数组处理。
+- **画像存储协议**（第 3 轮新增）：localStorage 键 `jiaodian-profile`，结构 `{ education: [{ stage, major }], work: [{ title }], skills: [string] }`；解析失败按空画像处理；增删条目即写入并触发推荐重算。
 - **核验徽标色彩协议**（★ 统一）：逐字段核验=绿、来源核验=蓝、关键字段核验=琥珀、待核实=黄；「即将截止」标识=红色强调，「报名已截止」标识=中性灰。全站一致。
 - **错误呈现形态**：静态站点无网络失败场景；非法详情 ID 渲染 404 页；筛选无结果渲染空态文案。
 - **外链行为**：全部来源链接 `target="_blank" rel="noopener noreferrer"`。
@@ -35,7 +36,7 @@
 
 # 4. 全局框架（Header / Footer）
 
-- Header：品牌「交点 Careers」回首页；导航 6 链接——探索岗位(/jobs)、方向分析(/analysis)、市场观察(/market)、实习岗位(/internships)、交叉方向(/directions)、收藏(/favorites)。移动端横向滚动。
+- Header：品牌「交点 Careers」回首页；导航 7 链接——岗位匹配(/match)、探索岗位(/jobs)、方向分析(/analysis)、市场观察(/market)、实习岗位(/internships)、交叉方向(/directions)、收藏(/favorites)。移动端横向滚动。
 - Footer：标语与来源声明。无交互。
 
 # 5. 首页（/）
@@ -53,6 +54,22 @@
 | 职能快捷入口 | 点击 | — | 跳转 `/jobs?function={职能名}`（展示项目管理、产品经理、AI 伦理等有岗位的职能） | 无岗位的职能不展示 |
 | 精选岗位 JobCard ×6 | 点击 | — | 跳转详情页 | — |
 | 「查看方向分析」按钮 | 点击 | — | 跳转 /analysis | — |
+
+# 5a. 岗位匹配页（/match，第 3 轮新增）
+
+初始化行为：从 localStorage 恢复画像 → 调用匹配引擎对全量目录打分 → 渲染编辑器与推荐列表；条目变化实时重算（纯本地，无网络请求）。
+
+| 控件 | 触发 | 期望输入 | 成功时的界面表现 | 非法输入/失败时的界面表现 |
+| --- | --- | --- | --- | --- |
+| 教育经历「添加」按钮 | 点击 | 阶段（下拉：本科/硕士/博士/自定义输入）+ 专业名称（文本） | 新条目入列表并持久化；推荐实时更新 | 专业名称为空 → 添加按钮禁用 |
+| 教育经历单条删除 | 点击 × | — | 条目移除；推荐实时更新 | 无 |
+| 工作经历「添加」按钮 | 点击 | 岗位名称（文本） | 同上 | 名称为空 → 禁用 |
+| 工作经历单条删除 | 点击 × | — | 条目移除 | 无 |
+| 技能特长「添加」按钮 | 点击 | 技能名称（文本） | 同上 | 名称为空 → 禁用 |
+| 技能特长单条删除 | 点击 × | — | 条目移除 | 无 |
+| 「清空画像」按钮 | 点击 | — | 清空确认后三组条目清空、推荐回引导态 | 无 |
+| 推荐列表 | 纯展示 | — | 按匹配分降序的 JobCard + 匹配理由标签（如「硕士·计算语言学 ↔ 专业要求原文」「技能 Python ↔ 技能标签」）；无匹配时显示「暂无高度匹配岗位」并建议调整画像 | 空画像 → 引导文案（填写专业/经历/技能获得推荐） |
+| 组合筛选（地区/单位类型下拉） | 选择 | 枚举值 | 推荐列表在画像打分基础上按筛选收敛 | 非枚举值按无筛选处理 |
 
 # 6. 岗位列表页（/jobs）
 
@@ -89,6 +106,9 @@
 | --- | --- | --- | --- | --- |
 | 「返回岗位列表」链接 | 点击 | — | 跳转 /jobs | 无 |
 | 核验层级提示条 | 纯展示 | — | 按 verification_level 渲染四种文案之一（色彩协议） | 无层级不渲染 |
+| 条件信息区块（第 3 轮改版） | 纯展示 | — | 按「字段存在性」渲染：凡记录拥有原公告资格条件/学历/经验/薪资即展示（区块标题按核验层级标注口径：逐字段=原公告资格条件、其余=已核验条件信息），长文本完整渲染；无任何条件字段不渲染该区块 | 字段缺失行不渲染、不编造 |
+| 职能标签区块（第 3 轮新增） | 纯展示 | — | job_functions 非空时渲染平台职能标签（与方向标签同区） | 空数组不渲染 |
+| 招聘类型标识（第 3 轮新增） | 纯展示 | — | recruit_type（校招/社招）在标题旁以既有徽标样式展示 | 缺省不渲染 |
 | 报名窗口区块 | 纯展示 | — | 有 `application_opens_at` 或 `deadline` 或 `application_info` 或公告级条目时展示：报名开始、报名截止、报名方式（application_info），原「截止日期」「申请方式与材料」独立区块并入本区块；事业单位公告随区块标注「事业单位公开招聘」 | 原文无时间信息则不显示时间行，不编造 |
 | 「即将截止」标识 | 纯展示 | — | deadline ≤7 天且招聘中：标题旁红色徽标 | 同列表页规则 |
 | 「报名已截止」标识 | 纯展示 | — | deadline 早于当日且状态「招聘中」：标题旁灰色徽标 | 同列表页规则 |
