@@ -98,3 +98,4 @@
 ## [2026-11-06 10:40:00] ::devplan（第 3 轮）
 - 开发计划写入 plans/current.md | 涉及模块: [match, detail-enrich] | 旧计划归档至 plans/2026-11-05.md | 中断续接: 无 | 状态: 等待批准
 - 备注: match 为引擎+界面一个开发单元（接口紧耦合）；detail-enrich 并行（文件不相交）；补提取复用既有 extract:fields 命令
+- 模块文档建立: docs/modules/match_{design,interaction}.md、docs/modules/detail-enrich_{design,interaction}.md
