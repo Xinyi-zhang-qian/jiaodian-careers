@@ -1,12 +1,12 @@
 # data-acquisition 模块设计文档（第 2 轮执行）
 
-> 全局契约引用 docs/design.md §4（契约 2、3、5、11、12、14）、§5；本模块为第 2 轮三类单位岗位补充的执行单元（第 1 轮的京沪与跨学科批次已交付，本节按第 2 轮目标重写）。
+> 全局契约引用 docs/design.md §4（契约 2、3、5、11、12、14）、§5；本模块为第 2 轮三类单位岗位补充的执行单元（第 1 轮的京沪与跨学科批次已交付，本节按第 2 轮目标重写）。第 2 轮模块开发阶段另承接用户点名的腾讯与华为补采单元（本节一并覆盖）。
 
 # 1. 模块职责与边界
 
-- 职责：采集并录入事业单位、科研院所、新型研究机构岗位 ≥20 条（事业单位 ≥8 条，含报名安排），地域北京、上海重点兼顾全国；以及第 2 轮模块开发阶段新增的大厂综合岗位 ≥12 条与京沪事业单位增补 ≥6 条；使用 extract:fields --scan 辅助字段抽取（不可用时逐页人工核对），人工确认后录入。
-- 数据所有权：本轮新建批次文件 `src/data/jobs/public-sector-2026-11.ts`（事业单位）、`src/data/jobs/research-institutes-2026-11.ts`（科研院所与新型研究机构，两类合并为一个批次，文件头注明构成）；第 2 轮第二批增量新建 `src/data/jobs/enterprise-bigtech-2026-11.ts`（大厂综合岗位）、`src/data/jobs/public-sector-bjsh-2026-11.ts`（北京、上海事业单位增补）。
-- 不负责：修改既有批次（data-refresh 所有）、管线脚本（source-tools）、页面代码（jobs-catalog）。
+- 职责：采集并录入事业单位、科研院所、新型研究机构岗位 ≥20 条（事业单位 ≥8 条，含报名安排），地域北京、上海重点兼顾全国；以及第 2 轮模块开发阶段新增的大厂综合岗位 ≥12 条与京沪事业单位增补 ≥6 条；第 2 轮补采单元另需补录腾讯岗位 ≥3 条与华为岗位 ≥3 条（合计 ≥6 条，职能优先 AI 伦理／治理／合规／安全类），每条必须真实访问来源页并逐字段核验后录入。
+- 数据所有权：本轮新建批次文件 `src/data/jobs/public-sector-2026-11.ts`（事业单位）、`src/data/jobs/research-institutes-2026-11.ts`（科研院所与新型研究机构，两类合并为一个批次，文件头注明构成）；第 2 轮第二批增量新建 `src/data/jobs/enterprise-bigtech-2026-11.ts`（大厂综合岗位）、`src/data/jobs/public-sector-bjsh-2026-11.ts`（北京、上海事业单位增补）；补采单元新建 `src/data/jobs/tencent-huawei-2026-11.ts`（腾讯与华为岗位补采）。
+- 不负责：修改既有批次（data-refresh 所有）、管线脚本（source-tools）、页面代码（jobs-catalog）、批次并入 index.ts（合并阶段由主 Agent 执行）。
 
 # 2. 内部结构
 
@@ -15,6 +15,7 @@ src/data/jobs/public-sector-2026-11.ts       # 事业单位公开招聘（含报
 src/data/jobs/research-institutes-2026-11.ts # 科研院所与新型研究机构岗位——第 2 轮第一批已交付 13 条
 src/data/jobs/enterprise-bigtech-2026-11.ts  # 大厂综合岗位（腾讯、小米、华为、字节等）
 src/data/jobs/public-sector-bjsh-2026-11.ts  # 北京、上海事业单位增补
+src/data/jobs/tencent-huawei-2026-11.ts      # 腾讯与华为岗位补采（第 2 轮补采单元）
 workspace/acquisition/                        # 采集底稿（来源清单、原文摘录，本地产物）
 ```
 
@@ -27,6 +28,8 @@ workspace/acquisition/                        # 采集底稿（来源清单、�
 3. **录入**：`extract:fields --scan` 辅助抽取候选 → 人工确认 → 批次文件写入（或 add:jobs）；id 从 3001 起手工段（第二批增量批次从 3101 起）；fetched_at/last_verified = 采集当日。
 
 失败点：来源页无法访问 → 放弃该条并记录原因；内容与预期不符 → 放弃；禁止按机构类型或常见待遇推测补写。官方渠道不可核验而转载页可逐字段核验时，改用转载来源录入（source_type 用「其他」、source_name 注明「转载」），官方原始出处访问失败的原因记入 workspace/acquisition/ 底稿；不因此降低证据要求（仍须 ≥3 段逐字命中）。
+
+补采单元（腾讯与华为）渠道实测结论（第 2 轮补采）：腾讯招聘官网职位详情页（careers.tencent.com/jobdesc.html）为 JS 渲染壳，静态抓取无岗位内容，改用同一官网域名下的职位数据接口（tencentcareer/api/post/ByPostId，返回官方职位 JSON 数据，含职位名称、职责、要求与最近更新时间，逐字段核验）；华为招聘官网（career.huawei.com）职位页为 JS 渲染，改用南开大学学生就业信息网转载的华为校园招聘职位页（静态可核验）；微信公众号文章页（mp.weixin.qq.com）静态抓取仅得分享壳（正文位于脚本变量中，可见文本不足三段证据），公众号渠道整体放弃。腾讯官网以「伦理」「AI治理」检索无结果、华为侧无可核验的 AI 伦理／安全类岗位，均如实放弃并记入 workspace/acquisition/sources-3.md。
 
 # 4. 内部数据结构
 

@@ -5,7 +5,7 @@
 # 1. 交互面总览
 
 - 输入：来源网页（只读）；extract:fields --scan 候选 JSON（辅助）。
-- 输出：`src/data/jobs/public-sector-2026-11.ts`、`src/data/jobs/research-institutes-2026-11.ts`（第 2 轮第一批）；`src/data/jobs/enterprise-bigtech-2026-11.ts`、`src/data/jobs/public-sector-bjsh-2026-11.ts`（第 2 轮增量批次）；workspace/acquisition/ 底稿。
+- 输出：`src/data/jobs/public-sector-2026-11.ts`、`src/data/jobs/research-institutes-2026-11.ts`（第 2 轮第一批）；`src/data/jobs/enterprise-bigtech-2026-11.ts`、`src/data/jobs/public-sector-bjsh-2026-11.ts`（第 2 轮增量批次）；`src/data/jobs/tencent-huawei-2026-11.ts`（第 2 轮补采批次）；workspace/acquisition/ 底稿。
 
 # 2. 批次文件规格
 
@@ -29,6 +29,15 @@
   - 每条含报名安排：application_opens_at / deadline 原文有则必录，报名方式写入 application_info（原文只写「长期有效」「招满为止」时不填 deadline，把原文写入 application_info）；
   - 不得与第 1 轮已采集公告重复（合并时由主 Agent 做去重核对）。
 
+# 2b. 补采批次规格（第 2 轮补采：腾讯与华为岗位）
+
+- `src/data/jobs/tencent-huawei-2026-11.ts`（腾讯与华为岗位补采，用户点名缺口）：
+  - 数量：合计 ≥6 条，其中腾讯岗位 ≥3 条、华为岗位 ≥3 条；org_type「企业」；id 从 3201 起手工段（3201、3202……，不与 3101 段及既有批次冲突）；fetched_at 与 last_verified 取采集当日（2026-11-06）；
+  - 来源渠道（按可核验性排序，全部逐字段核验）：腾讯招聘官网职位数据接口（careers.tencent.com 域名下 tencentcareer/api/post/ByPostId，官方职位 JSON 数据；详情页 jobdesc.html 为 JS 渲染壳，如实记录改用接口的原因，source_type「官网」）；高校就业信息网转载的华为校园招聘职位页（南开大学学生就业信息网，source_type「其他」、source_name 注明「转载」）；微信公众号文章页经实测为分享壳（正文位于脚本变量、可见文本不足三段证据）不作为来源；
+  - 职能优先级：AI 伦理／治理／合规／安全类岗位优先（第 2 轮大厂批次五类职能中唯独缺 AI 伦理），其次产品经理、项目经理、AI／机器人、AI4S；岗位实际职能按 job_functions 标注，凡录到 AI 伦理／安全类岗位，其 job_functions 必须含「AI伦理」；
+  - 证据要求：逐字段核验，source_evidence ≥3 段且 source_url 为 HTTPS；腾讯记录的 published_at 取官网数据接口标注的职位最近更新时间（LastUpdateTime），并在 description 注明；核对不到的字段一律留空；
+  - 城市不限（北京、上海优先）；city 具体到市；只录现行有效职位（腾讯以接口返回 IsValid 为准），放弃的候选逐条记录原因到 workspace/acquisition/sources-3.md。
+
 # 3. 自检断言（模块测试）
 
 1. 两个批次可被 tsx 导入；schema 自查全部通过（必填、枚举、日期、待核实纯净、职能枚举、逐字段证据 ≥3 段）。
@@ -36,3 +45,4 @@
 3. 事业单位断言：每条含报名窗口字段或 application_info 报名原文。
 4. 地域断言：北京、上海记录合计占比不低于一半（重点地域要求）。
 5. 全部记录在线回源：source_title、published_at、全部证据片段逐字命中。
+6. 补采批次（tencent-huawei-2026-11）：schema 自查通过；腾讯岗位 ≥3 条、华为岗位 ≥3 条且合计 ≥6 条（按 organization 判定）；id 全部落在 3201 手工段且批次内无重复；凡判定为 AI 伦理／安全类的记录（标题或正文含 AI 安全、大模型安全、AI 治理、AI 伦理类表述），其 job_functions 必须含「AI伦理」。

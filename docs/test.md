@@ -70,6 +70,18 @@
 - 如何运行：`npx tsx scripts/tests/data-acquisition.test.ts`
 - 测试内容：依据需求 V3.1 §18 地域要求，断言京沪事业单位增补批次全部记录的 province 均为「北京」或「上海」且 city 与省份一致（北京记录 city 为北京、上海记录 city 为上海），出现其他省份即断言失败并输出违规记录 id。
 
+### 补采批次 schema 自查（腾讯华为）
+- 如何运行：`npx tsx scripts/tests/data-acquisition.test.ts`
+- 测试内容：依据 `docs/modules/data-acquisition_interaction.md` §2b 补采批次规格，导入 tencent-huawei-2026-11 批次文件逐条校验——必填字段齐全、枚举合法（org_type/source_type/status/verification_level/job_functions）、日期字段为 YYYY-MM-DD、application_opens_at 不晚于 deadline、「逐字段核验」记录 source_evidence ≥3 段且 source_url 为 HTTPS、is_demo 均为 false、city 无模糊表述；任一违规输出逐条错误行并断言失败。
+
+### 补采批次数量与 id 段断言（腾讯华为）
+- 如何运行：`npx tsx scripts/tests/data-acquisition.test.ts`
+- 测试内容：依据模块交互文档 §2b 补采批次规格，断言 tencent-huawei-2026-11 批次合计 ≥6 条、organization 含「腾讯」的记录 ≥3 条、organization 含「华为」的记录 ≥3 条；批次内 id 无重复且全部落在 3201 起的手工段，并与既有全部批次核对无 id 冲突；未达标即断言失败并输出实际数量。
+
+### 补采批次 AI 伦理职能断言（腾讯华为）
+- 如何运行：`npx tsx scripts/tests/data-acquisition.test.ts`
+- 测试内容：依据模块交互文档 §2b 职能优先级要求，对 tencent-huawei-2026-11 批次逐条判定——凡标题或职责描述命中 AI 安全／大模型安全／AI 治理／AI 伦理类表述的记录，其 job_functions 必须含枚举值「AI伦理」，缺失即断言失败并输出违规记录 id；并断言批次整体至少有一条记录标注「AI伦理」（补采目标为补齐第 2 轮大厂批次五类职能中唯一缺失的 AI 伦理）。
+
 ## 模块 legacy-cleanup 测试
 
 ### classifySource 分类判定（来源命中 → 可升级）
@@ -270,3 +282,5 @@
 - 补充核验（增量执行）：一次性底稿脚本（normalize 口径与 scripts/audit-verified-jobs.ts 一致，提交前已删除）对新增 19 条记录（大厂综合 12 条、京沪事业单位增补 7 条）逐条在线回源，source_title、published_at（逐字段核验级）与全部 source_evidence 片段逐字命中，全量通过；来源清单与放弃记录原因见 workspace/acquisition/sources-2.md（本地产物，不入库）。
 - 2026-11-05 | 范围：整库（::ci 第 2 轮）| 通过：npm run test 7/7 套件；npm run build 成功（209 个详情页与目录一致）；npm run audit:jobs 在线审计 209 条全量回源命中（165 逐字段/33 来源/11 关键字段）；处置 2 条——589 证据锚点改为静态可命中片段（原长句证据来自页面 JS 渲染岗位卡）、588（清华 AIR）来源站点本环境持续不可达收敛为关键字段核验并留痕
 - 2026-11-05 | 范围：GUI 视觉验收（::ci 第 2 轮）| 通过：13 张截图复拍判读，verdict overall=pass（1 warn：notfound 环境限制）；列表页确认 209 条计数与新批次完整条件字段展示
+- 2026-11-06 | 范围：模块 data-acquisition（第 2 轮补采，分支 dev/data-acquisition-3，worktree .worktrees/data-acquisition-3）| 腾讯华为补采：运行 `npx tsx scripts/tests/data-acquisition.test.ts`：通过 29 组断言 / 失败 0，覆盖 77 条记录（北京 10、上海 10、跨学科 10、事业单位 9、科研院所 13、大厂综合 12、京沪事业单位增补 6、腾讯华为补采 7；其中事业单位 30 条）；`npx tsc --noEmit` 通过（0 错误）。
+- 补充核验（腾讯华为补采）：一次性底稿脚本（workspace/acquisition/verify-evidence-3.ts，normalize 口径与 user-agent 均与 scripts/audit-verified-jobs.ts 一致，提交前已删除）对新增 7 条记录（腾讯 4 条、华为 3 条）逐条在线回源，source_title、published_at（含中文日期变体）与全部 source_evidence 片段逐字命中，7/7 全量通过；腾讯记录来源为腾讯招聘官网职位数据接口（详情页 jobdesc.html 为 JS 渲染壳，来源渠道说明见模块交互文档 §2b），华为记录来源为南开大学就业信息网转载职位页；来源清单与放弃候选原因见 workspace/acquisition/sources-3.md（本地产物，不入库）。
