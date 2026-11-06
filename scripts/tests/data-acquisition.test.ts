@@ -6,7 +6,9 @@
  * 说明：校验逻辑实现为独立可复用函数（validateJobRecord / validateBatch /
  *       validateInstitutionalWindow），口径与 scripts/audit-verified-jobs.ts 的 audit 规则对齐。
  *       第 2 轮新增事业单位批次（public-sector-2026-11，id 3001 起）与科研院所批次
- *       （research-institutes-2026-11）的 schema、数量、报名窗口与京沪占比断言。
+ *       （research-institutes-2026-11）的 schema、数量、报名窗口与京沪占比断言；
+ *       补采批次（tencent-huawei-2026-11，id 3201 起）的 schema、腾讯/华为数量、
+ *       id 手工段与 AI 伦理职能断言。
  */
 import assert from 'node:assert/strict';
 import beijingJobs from '../../src/data/jobs/beijing-2026-11';
@@ -16,6 +18,7 @@ import publicSectorJobs from '../../src/data/jobs/public-sector-2026-11';
 import researchJobs from '../../src/data/jobs/research-institutes-2026-11';
 import bigtechJobs from '../../src/data/jobs/enterprise-bigtech-2026-11';
 import bjshJobs from '../../src/data/jobs/public-sector-bjsh-2026-11';
+import tencentHuaweiJobs from '../../src/data/jobs/tencent-huawei-2026-11';
 
 // ---------- 校验常量（与 src/lib/utils.ts、docs/design.md 契约 2/11/12 一致） ----------
 
@@ -163,6 +166,7 @@ const batches = [
   { name: '科研院所批次', file: 'research-institutes-2026-11', records: researchJobs as any[], minCount: 12 },
   { name: '大厂综合批次', file: 'enterprise-bigtech-2026-11', records: bigtechJobs as any[], minCount: 12 },
   { name: '京沪事业单位增补批次', file: 'public-sector-bjsh-2026-11', records: bjshJobs as any[], minCount: 6 },
+  { name: '腾讯华为补采批次', file: 'tencent-huawei-2026-11', records: tencentHuaweiJobs as any[], minCount: 6 },
 ];
 
 let checks = 0;
@@ -323,10 +327,57 @@ assert.deepEqual(
 );
 checks += 1;
 
+// ---------- 第 2 轮补采批次断言（模块交互文档 §2b：腾讯与华为岗位，id 3201 起） ----------
+
+const tencentHuawei = tencentHuaweiJobs as any[];
+
+// 9. 补采批次 id 段断言：id ≥3201、批次内无重复、与既有批次无冲突
+const thIds = tencentHuawei.map((r) => r.id);
+const thDuplicates = thIds.filter((id, i) => thIds.indexOf(id) !== i);
+assert.deepEqual(thDuplicates, [], `补采批次存在重复 id：${thDuplicates.join('、')}`);
+const below3201 = thIds.filter((id) => !(Number.isInteger(id) && id >= 3201));
+assert.deepEqual(below3201, [], `补采批次存在不在 3201 手工段的 id：${below3201.join('、')}`);
+const thPriorIds = batches
+  .filter((b) => b.file !== 'tencent-huawei-2026-11')
+  .flatMap((b) => b.records.map((r) => r.id));
+const thConflicts = thIds.filter((id) => thPriorIds.includes(id));
+assert.deepEqual(thConflicts, [], `补采批次 id 与既有批次冲突：${thConflicts.join('、')}`);
+checks += 1;
+
+// 10. 补采批次数量断言：合计 ≥6，腾讯 ≥3、华为 ≥3（按 organization 判定）
+const thTencent = tencentHuawei.filter((r) => (r.organization ?? '').includes('腾讯'));
+const thHuawei = tencentHuawei.filter((r) => (r.organization ?? '').includes('华为'));
+assert.ok(
+  tencentHuawei.length >= 6,
+  `腾讯华为补采批次仅 ${tencentHuawei.length} 条，未达 6 条目标`,
+);
+assert.ok(thTencent.length >= 3, `补采批次腾讯岗位仅 ${thTencent.length} 条，未达 3 条目标`);
+assert.ok(thHuawei.length >= 3, `补采批次华为岗位仅 ${thHuawei.length} 条，未达 3 条目标`);
+checks += 1;
+
+// 11. 补采批次 AI 伦理职能断言：AI 安全/治理/伦理类记录必须标注「AI伦理」，且批次至少一条标注
+const thTextOf = (job: any) => `${job.title} ${job.description} ${job.responsibilities ?? ''}`;
+const TH_ETHICS_PATTERN =
+  /AI ?安全|大模型安全|人工智能.{0,8}安全|AI ?治理|人工智能.{0,8}治理|AI ?伦理|人工智能.{0,8}伦理|可信 ?AI|Responsible AI|科技伦理/i;
+const thEthicsViolations = tencentHuawei.filter(
+  (job) => TH_ETHICS_PATTERN.test(thTextOf(job)) && !(job.job_functions ?? []).includes('AI伦理'),
+);
+assert.deepEqual(
+  thEthicsViolations.map((j) => j.id),
+  [],
+  `补采批次 AI 伦理/安全类记录未标注「AI伦理」职能：${thEthicsViolations.map((j) => j.id).join('、')}`,
+);
+const thEthicsCount = tencentHuawei.filter((job) => (job.job_functions ?? []).includes('AI伦理')).length;
+assert.ok(
+  thEthicsCount >= 1,
+  `补采批次无任何记录标注「AI伦理」职能（补采目标为补齐第 2 轮大厂批次缺失的 AI 伦理职能）`,
+);
+checks += 1;
+
 
 // 汇总
 const total = batches.reduce((sum, b) => sum + b.records.length, 0);
 const institutional = batches.reduce((sum, b) => sum + b.records.filter((r) => r.org_type === '事业单位').length, 0);
 console.log(
-  `data-acquisition 测试通过：${checks} 组断言 / 覆盖 ${total} 条记录（北京 ${beijingJobs.length}、上海 ${shanghaiJobs.length}、跨学科 ${crossJobs.length}、事业单位 ${publicSectorJobs.length}、科研院所 ${researchJobs.length}、大厂综合 ${bigtechJobs.length}、京沪事业单位增补 ${bjshJobs.length}；其中事业单位 ${institutional} 条）。`,
+  `data-acquisition 测试通过：${checks} 组断言 / 覆盖 ${total} 条记录（北京 ${beijingJobs.length}、上海 ${shanghaiJobs.length}、跨学科 ${crossJobs.length}、事业单位 ${publicSectorJobs.length}、科研院所 ${researchJobs.length}、大厂综合 ${bigtechJobs.length}、京沪事业单位增补 ${bjshJobs.length}、腾讯华为补采 ${tencentHuaweiJobs.length}；其中事业单位 ${institutional} 条）。`,
 );
