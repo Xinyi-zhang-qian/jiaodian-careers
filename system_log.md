@@ -99,3 +99,7 @@
 - 开发计划写入 plans/current.md | 涉及模块: [match, detail-enrich] | 旧计划归档至 plans/2026-11-05.md | 中断续接: 无 | 状态: 等待批准
 - 备注: match 为引擎+界面一个开发单元（接口紧耦合）；detail-enrich 并行（文件不相交）；补提取复用既有 extract:fields 命令
 - 模块文档建立: docs/modules/match_{design,interaction}.md、docs/modules/detail-enrich_{design,interaction}.md
+
+## [2026-11-06 11:30:00] ::mergelocal（第 3 轮，两分支）
+- 合并分支: [dev/detail-enrich, dev/match] | 冲突: 1 处（docs/test.md，自动裁决：保留主线 + match 小节并集补入） | worktree 清理: 2 个（剩余 1） | 进入阶段: 代码检查
+- 备注: 两个 dev 子 Agent 因 API 网络中断失败，主 Agent 亲自接手完成全部开发（detail-enrich 延续其半成品代码，match 全量自研）；测试并集后 7+2 套件
