@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ExternalLink, MapPin, Building2, Calendar, GraduationCap, ArrowLeft } from 'lucide-react';
 import { getJob, getJobIds, deadlineBadgeLabel, hasConditionInfo, applicationWindow } from '@/lib/data';
+import { detailSections } from '@/lib/detail-sections';
 import { getListingKind } from '@/lib/utils';
 import FavoriteButton from '@/components/jobs/favorite-button';
 
@@ -46,6 +47,17 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
   // 五个条件字段（原公告资格条件、学历、薪资、职责、报名方式）全空时在正文顶部显示统一提示条。
   const showConditionNotice = !hasConditionInfo(job);
   const appWindow = applicationWindow(job, listingKind);
+  // 详情页各区块渲染判定（docs/interaction.md §7 第 3 轮改版）：区块是否渲染与标题口径
+  // 统一由 detailSections 纯函数给出，页面按 visible 逐区渲染、按字段存在性逐行渲染。
+  const sectionMap = new Map(detailSections(job).map((section) => [section.key, section]));
+  const conditionSection = sectionMap.get('condition');
+  const tagsSection = sectionMap.get('tags');
+  const responsibilitiesSection = sectionMap.get('responsibilities');
+  const preferredSection = sectionMap.get('preferred');
+  const descriptionSection = sectionMap.get('description');
+  const evidenceSection = sectionMap.get('evidence');
+  // 条件信息区首行标签按层级口径：逐字段核验记录为公告原文，其余层级为平台核验转述。
+  const majorLabel = job.verification_level === '逐字段核验' ? '原公告原文' : '专业要求';
 
   return (
     <div>
@@ -63,6 +75,13 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
             )}
             <div className="flex flex-wrap items-center gap-3">
               <h1 className="text-2xl lg:text-[32px] font-semibold text-text-primary">{job.title}</h1>
+              {job.recruit_type && (
+                <span className={`px-2 py-0.5 rounded text-xs font-medium ${
+                  job.recruit_type === '校招' ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700'
+                }`}>
+                  {job.recruit_type}
+                </span>
+              )}
               {deadlineBadge && (
                 <span className={deadlineBadgeClass}>{deadlineBadge}</span>
               )}
@@ -109,38 +128,45 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
           {job.verification_level === '关键字段核验' && <section className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-amber-900">本条已公开岗位名称、单位、地区和来源链接等关键字段，标注为“已核验（关键字段）”；薪资、学历、专业、职责和当前招聘状态未在本站作完整转述，请以原公告为准。</section>}
           {job.verification_level === '待核实' && <section className="rounded-2xl border border-yellow-200 bg-yellow-50 p-4 text-sm leading-6 text-yellow-900">历史招聘线索，尚未核对来源页面。岗位名称、单位及链接也可能有误；本页不展示未经核实的条件信息，请打开来源自行确认。</section>}
 
-          {/* 条件信息分区：原公告资格条件 → 原公告岗位职责 → 技能与方向标签 → 报名窗口 → 原页核验锚点 → 本站说明 */}
-          {job.verification_level === '逐字段核验' && <section className="p-5 rounded-2xl border border-brand/20 bg-brand/5">
-            <h2 className="text-lg font-semibold text-brand-dark mb-3">原公告资格条件</h2>
-            <div className="space-y-3 text-sm">
-              <div>
-                <p className="font-medium text-text-primary">原公告原文</p>
-                <p className="mt-1 text-text-secondary leading-relaxed">{job.original_major_requirements}</p>
+          {/* 条件信息分区：按 detailSections 判定渲染（字段存在性），区块标题按层级口径；
+              原公告原文/学历/经验/薪资各行按字段存在性渲染，字段缺失不渲染行、不编造 */}
+          {conditionSection?.visible && (
+            <section className="p-5 rounded-2xl border border-brand/20 bg-brand/5">
+              <h2 className="text-lg font-semibold text-brand-dark mb-3">{conditionSection.title}</h2>
+              <div className="space-y-3 text-sm">
+                {job.original_major_requirements && (
+                  <div>
+                    <p className="font-medium text-text-primary">{majorLabel}</p>
+                    <p className="mt-1 text-text-secondary leading-relaxed">{job.original_major_requirements}</p>
+                  </div>
+                )}
+                {job.education && (
+                  <div>
+                    <p className="font-medium text-text-primary">学历要求</p>
+                    <p className="mt-1 text-text-secondary">{job.education}</p>
+                  </div>
+                )}
+                {job.experience && job.experience !== '不限' && (
+                  <div>
+                    <p className="font-medium text-text-primary">经验要求</p>
+                    <p className="mt-1 text-text-secondary">{job.experience}</p>
+                  </div>
+                )}
+                {job.salary && (
+                  <div>
+                    <p className="font-medium text-text-primary">薪资待遇</p>
+                    <p className="mt-1 text-text-secondary">{job.salary}</p>
+                  </div>
+                )}
               </div>
-              <div>
-                <p className="font-medium text-text-primary">学历要求</p>
-                <p className="mt-1 text-text-secondary">{job.education}</p>
-              </div>
-              {job.experience && job.experience !== '不限' && (
-                <div>
-                  <p className="font-medium text-text-primary">经验要求</p>
-                  <p className="mt-1 text-text-secondary">{job.experience}</p>
-                </div>
-              )}
-            </div>
-          </section>}
-
-          {job.responsibilities && (
-            <section>
-              <h2 className="text-lg font-semibold text-text-primary mb-3">原公告岗位职责（按原文列项）</h2>
-              <p className="text-sm text-text-secondary leading-relaxed whitespace-pre-wrap">{job.responsibilities}</p>
             </section>
           )}
 
-          {/* 方向、技能与优先条件合并为一个分区，子组标题区分来源与性质 */}
-          {(job.platform_disciplines.length > 0 || job.required_skills.length > 0 || job.preferred_skills.length > 0) && (
+          {/* 方向、职能与技能标签合并为一个分区，子组标题区分来源与性质；
+              职能标签为第 3 轮新增（docs/interaction.md §7），与方向标签同区渲染、secondary 色系区分 */}
+          {tagsSection?.visible && (
             <section>
-              <h2 className="text-lg font-semibold text-text-primary mb-3">技能与方向标签</h2>
+              <h2 className="text-lg font-semibold text-text-primary mb-3">{tagsSection.title}</h2>
               <div className="space-y-3">
                 {job.platform_disciplines.length > 0 && (
                   <div>
@@ -148,6 +174,16 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
                     <div className="flex flex-wrap gap-2">
                       {job.platform_disciplines.map((d) => (
                         <span key={d} className="px-3 py-1.5 rounded-lg text-sm bg-brand/10 text-brand-dark font-medium">{d}</span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {(job.job_functions?.length ?? 0) > 0 && (
+                  <div>
+                    <p className="mb-1.5 text-xs font-medium text-text-secondary/70">职能标签（平台归类，非公告原文）</p>
+                    <div className="flex flex-wrap gap-2">
+                      {job.job_functions?.map((f) => (
+                        <span key={f} className="px-3 py-1.5 rounded-lg text-sm bg-secondary/10 text-secondary font-medium">{f}</span>
                       ))}
                     </div>
                   </div>
@@ -162,17 +198,35 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
                     </div>
                   </div>
                 )}
-                {job.preferred_skills.length > 0 && (
-                  <div>
-                    <p className="mb-1.5 text-xs font-medium text-text-secondary/70">优先条件</p>
-                    <div className="flex flex-wrap gap-2">
-                      {job.preferred_skills.map((s) => (
-                        <span key={s} className="px-3 py-1.5 rounded-lg text-sm bg-accent/10 text-accent font-medium">{s}</span>
-                      ))}
-                    </div>
-                  </div>
-                )}
               </div>
+            </section>
+          )}
+
+          {/* 原公告岗位职责：按原文列项，长文本完整渲染不截断 */}
+          {responsibilitiesSection?.visible && (
+            <section>
+              <h2 className="text-lg font-semibold text-text-primary mb-3">{responsibilitiesSection.title}</h2>
+              <p className="text-sm text-text-secondary leading-relaxed whitespace-pre-wrap">{job.responsibilities}</p>
+            </section>
+          )}
+
+          {/* 优先条件：独立分区渲染（原并入标签分区，第 3 轮起按判定清单独立成区） */}
+          {preferredSection?.visible && (
+            <section>
+              <h2 className="text-lg font-semibold text-text-primary mb-3">{preferredSection.title}</h2>
+              <div className="flex flex-wrap gap-2">
+                {job.preferred_skills.map((s) => (
+                  <span key={s} className="px-3 py-1.5 rounded-lg text-sm bg-accent/10 text-accent font-medium">{s}</span>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* 本站说明（非公告原文）：长文本完整渲染不截断 */}
+          {descriptionSection?.visible && (
+            <section>
+              <h2 className="text-lg font-semibold text-text-primary mb-3">{descriptionSection.title}</h2>
+              <p className="text-sm text-text-secondary leading-relaxed whitespace-pre-wrap">{job.description}</p>
             </section>
           )}
 
@@ -210,22 +264,16 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
             </section>
           )}
 
-          {job.source_evidence && job.source_evidence.length > 0 && (
+          {/* 原页核验锚点：source_evidence 逐条引号展示，供回源核对 */}
+          {evidenceSection?.visible && (
             <section>
-              <h2 className="text-lg font-semibold text-text-primary mb-3">原页核验锚点</h2>
+              <h2 className="text-lg font-semibold text-text-primary mb-3">{evidenceSection.title}</h2>
               <p className="mb-3 text-xs leading-5 text-text-secondary">以下是校验脚本必须能在来源页找到的原文片段；任一片段缺失，构建将失败。</p>
               <ul className="space-y-2 text-sm leading-6 text-text-secondary">
-                {job.source_evidence.map((evidence) => (
+                {job.source_evidence?.map((evidence) => (
                   <li key={evidence} className="rounded-xl border border-border bg-muted px-4 py-3">“{evidence}”</li>
                 ))}
               </ul>
-            </section>
-          )}
-
-          {job.description && (
-            <section>
-              <h2 className="text-lg font-semibold text-text-primary mb-3">本站说明（非公告原文）</h2>
-              <p className="text-sm text-text-secondary leading-relaxed whitespace-pre-wrap">{job.description}</p>
             </section>
           )}
 

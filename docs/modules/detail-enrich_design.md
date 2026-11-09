@@ -11,13 +11,15 @@
 # 2. 内部结构
 
 ```text
-src/app/jobs/[id]/page.tsx    # 条件信息区改版、职能标签、招聘类型徽标
+src/lib/detail-sections.ts    # detailSections 纯函数：详情页区块渲染判定（供页面与测试复用）
+src/app/jobs/[id]/page.tsx    # 按 detailSections 判定渲染：条件信息区改版、职能标签、招聘类型徽标
 src/data/jobs/                # 补提取确认后的批次修改（如适用）
+scripts/tests/detail-enrich.test.ts  # 模块测试（node:assert + tsx）
 ```
 
 # 3. 内部数据流
 
-改版渲染：条件信息区渲染条件 = hasConditionInfo(job)（复用既有函数）为 true；区块内容按字段存在性逐行渲染（原公告原文/学历/经验/薪资/职责/优先条件），区块标题按 verification_level 标注口径（逐字段核验=「原公告资格条件」，其余=「已核验条件信息」）。职能标签：job_functions 非空时与方向标签同区渲染。招聘类型：recruit_type 存在时标题旁徽标（与列表卡样式一致）。
+改版渲染：`detailSections(job)` 返回详情页各区块的渲染判定清单（key/title/visible），页面按清单逐区渲染。条件信息区 visible = hasConditionInfo(job)（复用既有函数）；区块标题按 verification_level 标注口径（逐字段核验=「原公告资格条件」，其余层级=「已核验条件信息」）；区块内容按字段存在性逐行渲染（原公告原文/学历/经验/薪资，字段存在才渲染行）。方向与职能标签区 visible = platform_disciplines 或 job_functions 非空，职能标签与方向标签同区渲染（样式一致，secondary 色系区分）。招聘类型：recruit_type 存在时标题旁徽标（与列表卡样式一致）。其余区块：职责区（responsibilities 非空）、优先条件区（preferred_skills 非空）、本站说明区（description 非空）、报名窗口区（applicationWindow 判定）、来源核验区（source_evidence 非空）。长文本保持 whitespace-pre-wrap 完整渲染。
 
 补提取：extract:fields --scan --ids <稀疏记录与可补关键字段记录> → 逐条人工核对来源页 → 确认 JSON → --apply 写批次 → 离线审计。核对不到的字段留空并如实报告。
 
