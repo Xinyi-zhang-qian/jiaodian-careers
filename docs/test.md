@@ -251,6 +251,20 @@
 - 如何运行：`npm run test`（scripts/tests/jobs-ui.test.ts）
 - 测试内容：依据 docs/interaction.md §3 色彩协议，验证三种徽标样式类互不混用。
 
+## 模块 detail-enrich 测试
+
+### detailSections 区块渲染判定（条件信息区按字段存在性渲染）
+- 如何运行：`npx tsx scripts/tests/detail-enrich.test.ts`
+- 测试内容：依据 docs/interaction.md §7「条件信息区块（第 3 轮改版）」与 docs/modules/detail-enrich_interaction.md §2.1，验证 detailSections 纯函数：来源核验记录含 education 或 original_major_requirements 时条件信息区 visible=true 且标题为「已核验条件信息」；关键字段核验记录含 salary 时 visible=true；逐字段核验记录标题为「原公告资格条件」；五项条件字段全空的记录条件信息区 visible=false。
+
+### detailSections 区块渲染判定（其余区块）
+- 如何运行：`npx tsx scripts/tests/detail-enrich.test.ts`
+- 测试内容：依据 docs/interaction.md §7「职能标签区块」「条件信息区块」与 docs/modules/detail-enrich_interaction.md §2.1，验证：job_functions 非空时方向与职能标签区 visible=true（空数组不渲染）；platform_disciplines 非空时同区 visible；responsibilities 非空时职责区 visible；preferred_skills 非空时优先条件区 visible；description 非空时本站说明区 visible；source_evidence 非空时来源核验区 visible；五区块字段全空时对应区 visible=false；返回清单的 key 顺序固定且与页面渲染顺序一致。
+
+### 详情页展示接线（源码结构断言）
+- 如何运行：`npx tsx scripts/tests/detail-enrich.test.ts`
+- 测试内容：依据 docs/interaction.md §7「条件信息区块（第 3 轮改版）」「职能标签区块（第 3 轮新增）」「招聘类型标识（第 3 轮新增）」与 docs/modules/detail-enrich_interaction.md §2.1，对 src/app/jobs/[id]/page.tsx 源码做结构断言：页面经 detailSections 判定渲染条件信息区与方向职能标签区、不再按 verification_level 门槛单独渲染条件区块；job_functions 标签与方向标签同区渲染（secondary 色系）；recruit_type 存在时以既有校招/社招徽标样式（bg-blue-100/bg-green-100）在标题旁展示；长文本行保持 whitespace-pre-wrap 完整渲染。
+
 ## 最近一轮结果
 
 - 2026-11-04 | 范围：模块 data-foundation | 通过 6/6（jobsCatalog 完整性、audit offline、add:jobs 校验矩阵、合法批次写入与 ID 自动分配、整批拒绝无写入、批次名校验）；worktree 内首轮以迁移后 200 条口径通过，::mergelocal 处置后按 194 条（58/51/85）期望复跑全部通过；类型检查 tsc --noEmit 无错误
@@ -284,3 +298,4 @@
 - 2026-11-05 | 范围：GUI 视觉验收（::ci 第 2 轮）| 通过：13 张截图复拍判读，verdict overall=pass（1 warn：notfound 环境限制）；列表页确认 209 条计数与新批次完整条件字段展示
 - 2026-11-06 | 范围：模块 data-acquisition（第 2 轮补采，分支 dev/data-acquisition-3，worktree .worktrees/data-acquisition-3）| 腾讯华为补采：运行 `npx tsx scripts/tests/data-acquisition.test.ts`：通过 29 组断言 / 失败 0，覆盖 77 条记录（北京 10、上海 10、跨学科 10、事业单位 9、科研院所 13、大厂综合 12、京沪事业单位增补 6、腾讯华为补采 7；其中事业单位 30 条）；`npx tsc --noEmit` 通过（0 错误）。
 - 补充核验（腾讯华为补采）：一次性底稿脚本（workspace/acquisition/verify-evidence-3.ts，normalize 口径与 user-agent 均与 scripts/audit-verified-jobs.ts 一致，提交前已删除）对新增 7 条记录（腾讯 4 条、华为 3 条）逐条在线回源，source_title、published_at（含中文日期变体）与全部 source_evidence 片段逐字命中，7/7 全量通过；腾讯记录来源为腾讯招聘官网职位数据接口（详情页 jobdesc.html 为 JS 渲染壳，来源渠道说明见模块交互文档 §2b），华为记录来源为南开大学就业信息网转载职位页；来源清单与放弃候选原因见 workspace/acquisition/sources-3.md（本地产物，不入库）。
+- 2026-11-11 | 范围：模块 detail-enrich | 通过 20/20（详情区块判定与改版断言）；补提取执行——440（中科院物理所 AI4S 中心）：补学历/薪资/申请方式/本站说明四字段（来源页原文证据，apply 在线复核命中），维持来源核验；588（清华 AIR）站点恢复可达、证据 4/4 命中，回升「来源核验」；放弃记录与原因——583（字节 seed 招聘页无标注字段可抽取）、584/585/604（飞书详情页静态内容仅标题）、401/439/476（GBK 编码站点工具链不可核验）、449/602/579-582（JS 渲染壳）；离线审计与 tsc 通过
