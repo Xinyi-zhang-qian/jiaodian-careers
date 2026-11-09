@@ -1,11 +1,11 @@
-# data-acquisition 模块交互文档（第 2 轮执行）
+# data-acquisition 模块交互文档（第 2 轮执行；第 4 轮综合平台扩充）
 
 > 本模块无用户界面交互；交互对象为来源网页（读取）与批次文件（写入）。第 2 轮规格要点：
 
 # 1. 交互面总览
 
 - 输入：来源网页（只读）；extract:fields --scan 候选 JSON（辅助）。
-- 输出：`src/data/jobs/public-sector-2026-11.ts`、`src/data/jobs/research-institutes-2026-11.ts`（第 2 轮第一批）；`src/data/jobs/enterprise-bigtech-2026-11.ts`、`src/data/jobs/public-sector-bjsh-2026-11.ts`（第 2 轮增量批次）；`src/data/jobs/tencent-huawei-2026-11.ts`（第 2 轮补采批次）；workspace/acquisition/ 底稿。
+- 输出：`src/data/jobs/public-sector-2026-11.ts`、`src/data/jobs/research-institutes-2026-11.ts`（第 2 轮第一批）；`src/data/jobs/enterprise-bigtech-2026-11.ts`、`src/data/jobs/public-sector-bjsh-2026-11.ts`（第 2 轮增量批次）；`src/data/jobs/tencent-huawei-2026-11.ts`（第 2 轮补采批次）；`src/data/jobs/comprehensive-2026-11.ts`（第 4 轮综合平台扩充批次）；workspace/acquisition/ 底稿。
 
 # 2. 批次文件规格
 
@@ -38,6 +38,18 @@
   - 证据要求：逐字段核验，source_evidence ≥3 段且 source_url 为 HTTPS；腾讯记录的 published_at 取官网数据接口标注的职位最近更新时间（LastUpdateTime），并在 description 注明；核对不到的字段一律留空；
   - 城市不限（北京、上海优先）；city 具体到市；只录现行有效职位（腾讯以接口返回 IsValid 为准），放弃的候选逐条记录原因到 workspace/acquisition/sources-3.md。
 
+# 2c. 综合平台扩充批次规格（第 4 轮：综合平台／哲学／出版／研究机构／事业单位）
+
+- `src/data/jobs/comprehensive-2026-11.ts`（用户指定：综合性平台如国聘等、哲学相关岗位包括出版等、研究机构新出岗位、事业单位；北京／上海／苏州／杭州；未截止报名；每条尽量详细）：
+  - 数量：合计 ≥20 条，宁缺毋滥；来源构成在文件头注明（综合平台 ≥6、哲学 ≥4、出版 ≥4、研究机构 ≥3、事业单位 ≥3 为目标构成，实际按可核验结果标注）；
+  - id 从 3301 起手工段（3301、3302……，不与 2001/3001/3101/3201 段冲突）；fetched_at 与 last_verified = 2026-11-11；
+  - 时效：只录报名未截止的公告——deadline ≥ 2026-11-11，或 deadline 为空且 application_info 载明报名时效原文（「长期有效／招满为止／招到即止」类，或「报名起止时间未载明（页面仅注明详见正文）」类说明）；已截止的不录；
+  - 详细字段要求：每条至少填充专业／学历／薪资／职责／申请方式中的三类，且每类各带至少一段逐字命中的证据片段；原文未载明的字段留空，禁止按机构类型或常见待遇推测补写；
+  - 分类标注：哲学相关岗位 platform_disciplines 含「哲学×社会科学」；出版相关岗位 platform_disciplines 含「人文社科×学术出版」且 job_functions 含「编辑出版」；全部记录 job_functions 从 JOB_FUNCTIONS 枚举标注；
+  - 地域：城市以北京、上海、苏州、杭州为主，具体到市；苏州记录 province 为「江苏」、杭州记录 province 为「浙江」；
+  - 来源：优先静态可抓取渠道（人社局官网、高校人才网、高校就业信息网、出版社与院所官网）；国聘网等 JS 渲染详情页不可核验时改用官方渠道的静态转载页并注明转载，仍不可核验则放弃并记入 workspace/acquisition/sources-4.md；
+  - 与既有 216 条不重复（合并时由主 Agent 做去重核对）；来源页无法访问、内容与预期不符、报名已截止的候选逐条记录原因到 workspace/acquisition/sources-4.md。
+
 # 3. 自检断言（模块测试）
 
 1. 两个批次可被 tsx 导入；schema 自查全部通过（必填、枚举、日期、待核实纯净、职能枚举、逐字段证据 ≥3 段）。
@@ -46,3 +58,4 @@
 4. 地域断言：北京、上海记录合计占比不低于一半（重点地域要求）。
 5. 全部记录在线回源：source_title、published_at、全部证据片段逐字命中。
 6. 补采批次（tencent-huawei-2026-11）：schema 自查通过；腾讯岗位 ≥3 条、华为岗位 ≥3 条且合计 ≥6 条（按 organization 判定）；id 全部落在 3201 手工段且批次内无重复；凡判定为 AI 伦理／安全类的记录（标题或正文含 AI 安全、大模型安全、AI 治理、AI 伦理类表述），其 job_functions 必须含「AI伦理」。
+7. 综合平台扩充批次（comprehensive-2026-11，第 4 轮）：schema 自查通过；合计 ≥20 条且 id 全部落在 3301 手工段、批次内无重复、与既有全部批次无冲突；分类断言——platform_disciplines 含「哲学×社会科学」的记录 ≥4 条、platform_disciplines 含「人文社科×学术出版」且 job_functions 含「编辑出版」的记录 ≥4 条、org_type「事业单位」记录 ≥3 条；时效断言——每条 deadline 为空或 ≥2026-11-11，deadline 为空的记录 application_info 须含「长期有效／招满为止／招到即止／未给出起止时间」类原文说明；详细字段断言——每条在专业／学历／薪资／职责／申请方式五类中至少三类有值，且每类各带至少一段证据片段（以 source_evidence 逐字命中为证）；事业单位记录仍受报名窗口断言约束（§2）。
