@@ -8,7 +8,9 @@
  *       第 2 轮新增事业单位批次（public-sector-2026-11，id 3001 起）与科研院所批次
  *       （research-institutes-2026-11）的 schema、数量、报名窗口与京沪占比断言；
  *       补采批次（tencent-huawei-2026-11，id 3201 起）的 schema、腾讯/华为数量、
- *       id 手工段与 AI 伦理职能断言。
+ *       id 手工段与 AI 伦理职能断言；第 4 轮新增综合平台扩充批次
+ *       （comprehensive-2026-11，id 3301 起）的 schema、数量、哲学/出版/事业单位分类、
+ *       报名未截止（deadline 为空或 ≥2026-11-11）与详细字段（五类条件字段至少三类各带证据）断言。
  */
 import assert from 'node:assert/strict';
 import beijingJobs from '../../src/data/jobs/beijing-2026-11';
@@ -19,6 +21,7 @@ import researchJobs from '../../src/data/jobs/research-institutes-2026-11';
 import bigtechJobs from '../../src/data/jobs/enterprise-bigtech-2026-11';
 import bjshJobs from '../../src/data/jobs/public-sector-bjsh-2026-11';
 import tencentHuaweiJobs from '../../src/data/jobs/tencent-huawei-2026-11';
+import comprehensiveJobs from '../../src/data/jobs/comprehensive-2026-11';
 
 // ---------- 校验常量（与 src/lib/utils.ts、docs/design.md 契约 2/11/12 一致） ----------
 
@@ -167,6 +170,7 @@ const batches = [
   { name: '大厂综合批次', file: 'enterprise-bigtech-2026-11', records: bigtechJobs as any[], minCount: 12 },
   { name: '京沪事业单位增补批次', file: 'public-sector-bjsh-2026-11', records: bjshJobs as any[], minCount: 6 },
   { name: '腾讯华为补采批次', file: 'tencent-huawei-2026-11', records: tencentHuaweiJobs as any[], minCount: 6 },
+  { name: '综合平台扩充批次', file: 'comprehensive-2026-11', records: comprehensiveJobs as any[], minCount: 20 },
 ];
 
 let checks = 0;
@@ -374,10 +378,125 @@ assert.ok(
 );
 checks += 1;
 
+// ---------- 第 4 轮综合平台扩充批次断言（模块交互文档 §2c，id 手工段 3301 起） ----------
+
+const comprehensive = comprehensiveJobs as any[];
+
+// 12. 综合平台扩充批次 id 段断言：id ≥3301、批次内无重复、与既有批次无冲突、采集记账日期为 2026-11-11
+const compIds = comprehensive.map((r) => r.id);
+const compDuplicates = compIds.filter((id, i) => compIds.indexOf(id) !== i);
+assert.deepEqual(compDuplicates, [], `综合平台扩充批次存在重复 id：${compDuplicates.join('、')}`);
+const below3301 = compIds.filter((id) => !(Number.isInteger(id) && id >= 3301));
+assert.deepEqual(below3301, [], `综合平台扩充批次存在不在 3301 手工段的 id：${below3301.join('、')}`);
+const compPriorIds = batches
+  .filter((b) => b.file !== 'comprehensive-2026-11')
+  .flatMap((b) => b.records.map((r) => r.id));
+const compConflicts = compIds.filter((id) => compPriorIds.includes(id));
+assert.deepEqual(compConflicts, [], `综合平台扩充批次 id 与既有批次冲突：${compConflicts.join('、')}`);
+const wrongAcquisitionDate = comprehensive.filter(
+  (r) => r.fetched_at !== '2026-11-11' || r.last_verified !== '2026-11-11',
+);
+assert.deepEqual(
+  wrongAcquisitionDate.map((j) => j.id),
+  [],
+  `综合平台扩充批次存在 fetched_at/last_verified 非 2026-11-11 的记录：${wrongAcquisitionDate.map((j) => j.id).join('、')}`,
+);
+checks += 1;
+
+// 13. 综合平台扩充批次数量断言：合计 ≥20（宁缺毋滥，宁少勿假）
+assert.ok(
+  comprehensive.length >= 20,
+  `综合平台扩充批次仅 ${comprehensive.length} 条，未达 20 条目标`,
+);
+checks += 1;
+
+// 14. 综合平台扩充批次分类断言：哲学 ≥4、出版 ≥4（且 job_functions 含编辑出版）、事业单位 ≥3
+const compPhilosophy = comprehensive.filter((r) =>
+  (r.platform_disciplines ?? []).includes('哲学×社会科学'),
+);
+assert.ok(
+  compPhilosophy.length >= 4,
+  `综合平台扩充批次哲学相关岗位（platform_disciplines 含「哲学×社会科学」）仅 ${compPhilosophy.length} 条，未达 4 条目标`,
+);
+const compPublishing = comprehensive.filter(
+  (r) =>
+    (r.platform_disciplines ?? []).includes('人文社科×学术出版') &&
+    (r.job_functions ?? []).includes('编辑出版'),
+);
+assert.ok(
+  compPublishing.length >= 4,
+  `综合平台扩充批次出版相关岗位（platform_disciplines 含「人文社科×学术出版」且 job_functions 含「编辑出版」）仅 ${compPublishing.length} 条，未达 4 条目标`,
+);
+const compInstitutional = comprehensive.filter((r) => r.org_type === '事业单位');
+assert.ok(
+  compInstitutional.length >= 3,
+  `综合平台扩充批次事业单位记录仅 ${compInstitutional.length} 条，未达 3 条目标`,
+);
+checks += 1;
+
+// 15. 综合平台扩充批次报名未截止断言：deadline 为空或 ≥2026-11-11；deadline 为空者 application_info 须载明报名时效原文
+const DEADLINE_FLOOR = '2026-11-11';
+const expired = comprehensive.filter(
+  (r) => typeof r.deadline === 'string' && r.deadline < DEADLINE_FLOOR,
+);
+assert.deepEqual(
+  expired.map((j) => j.id),
+  [],
+  `综合平台扩充批次存在报名已截止（deadline < ${DEADLINE_FLOOR}）的记录：${expired.map((j) => j.id).join('、')}`,
+);
+const OPEN_ENDED_PATTERN = /长期有效|招满为止|招到即止|长期招聘|常年均可报名|常年接受报名|常年招聘|全年开放|滚动招聘|无限次投递|报名起止时间未载明|报名起止时间未给出|报名起止时间未明确|未载明报名起止|未给出报名起止|未明确报名截止/;
+const missingOpenEndedNote = comprehensive.filter(
+  (r) =>
+    (r.deadline === null || r.deadline === undefined) &&
+    !OPEN_ENDED_PATTERN.test(r.application_info ?? ''),
+);
+assert.deepEqual(
+  missingOpenEndedNote.map((j) => j.id),
+  [],
+  `综合平台扩充批次存在 deadline 为空但 application_info 未载明报名时效原文的记录：${missingOpenEndedNote.map((j) => j.id).join('、')}`,
+);
+checks += 1;
+
+// 16. 综合平台扩充批次详细字段断言：专业/学历/薪资/职责/申请方式五类中至少三类有值，且各类有值字段各带至少一段证据片段
+/** 与 audit-verified-jobs.ts 同口径的归一化（去空白、统一破折号），用于证据与字段的包含关系比对 */
+function normalizeForMatch(value: string): string {
+  return value
+    .replace(/[\s\u00a0]+/g, '')
+    .replace(/[\u2013\u2014]/g, '-')
+    .trim();
+}
+const DETAIL_CATEGORIES: { name: string; textOf: (job: any) => string }[] = [
+  { name: '专业', textOf: (job) => job.original_major_requirements ?? '' },
+  { name: '学历', textOf: (job) => job.education ?? '' },
+  { name: '薪资', textOf: (job) => (job.salary == null ? '' : String(job.salary)) },
+  { name: '职责', textOf: (job) => job.responsibilities ?? '' },
+  { name: '申请方式', textOf: (job) => job.application_info ?? '' },
+];
+const detailViolations: string[] = [];
+for (const job of comprehensive) {
+  const evidenceNorm = (job.source_evidence ?? []).map((e: string) => normalizeForMatch(e));
+  const filled = DETAIL_CATEGORIES.filter((cat) => cat.textOf(job).trim() !== '');
+  if (filled.length < 3) {
+    detailViolations.push(`ID ${job.id}: 详细字段仅填充 ${filled.length} 类（${filled.map((c) => c.name).join('、') || '无'}），不足三类`);
+    continue;
+  }
+  for (const cat of filled) {
+    const fieldNorm = normalizeForMatch(cat.textOf(job));
+    const hasEvidence = evidenceNorm.some(
+      (ev: string) => (ev !== '' && fieldNorm.includes(ev)) || (fieldNorm !== '' && ev.includes(fieldNorm)),
+    );
+    if (!hasEvidence) {
+      detailViolations.push(`ID ${job.id}: ${cat.name}字段有值但在 source_evidence 中找不到对应证据片段`);
+    }
+  }
+}
+assert.deepEqual(detailViolations, [], `综合平台扩充批次详细字段校验发现 ${detailViolations.length} 项违规：\n${detailViolations.join('\n')}`);
+checks += 1;
+
 
 // 汇总
 const total = batches.reduce((sum, b) => sum + b.records.length, 0);
 const institutional = batches.reduce((sum, b) => sum + b.records.filter((r) => r.org_type === '事业单位').length, 0);
 console.log(
-  `data-acquisition 测试通过：${checks} 组断言 / 覆盖 ${total} 条记录（北京 ${beijingJobs.length}、上海 ${shanghaiJobs.length}、跨学科 ${crossJobs.length}、事业单位 ${publicSectorJobs.length}、科研院所 ${researchJobs.length}、大厂综合 ${bigtechJobs.length}、京沪事业单位增补 ${bjshJobs.length}、腾讯华为补采 ${tencentHuaweiJobs.length}；其中事业单位 ${institutional} 条）。`,
+  `data-acquisition 测试通过：${checks} 组断言 / 覆盖 ${total} 条记录（北京 ${beijingJobs.length}、上海 ${shanghaiJobs.length}、跨学科 ${crossJobs.length}、事业单位 ${publicSectorJobs.length}、科研院所 ${researchJobs.length}、大厂综合 ${bigtechJobs.length}、京沪事业单位增补 ${bjshJobs.length}、腾讯华为补采 ${tencentHuaweiJobs.length}、综合平台扩充 ${comprehensiveJobs.length}；其中事业单位 ${institutional} 条）。`,
 );

@@ -65,6 +65,21 @@
 ### 补采批次 AI 伦理职能断言（腾讯华为）
 - 如何运行：`npx tsx scripts/tests/data-acquisition.test.ts`
 - 测试内容：依据模块交互文档 §2b 职能优先级要求，对 tencent-huawei-2026-11 批次逐条判定——凡标题或职责描述命中 AI 安全／大模型安全／AI 治理／AI 伦理类表述的记录，其 job_functions 必须含枚举值「AI伦理」，缺失即断言失败并输出违规记录 id；并断言批次整体至少有一条记录标注「AI伦理」（补采目标为补齐第 2 轮大厂批次五类职能中唯一缺失的 AI 伦理）。
+### 综合平台扩充批次 schema 自查（第 4 轮）
+- 如何运行：`npx tsx scripts/tests/data-acquisition.test.ts`
+- 测试内容：依据 `docs/modules/data-acquisition_interaction.md` §2c 综合平台扩充批次规格，导入 comprehensive-2026-11 批次文件逐条校验——必填字段齐全、枚举合法（org_type/source_type/status/verification_level/job_functions）、日期字段为 YYYY-MM-DD、application_opens_at 不晚于 deadline、「待核实」记录不携带条件字段、「逐字段核验」记录 source_evidence ≥3 段且 source_url 为 HTTPS、is_demo 均为 false、city 无模糊表述、fetched_at 与 last_verified 均为 2026-11-11；任一违规输出逐条错误行并断言失败。
+### 综合平台扩充批次数量与 id 段断言（第 4 轮）
+- 如何运行：`npx tsx scripts/tests/data-acquisition.test.ts`
+- 测试内容：依据模块交互文档 §2c 数量要求，断言 comprehensive-2026-11 批次合计 ≥20 条；批次内 id 无重复、全部落在 3301 起的手工段，并与既有全部批次核对无 id 冲突；未达标即断言失败并输出实际数量。
+### 综合平台扩充批次分类断言（第 4 轮）
+- 如何运行：`npx tsx scripts/tests/data-acquisition.test.ts`
+- 测试内容：依据模块交互文档 §2c 分类标注要求，对 comprehensive-2026-11 批次按类别统计并断言——platform_disciplines 含「哲学×社会科学」的记录 ≥4 条、platform_disciplines 含「人文社科×学术出版」且 job_functions 含「编辑出版」的记录 ≥4 条、org_type 为「事业单位」的记录 ≥3 条；任一类别不足即断言失败并输出实际条数。
+### 综合平台扩充批次报名未截止断言（第 4 轮）
+- 如何运行：`npx tsx scripts/tests/data-acquisition.test.ts`
+- 测试内容：依据模块交互文档 §2c 时效要求，对 comprehensive-2026-11 批次逐条断言——deadline 为空或 ≥2026-11-11（已截止公告不得录入）；deadline 为空的记录其 application_info 必须含「长期有效／招满为止」类原文说明，否则断言失败并输出违规记录 id。
+### 综合平台扩充批次详细字段断言（第 4 轮）
+- 如何运行：`npx tsx scripts/tests/data-acquisition.test.ts`
+- 测试内容：依据模块交互文档 §2c 详细字段要求（用户特别要求每条尽量详细且可核验），对 comprehensive-2026-11 批次逐条断言——专业（original_major_requirements 或 platform_disciplines／required_skills）、学历（education）、薪资（salary）、职责（responsibilities）、申请方式（application_info）五类字段中至少三类有值，且每类有值字段在 source_evidence 中至少对应一段证据片段（以证据片段归一化后与字段文本重叠可辨认为准），不足三类或缺对应证据即断言失败并输出违规记录 id 与缺失类别。
 
 ## 模块 legacy-cleanup 测试
 ### classifySource 分类判定（来源命中 → 可升级）
@@ -264,6 +279,7 @@
 - 2026-11-05 | 范围：整库（::ci 第 2 轮）| 通过：npm run test 7/7 套件；npm run build 成功（209 个详情页与目录一致）；npm run audit:jobs 在线审计 209 条全量回源命中（165 逐字段/33 来源/11 关键字段）；处置 2 条——589 证据锚点改为静态可命中片段（原长句证据来自页面 JS 渲染岗位卡）、588（清华 AIR）来源站点本环境持续不可达收敛为关键字段核验并留痕
 - 2026-11-05 | 范围：GUI 视觉验收（::ci 第 2 轮）| 通过：13 张截图复拍判读，verdict overall=pass（1 warn：notfound 环境限制）；列表页确认 209 条计数与新批次完整条件字段展示
 - 2026-11-06 | 范围：模块 data-acquisition（第 2 轮补采，分支 dev/data-acquisition-3，worktree .worktrees/data-acquisition-3）| 腾讯华为补采：运行 `npx tsx scripts/tests/data-acquisition.test.ts`：通过 29 组断言 / 失败 0，覆盖 77 条记录（北京 10、上海 10、跨学科 10、事业单位 9、科研院所 13、大厂综合 12、京沪事业单位增补 6、腾讯华为补采 7；其中事业单位 30 条）；`npx tsc --noEmit` 通过（0 错误）。
+- 2026-11-11 | 范围：模块 data-acquisition（第 4 轮综合平台扩充，分支 dev/data-acquisition-4，worktree .worktrees/data-acquisition-4）| 运行 `npx tsx scripts/tests/data-acquisition.test.ts`：通过 36 组断言 / 失败 0，覆盖 101 条记录（北京 10、上海 10、跨学科 10、事业单位 9、科研院所 13、大厂综合 12、京沪事业单位增补 6、腾讯华为补采 7、综合平台扩充 24；其中事业单位 34 条）；综合平台扩充批次 24 条逐条经与 audit-verified-jobs.ts 同口径的规范化回源核对（source_title、published_at 与全部证据片段逐字命中来源页，核对底稿 scripts/verify-comprehensive.ts 为一次性脚本，提交前删除）；`npx tsc --noEmit` 通过（0 错误）。
 - 补充核验（腾讯华为补采）：一次性底稿脚本（workspace/acquisition/verify-evidence-3.ts，normalize 口径与 user-agent 均与 scripts/audit-verified-jobs.ts 一致，提交前已删除）对新增 7 条记录（腾讯 4 条、华为 3 条）逐条在线回源，source_title、published_at（含中文日期变体）与全部 source_evidence 片段逐字命中，7/7 全量通过；腾讯记录来源为腾讯招聘官网职位数据接口（详情页 jobdesc.html 为 JS 渲染壳，来源渠道说明见模块交互文档 §2b），华为记录来源为南开大学就业信息网转载职位页；来源清单与放弃候选原因见 workspace/acquisition/sources-3.md（本地产物，不入库）。
 - 2026-11-11 | 范围：模块 detail-enrich | 通过 20/20（详情区块判定与改版断言）；补提取执行——440（中科院物理所 AI4S 中心）：补学历/薪资/申请方式/本站说明四字段（来源页原文证据，apply 在线复核命中），维持来源核验；588（清华 AIR）站点恢复可达、证据 4/4 命中，回升「来源核验」；放弃记录与原因——583（字节 seed 招聘页无标注字段可抽取）、584/585/604（飞书详情页静态内容仅标题）、401/439/476（GBK 编码站点工具链不可核验）、449/602/579-582（JS 渲染壳）；离线审计与 tsc 通过
 - 2026-11-11 | 范围：模块 match | 通过 7 组断言（打分排序与归一化、理由生成、空画像与零命中、正则字面量、打分依据限定、权重生效）；tsc --noEmit 无错误
