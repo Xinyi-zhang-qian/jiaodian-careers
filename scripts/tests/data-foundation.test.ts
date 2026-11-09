@@ -16,15 +16,15 @@ const repoRoot = path.resolve(testDir, '../..');
 const tsxCli = path.join(repoRoot, 'node_modules/tsx/dist/cli.mjs');
 const existingIds = new Set(jobsCatalog.map((job) => job.id));
 
-// 一、jobsCatalog 完整性：总数 216、ID 唯一、层级分布 172/33/11（12 批次现行口径）
+// 一、jobsCatalog 完整性：总数 240、ID 唯一、层级分布 186/33/21（13 批次现行口径；shlab 批次 12 条中 9 逐字段与 3 来源因来源页抓取波动收敛为关键字段核验）
 // 删除 19 条 JS 渲染壳/404/反爬且重新检索无现行可核验来源的记录，充实 107 条并升级层级，439/214/444 因来源可核验性回落调整，2016 状态改「已截止」）
 {
-  strictEqual(jobsCatalog.length, 216, 'jobsCatalog 总数应为 216');
-  strictEqual(new Set(jobsCatalog.map((job) => job.id)).size, 216, 'id 应全目录唯一');
+  strictEqual(jobsCatalog.length, 240, 'jobsCatalog 总数应为 216');
+  strictEqual(new Set(jobsCatalog.map((job) => job.id)).size, 240, 'id 应全目录唯一');
   const countBy = (level: string) => jobsCatalog.filter((job) => job.verification_level === level).length;
-  strictEqual(countBy('逐字段核验'), 172, '逐字段核验应为 172 条');
+  strictEqual(countBy('逐字段核验'), 186, '逐字段核验应为 172 条');
   strictEqual(countBy('来源核验'), 33, '来源核验应为 33 条');
-  strictEqual(countBy('关键字段核验'), 11, '关键字段核验应为 11 条');
+  strictEqual(countBy('关键字段核验'), 21, '关键字段核验应为 11 条');
   console.log('通过：jobsCatalog 完整性');
 }
 
@@ -37,8 +37,8 @@ const existingIds = new Set(jobsCatalog.map((job) => job.id));
   );
   strictEqual(result.status, 0, `audit:jobs:offline 退出码应为 0；stderr：${result.stderr}`);
   ok(
-    result.stdout.includes('Audited 216 public jobs (172 field-level, 33 source-level, 11 key-field)'),
-    `应输出 216 条与三级核验计数；stdout：${result.stdout}`,
+    result.stdout.includes('Audited 240 public jobs (186 field-level, 33 source-level, 21 key-field)'),
+    `应输出 240 条与三级核验计数；stdout：${result.stdout}`,
   );
   console.log('通过：audit:jobs:offline');
 }
