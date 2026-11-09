@@ -251,6 +251,82 @@
 - 如何运行：`npm run test`（scripts/tests/jobs-ui.test.ts）
 - 测试内容：依据 docs/interaction.md §3 色彩协议，验证三种徽标样式类互不混用。
 
+## 模块 match 测试
+
+### 教育经历命中与理由生成
+- 如何运行：`npx tsx scripts/tests/match.test.ts`
+- 测试内容：依据 docs/modules/match_interaction.md §2 与 docs/design.md §4 契约 21，对画像「硕士·计算语言学」断言：original_major_requirements 原文含该专业的岗位命中且理由为「硕士·计算语言学 ↔ 专业要求原文」（引用画像条目与岗位字段）；学历对照达标的岗位（岗位学历要求为硕士）得分高于同条件但要求博士的岗位。
+
+### 工作经历命中 title 与平台职能标签
+- 如何运行：`npx tsx scripts/tests/match.test.ts`
+- 测试内容：依据模块交互文档 §2（维度「工作经历↔title/job_functions」），对工作经历「数据分析师」断言：岗位 title 包含该名称时理由「数据分析师 ↔ 岗位名称」；岗位 job_functions 含「数据」时理由「数据分析师 ↔ 职能标签」且强度低于 title 命中。
+
+### 技能命中 required_skills 与 preferred_skills
+- 如何运行：`npx tsx scripts/tests/match.test.ts`
+- 测试内容：依据模块交互文档 §2（维度「技能↔required/preferred_skills」），对技能「Python」断言：命中 required_skills 时理由「Python ↔ 技能标签」且得分高于命中 preferred_skills 的同条件岗位（后者理由为「Python ↔ 优先技能标签」）。
+
+### 方向契合经 DISCIPLINES 关键词映射命中平台方向
+- 如何运行：`npx tsx scripts/tests/match.test.ts`
+- 测试内容：依据 docs/modules/match_design.md §3（画像专业映射的平台方向命中 platform_disciplines），对专业「数据科学」（含 DISCIPLINES 关键词「数据」）断言：platform_disciplines 含「数据科学×社会科学」的岗位命中且理由「数据科学 ↔ 平台方向标签」。
+
+### 排序：多维度命中排在单维度命中之前
+- 如何运行：`npx tsx scripts/tests/match.test.ts`
+- 测试内容：依据模块交互文档 §4 断言 2，对画像「硕士·计算语言学 + 技能 Python」与两个夹具岗位（同时命中教育+技能 vs 仅命中技能）断言多维度命中岗位排名在前、得分降序。
+
+### 权重注入可翻转相对顺序且默认权重顺序稳定
+- 如何运行：`npx tsx scripts/tests/match.test.ts`
+- 测试内容：依据模块交互文档 §4 断言 5，对「仅教育命中」与「仅工作命中」两个夹具岗位，断言默认权重下教育命中在前（教育权重高于工作）；注入 education 低于 work 的权重后顺序翻转，验证权重集中于 src/lib/match.ts 常量且经 weights 参数可调。
+
+### 空画像返回空数组且零命中岗位不出现
+- 如何运行：`npx tsx scripts/tests/match.test.ts`
+- 测试内容：依据模块交互文档 §2 边界检查，断言空画像对任意目录返回空数组；夹具中的零命中岗位（无任何可命中字段）不出现在结果中。
+
+### 正则特殊字符按字面量匹配不报错
+- 如何运行：`npx tsx scripts/tests/match.test.ts`
+- 测试内容：依据模块交互文档 §2 边界检查，对技能「C++」与专业含括号的画像断言正常命中（String.includes 字面量包含）、不抛异常、理由正确。
+
+### 无平台标签且 title/专业要求为空的记录不进推荐
+- 如何运行：`npx tsx scripts/tests/match.test.ts`
+- 测试内容：依据模块交互文档 §4 断言 3（打分依据限定），对 title 与 original_major_requirements 为空、无任何平台标签的记录断言其不出现在任何画像的推荐结果中。
+
+### 画像存储解析与结构归一化
+- 如何运行：`npx tsx scripts/tests/match.test.ts`
+- 测试内容：依据 docs/design.md §4 契约 20（解析失败按空画像处理）与模块交互文档 §3，断言 parseStoredProfile 对 null、非 JSON 文本、结构不合法（字段非数组、成员非字符串）输入返回空画像或字段级归一化结果且不抛异常；readStoredProfile 在无 window（Node 环境）下返回空画像；mock localStorage 注入后读取到已存画像。
+
+### 画像增删纯函数语义
+- 如何运行：`npx tsx scripts/tests/match.test.ts`
+- 测试内容：依据模块交互文档 §3 增删语义，断言六个增删函数与 clearAll：添加 trim 后为空的输入被忽略；与既有条目重复（小写化后相同）的不重复添加；删除按索引且越界静默；原画像对象不被修改（不可变）；clearAll 返回空画像。
+
+### useProfile hook 与页面接线（源码结构断言）
+- 如何运行：`npx tsx scripts/tests/match.test.ts`
+- 测试内容：依据 docs/interaction.md §5a 与模块交互文档 §4，对源码做结构断言：use-profile.ts 带 'use client'、使用键 `jiaodian-profile`、含 window 守卫与写失败静默；/match 页为客户端组件、经 useMemo 实时重算、含地区/单位类型组合筛选（引用 REGIONS/ORG_TYPES）与空画像引导文案；profile-editor 含三组编辑器与自定义阶段文本输入、空输入禁用添加；recommend-list 引用 JobCard、渲染理由标签与「暂无高度匹配岗位」空态；header 导航首位含「岗位匹配」/match 链接。
+
+## 模块 match 测试
+
+### matchProfile 打分与排序
+- 如何运行：`npm run test`（scripts/tests/match.test.ts）
+- 测试内容：依据 docs/modules/match_interaction.md §2 与契约 21，验证多维命中（专业要求原文 + 技能 + 方向标签）岗位排在单维命中之前、结果按得分降序、最高分归一化为 100、零命中岗位不进推荐。
+
+### matchProfile 理由生成
+- 如何运行：`npm run test`（scripts/tests/match.test.ts）
+- 测试内容：依据契约 21 理由要求，验证每条理由引用画像条目与命中的岗位字段（如「硕士·计算语言学 ↔ 专业要求原文」「技能 Python ↔ 技能标签」）。
+
+### matchProfile 空画像与零命中
+- 如何运行：`npm run test`（scripts/tests/match.test.ts）
+- 测试内容：依据模块交互文档 §2 边界检查，验证空画像返回空数组、无平台标签且 title/original_major_requirements 为空的记录不出现（打分依据限定）。
+
+### matchProfile 正则特殊字符字面量匹配
+- 如何运行：`npm run test`（scripts/tests/match.test.ts）
+- 测试内容：依据模块交互文档 §2 边界检查，验证技能名含正则特殊字符（如 C++）时按字面量匹配不抛异常。
+
+### matchProfile 打分依据限定
+- 如何运行：`npm run test`（scripts/tests/match.test.ts）
+- 测试内容：依据契约 21，验证仅 description 含关键词的记录不命中（打分不使用未核验内容）。
+
+### matchProfile 权重影响排序
+- 如何运行：`npm run test`（scripts/tests/match.test.ts）
+- 测试内容：依据模块设计文档 §3 权重集中定义，验证技能权重归零后仅技能命中的岗位不再居首（权重可调生效）。
+
 ## 最近一轮结果
 
 - 2026-11-04 | 范围：模块 data-foundation | 通过 6/6（jobsCatalog 完整性、audit offline、add:jobs 校验矩阵、合法批次写入与 ID 自动分配、整批拒绝无写入、批次名校验）；worktree 内首轮以迁移后 200 条口径通过，::mergelocal 处置后按 194 条（58/51/85）期望复跑全部通过；类型检查 tsc --noEmit 无错误
@@ -284,3 +360,4 @@
 - 2026-11-05 | 范围：GUI 视觉验收（::ci 第 2 轮）| 通过：13 张截图复拍判读，verdict overall=pass（1 warn：notfound 环境限制）；列表页确认 209 条计数与新批次完整条件字段展示
 - 2026-11-06 | 范围：模块 data-acquisition（第 2 轮补采，分支 dev/data-acquisition-3，worktree .worktrees/data-acquisition-3）| 腾讯华为补采：运行 `npx tsx scripts/tests/data-acquisition.test.ts`：通过 29 组断言 / 失败 0，覆盖 77 条记录（北京 10、上海 10、跨学科 10、事业单位 9、科研院所 13、大厂综合 12、京沪事业单位增补 6、腾讯华为补采 7；其中事业单位 30 条）；`npx tsc --noEmit` 通过（0 错误）。
 - 补充核验（腾讯华为补采）：一次性底稿脚本（workspace/acquisition/verify-evidence-3.ts，normalize 口径与 user-agent 均与 scripts/audit-verified-jobs.ts 一致，提交前已删除）对新增 7 条记录（腾讯 4 条、华为 3 条）逐条在线回源，source_title、published_at（含中文日期变体）与全部 source_evidence 片段逐字命中，7/7 全量通过；腾讯记录来源为腾讯招聘官网职位数据接口（详情页 jobdesc.html 为 JS 渲染壳，来源渠道说明见模块交互文档 §2b），华为记录来源为南开大学就业信息网转载职位页；来源清单与放弃候选原因见 workspace/acquisition/sources-3.md（本地产物，不入库）。
+- 2026-11-11 | 范围：模块 match | 通过 7 组断言（打分排序与归一化、理由生成、空画像与零命中、正则字面量、打分依据限定、权重生效）；tsc --noEmit 无错误

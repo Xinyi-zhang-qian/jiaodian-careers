@@ -15,6 +15,7 @@ export default function Header() {
             </span>
           </Link>
           <nav className="flex items-center justify-between gap-2 overflow-x-auto whitespace-nowrap text-[11px] text-text-secondary sm:justify-start sm:gap-6 sm:text-sm">
+            <Link href="/match" className="hover:text-brand transition-colors">岗位匹配</Link>
             <Link href="/jobs" className="hover:text-brand transition-colors">探索岗位</Link>
             <Link href="/analysis" className="hover:text-brand transition-colors">方向分析</Link>
             <Link href="/market" className="hover:text-brand transition-colors">市场观察</Link>
