@@ -54,7 +54,7 @@ export default function MatchPage() {
               className="px-3 py-2 rounded-lg border border-border text-sm bg-surface focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand"
             >
               <option value="">全部地区</option>
-              {REGIONS.map((r) => <option key={r} value={r}>{r}</option>)}
+              {REGIONS.filter((r) => r !== '其他地区').map((r) => <option key={r} value={r}>{r}</option>)}
             </select>
             <select
               value={orgType}

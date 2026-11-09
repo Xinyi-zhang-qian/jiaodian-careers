@@ -107,7 +107,7 @@
 18. **来源刷新契约**：`npm run refresh:sources` 遍历前台记录在线访问来源页，分类「现行有效（证据命中）/ 内容失配（页面存在但锚点不命中）/ 来源过期（404、过期提示页、失效跳转）」，产出到 `workspace/source-refresh/`；对失效记录的处置（重新检索后刷新，或删除）由 data-refresh 执行并留痕（批次头注释处置记录）；状态修正随处置执行：截止已过仍标「招聘中」的记录改「已截止」或删除。
 19. **空字段展示契约**：界面按字段存在性渲染；「条件见来源」提示仅用于没有任何条件字段的记录；deadline 早于当日仍标「招聘中」的记录在卡片与详情页显示灰色「报名已截止」标识（此类记录应在刷新处置中收敛）。
 20. **用户画像存储契约**：画像存 localStorage 键 `jiaodian-profile`，结构 `{ education: [{ stage, major }], work: [{ title }], skills: [string] }`；全部读写与匹配计算在浏览器本地完成，不上传；解析失败按空画像处理。
-21. **匹配契约**：打分函数为纯函数，输入画像与 jobsCatalog，输出按分排序的 `MatchResult[]`（岗位 + 得分 + 理由列表）；打分只使用平台标签（platform_disciplines、job_functions、required_skills/preferred_skills）与已核验字段（title、original_major_requirements 原文包含匹配）；理由逐条可读（画像条目 ↔ 岗位字段）；权重集中定义可调。
+21. **匹配契约**：打分函数为纯函数，输入画像与 jobsCatalog，输出按分排序的 `MatchResult[]`（岗位 + 得分 + 理由列表）；打分只使用平台标签（platform_disciplines、job_functions、required_skills/preferred_skills）与已核验字段（title、original_major_requirements 原文包含匹配、education 学历别名对照）；理由逐条可读（画像条目 ↔ 岗位字段）；权重集中定义可调。
 
 # 5. 模块划分与职责边界
 
@@ -186,7 +186,7 @@
 ```text
 jiaodian-careers/
 ├── src/
-│   ├── app/                    # 路由页面（8 路由 + 404，结构不变）
+│   ├── app/                    # 路由页面（9 个页面路由 + 404，含 /match）
 │   ├── components/             # layout / jobs / market
 │   ├── data/
 │   │   ├── jobs/               # ★ 本轮新增：规范数据源
@@ -195,7 +195,8 @@ jiaodian-careers/
 │   │   ├── internship-listings.ts  verified-internship-additions.ts
 │   │   ├── robotics-ai-analysis.ts  platform-sources.ts
 │   │   └── generated/robotics-market.json
-│   └── lib/                    # types.ts（扩展字段）data.ts utils.ts（职能枚举）job-function-stats.ts use-favorites.ts robotics-market.ts
+│   └── lib/                    # types.ts data.ts utils.ts use-favorites.ts job-function-stats.ts
+│       # robotics-market.ts match.ts（匹配引擎）use-profile.ts detail-sections.ts
 ├── scripts/
 │   ├── audit-verified-jobs.ts  # 核验管线（结构 + 在线回源）
 │   ├── add-jobs.ts             # 增补录入
@@ -260,7 +261,7 @@ jiaodian-careers/
 
 测试分层：①模块测试（tsx 断言脚本，`scripts/tests/`，随模块开发编写，只跑本模块）；②数据核验（audit:jobs offline/online，既是门禁也是测试）；③整库回归（`::ci` 按 docs/test.md 清单逐条执行）；④GUI 视觉验收（::ci 内截图 + rubric 判读，页面优化模块适用）。测试框架不引入新依赖，用 `tsx` 直接运行断言脚本，`npm run test` 聚合入口。
 
-模块测试责任映射：jobs-dataset→增补/ID/校验；verification-pipeline→审计规则；legacy-cleanup→报告分类；jobs-catalog→筛选/排序/分页/收藏与展示判定；site-shell→枚举与首页（首页职能计数纯函数归 site-design）；robotics-market→分类与薪资标准化；source-tools→提取与分类规则；data-refresh→处置留痕断言；data-acquisition→批次 schema 与数量断言。全部测试依据 `docs/interaction.md` 与模块交互文档设计，逐条注册于 `docs/test.md`（格式见 `system/commands/dev.md`「测试文档规范」）。本章只定义预期行为与验证方法；实际结果只写入 `docs/test.md`。
+模块测试责任映射：jobs-dataset→增补/ID/校验；verification-pipeline→审计规则；legacy-cleanup→报告分类；jobs-catalog→筛选/排序/分页/收藏与展示判定；site-shell→枚举与首页（首页职能计数纯函数归 site-design）；robotics-market→分类与薪资标准化；source-tools→提取与分类规则；data-refresh→处置留痕断言；data-acquisition→批次 schema 与数量断言；match→打分与理由断言；detail-enrich→区块判定断言。全部测试依据 `docs/interaction.md` 与模块交互文档设计，逐条注册于 `docs/test.md`（格式见 `system/commands/dev.md`「测试文档规范」）。本章只定义预期行为与验证方法；实际结果只写入 `docs/test.md`。
 
 # 12. 架构验收标准
 
@@ -284,6 +285,6 @@ jiaodian-careers/
 - AC-18：大厂综合岗位新增 ≥12 条（腾讯、小米、华为、字节等；覆盖项目经理、产品经理、AI／机器人、AI4S、AI 伦理职能），全部带来源证据且来源以官方渠道为准。
 - AC-19：北京、上海事业单位在既有基础上新增 ≥6 条（累计事业单位 ≥15 条），含报名安排。
 - AC-20：/match 页三类画像条目可增删（教育经历含自定义阶段），localStorage 键 `jiaodian-profile` 持久化，可一键清空。
-- AC-21：填写画像后推荐列表按分排序且每条带理由；打分只使用平台标签与 title/original_major_requirements；权重集中于 src/lib/match.ts。
-- AC-22：详情页条件信息区按字段存在性渲染（16 条来源核验与 3 条关键字段的已提取字段可见），新增职能标签与招聘类型展示；空区块不渲染。
+- AC-21：填写画像后推荐列表按分排序且每条带理由；打分只使用平台标签与 title/original_major_requirements/education（均为已核验字段或平台标注）；权重集中于 src/lib/match.ts。
+- AC-22：详情页条件信息区按字段存在性渲染（凡拥有已提取条件字段的记录均可见，不再被层级门槛隐藏），新增职能标签与招聘类型展示；空区块不渲染。
 - AC-23：稀疏记录（9 条）完成补充提取或如实报告不可提取原因，新增字段审计通过。

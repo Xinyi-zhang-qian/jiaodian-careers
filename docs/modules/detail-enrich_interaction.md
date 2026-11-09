@@ -15,8 +15,8 @@
 | --- | --- |
 | 签名 | `detailSections(job: Job): { key: string; title: string; visible: boolean }[]`；调用方：`src/app/jobs/[id]/page.tsx` 与模块测试 |
 | 预期输入 | `job`：完整 Job 记录（必填） |
-| 预期输出 | 区块判定数组，固定顺序：条件信息区（key `condition`）、方向与职能标签区（key `tags`）、职责区（key `responsibilities`）、优先条件区（key `preferred`）、本站说明区（key `description`）、报名窗口区（key `application`）、来源核验区（key `evidence`）。条件信息区 title 按层级口径：逐字段核验=「原公告资格条件」，其余（含无层级）=「已核验条件信息」；tags 区含方向与职能两组标签；其余 title 仅作标识 |
-| 边界检查 | 条件信息区 visible = hasConditionInfo(job)；tags 区 visible = platform_disciplines 或 job_functions 非空；职责区 = responsibilities 非空；优先条件区 = preferred_skills 非空；本站说明区 = description 非空；报名窗口区 = applicationWindow(job, getListingKind(job.title)).visible；来源核验区 = source_evidence 非空 |
+| 预期输出 | 区块判定数组，固定顺序：条件信息区（key `condition`）、方向与职能标签区（key `tags`）、职责区（key `responsibilities`）、优先条件区（key `preferred`）、本站说明区（key `description`）、报名窗口区（key `application`）、来源核验区（key `evidence`）。条件信息区 title 按层级口径：逐字段核验=「原公告资格条件」，其余（含无层级）=「已核验条件信息」；tags 区含方向、职能、技能三组标签（标题「技能与方向标签」）；其余 title 仅作标识 |
+| 边界检查 | 条件信息区 visible = hasConditionInfo(job)；tags 区 visible = platform_disciplines 或 job_functions 或 required_skills 非空；职责区 = responsibilities 非空；优先条件区 = preferred_skills 非空；本站说明区 = description 非空；报名窗口区 = applicationWindow(job, getListingKind(job.title)).visible；来源核验区 = source_evidence 非空 |
 | 错误处理 | 纯函数无异常分支；可选字段（job_functions/source_evidence/verification_level）缺省按空值/无层级处理 |
 
 # 3. 详情页断言

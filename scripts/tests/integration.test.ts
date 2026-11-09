@@ -19,6 +19,7 @@ if (!existsSync(join(outDir, 'index.html'))) {
 ok(existsSync(join(outDir, 'index.html')), 'out/index.html 应存在（整库构建成功）');
 ok(existsSync(join(outDir, '404.html')), 'out/404.html 应存在（静态导出默认 404 页）');
 ok(existsSync(join(outDir, 'jobs')), 'out/jobs/ 应存在');
+ok(existsSync(join(outDir, 'match', 'index.html')), 'out/match/ 应存在（岗位匹配页已导出，AC-20 构建期断言）；');
 
 // 详情页数量与 jobsCatalog 一致
 const catalog = (await import('../../src/data/jobs')).default as { id: number; title: string; source_url: string; source_evidence?: string[] }[];
